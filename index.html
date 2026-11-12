@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ponto de Partida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== ESTILO (CSS) ===== */
+:root {
+  /* Layout: login em tela dividida; dentro do app, coluna de 1100px com cabeçalho fixo e páginas trocadas pelo # */
+  --papel: #f4f5f0;
+  --superficie: #ffffff;
+  --tinta: #14213d;
+  --texto-suave: #4a5468;
+  --lapis: #f2b705;
+  --alerta: #c8452c;
+  --verde: #2e7d5b;
+  --linha: #d9dccf;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --font-corpo: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --raio: 10px;
+  --max: 1100px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papel: #10141f; --superficie: #181e2c; --tinta: #eef0e8; --texto-suave: #a9b0c0;
+    --lapis: #f5c430; --alerta: #ef7a5f; --verde: #5cc196; --linha: #2a3244;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papel: #10141f; --superficie: #181e2c; --tinta: #eef0e8; --texto-suave: #a9b0c0;
+  --lapis: #f5c430; --alerta: #ef7a5f; --verde: #5cc196; --linha: #2a3244;
+  color-scheme: dark;
+}
+/* Modo fácil: tudo maior */
+html.facil { font-size: 122%; }
+html.facil .texto-ajuda { display: block; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--papel); color: var(--tinta); font-family: var(--font-corpo); font-size: 1.0625rem; line-height: 1.6; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; text-wrap: balance; }
+h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 800; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { max-width: 65ch; }
+a { color: inherit; }
+button { font: inherit; }
+:focus-visible { outline: 3px solid var(--lapis); outline-offset: 3px; border-radius: 4px; }
+.num { font-variant-numeric: tabular-nums; }
+.container { width: min(var(--max), 100% - 32px); margin-inline: auto; }
+.sobretitulo { font-size: .8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--texto-suave); display: block; margin-bottom: 10px; }
+.suave { color: var(--texto-suave); }
+[hidden] { display: none !important; }
+.texto-ajuda { display: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 2px solid var(--tinta); cursor: pointer; }
+.btn-primario { background: var(--tinta); color: var(--papel); }
+.btn-secundario { background: transparent; color: var(--tinta); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.link-btn { background: none; border: none; color: var(--tinta); font-weight: 600; text-decoration: underline; cursor: pointer; padding: 0; }
+.ouvir { display: inline-flex; align-items: center; gap: 6px; background: var(--superficie); border: 1px solid var(--linha); border-radius: 999px; padding: 6px 14px; font-size: .88rem; font-weight: 600; color: var(--tinta); cursor: pointer; }
+.ouvir:hover { border-color: var(--tinta); }
+.linha-botoes { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* ======================= LOGIN ======================= */
+.login { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+.login-marca { background: #14213d; color: #f4f5f0; padding: 48px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; }
+.login-marca .logo { color: #f4f5f0; }
+.login-marca h1 { color: #f4f5f0; max-width: 14ch; }
+.login-marca h1 mark { background: linear-gradient(transparent 60%, #f2b705 60%); color: inherit; padding-inline: 4px; }
+.login-marca p { color: #c9cfdb; margin-top: 18px; }
+.recursos-login { display: grid; gap: 10px; color: #c9cfdb; font-size: .95rem; list-style: none; }
+.recursos-login li { display: flex; gap: 10px; }
+.recursos-login b { color: #f2b705; }
+.login-form-area { display: grid; place-items: center; padding: 48px 24px; }
+.login-caixa { width: min(420px, 100%); display: grid; gap: 20px; }
+.login-caixa h2 { font-size: 2rem; }
+.campo { display: grid; gap: 6px; }
+.campo label { font-weight: 600; font-size: .92rem; }
+.campo input { font: inherit; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.campo input:focus { outline: 2px solid var(--lapis); border-color: var(--tinta); }
+.erro { color: var(--alerta); font-size: .9rem; min-height: 1.4em; }
+.form-grade { display: grid; gap: 16px; }
+.separador { display: flex; align-items: center; gap: 12px; color: var(--texto-suave); font-size: .85rem; }
+.separador::before, .separador::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+.aviso-prototipo { font-size: .8rem; color: var(--texto-suave); background: var(--superficie); border: 1px dashed var(--linha); border-radius: 8px; padding: 10px 12px; }
+.btn-grande { padding: 16px 22px; font-size: 1.05rem; }
+
+/* ======================= APP ======================= */
+.logo { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.logo-marca { width: 22px; height: 22px; background: var(--lapis); border-radius: 50%; border: 3px solid currentColor; flex: none; }
+
+header.topo { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--papel) 94%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--linha); }
+.topo .container { width: min(1440px, 100% - 32px); }
+.nav { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 12px; }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a { display: flex; align-items: center; gap: 6px; text-decoration: none; font-weight: 500; font-size: .92rem; padding: 7px 12px; border-radius: 999px; color: var(--texto-suave); white-space: nowrap; }
+.nav-links a:hover { color: var(--tinta); }
+.nav-links a[aria-current="page"] { background: var(--tinta); color: var(--papel); }
+.icone { font-size: 1.05em; line-height: 1; }
+.usuario { display: flex; align-items: center; gap: 10px; font-size: .9rem; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-weight: 700; flex: none; }
+.ferramentas { display: flex; gap: 8px; }
+.ferramenta { background: var(--superficie); border: 1px solid var(--linha); border-radius: 999px; padding: 6px 12px; font-size: .85rem; font-weight: 600; cursor: pointer; color: var(--tinta); white-space: nowrap; }
+.ferramenta[aria-pressed="true"] { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.menu-btn { display: none; background: none; border: 1px solid var(--linha); border-radius: 8px; padding: 6px 12px; color: var(--tinta); cursor: pointer; }
+
+.pagina { padding-block: 44px 72px; }
+.cabeca-pagina { display: grid; gap: 12px; margin-bottom: 32px; }
+.bloco-secao { margin-top: 56px; }
+.bloco-secao > h2 { margin-bottom: 8px; }
+.bloco-secao > p.suave { margin-bottom: 24px; }
+.painel { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 24px; }
+
+/* ---- Tela inicial ---- */
+.boas-vindas { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: stretch; }
+.boas-vindas p { margin-top: 16px; font-size: 1.1rem; }
+.dica-dia { background: var(--lapis); color: #14213d; border-radius: var(--raio); padding: 24px; display: grid; gap: 10px; align-content: start; }
+.dica-dia .sobretitulo { color: #14213d; opacity: .75; margin: 0; }
+.dica-dia h3 { font-size: 1.3rem; }
+.dica-dia .link-btn { color: #14213d; }
+.atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 36px; }
+.atalho { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 22px; text-decoration: none; display: grid; gap: 6px; align-content: start; }
+.atalho:hover { border-color: var(--tinta); }
+.atalho .icone-grande { font-size: 1.8rem; line-height: 1; }
+.atalho .suave { font-size: .93rem; }
+.progresso-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 28px; align-items: center; }
+.progresso-total strong { font-family: var(--font-display); font-size: 3rem; line-height: 1; display: block; }
+.barras { display: grid; gap: 12px; }
+.barra-linha { display: grid; grid-template-columns: 110px 1fr 64px; align-items: center; gap: 12px; font-size: .92rem; }
+.barra-trilho { height: 16px; background: var(--papel); border-radius: 999px; overflow: hidden; }
+.barra-valor { height: 100%; background: var(--tinta); border-radius: 999px; transition: width .5s ease; }
+.barra-num { text-align: right; font-weight: 600; }
+.faixa-numeros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 26px; background: #14213d; color: #f4f5f0; border-radius: var(--raio); }
+.faixa-numeros div { border-top: 3px solid #f2b705; padding-top: 12px; }
+.faixa-numeros strong { font-family: var(--font-display); font-size: 2rem; line-height: 1; display: block; }
+.faixa-numeros span { display: block; margin-top: 8px; font-size: .88rem; color: #c9cfdb; }
+.fonte { font-size: .8rem; color: var(--texto-suave); margin-top: 10px; }
+
+/* ---- Estrutura das páginas ---- */
+main.pagina { min-height: 60vh; }
+.cabeca-pagina h1 { font-size: clamp(1.9rem, 4.2vw, 2.8rem); }
+.titulo-secao { font-size: clamp(1.25rem, 2.6vw, 1.6rem); margin-bottom: 14px; }
+.abas-pagina { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 2px solid var(--linha); margin-bottom: 28px; }
+.aba-pagina { font: inherit; font-weight: 600; font-size: .95rem; padding: 10px 16px; border: none; background: none; color: var(--texto-suave); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+.aba-pagina:hover { color: var(--tinta); }
+.aba-pagina[aria-selected="true"] { color: var(--tinta); border-bottom-color: var(--lapis); }
+.atalhos-icones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 22px; }
+.atalhos-icones a { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: var(--raio); border: 1px solid var(--linha); background: var(--superficie); text-decoration: none; font-weight: 600; font-size: .95rem; }
+.atalhos-icones a:hover { border-color: var(--tinta); }
+.atalhos-icones span { font-size: 1.4rem; line-height: 1; }
+.avatar-mini { width: 22px; height: 22px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-size: .75rem; }
+.selo[aria-current="page"] { outline: 2px solid var(--lapis); outline-offset: 2px; }
+.ferramenta { min-width: 38px; }
+.destaques-estudo { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 36px; }
+.cartao-bloco.destaque-claro { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.cartao-bloco.destaque-claro .meta, .cartao-bloco.destaque-claro .sobretitulo { color: #14213d; opacity: .8; }
+.cartao-bloco.feito { background: color-mix(in srgb, var(--verde) 7%, var(--superficie)); }
+.nivel-resumo { display: grid; gap: 4px; align-content: start; }
+.medalhas-mini { display: flex; gap: 8px; font-size: 1.7rem; margin: 8px 0; flex-wrap: wrap; }
+.nivel-resumo .link-btn { justify-self: start; margin-top: 6px; }
+.perfil-topo { display: flex; align-items: center; gap: 18px; margin-bottom: 24px; }
+.perfil-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: 2rem; flex: none; }
+.perfil-resumo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.resumo-item { display: grid; gap: 2px; border-top: 3px solid var(--lapis); padding-top: 10px; }
+.resumo-item strong { font-family: var(--font-display); font-size: 2rem; line-height: 1.1; }
+.resumo-item span { font-size: .88rem; color: var(--texto-suave); }
+.perfil-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.medalhas-grandes { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+.medalhas-grandes .medalha { padding: 16px 8px; }
+.medalhas-grandes .medalha-icone { font-size: 2.2rem; }
+.medalhas-grandes .medalha-nome { font-size: .85rem; }
+.medalhas-grandes .medalha-desc { font-size: .75rem; }
+.lista-salvas { list-style: none; display: grid; gap: 10px; }
+.lista-salvas li { display: grid; gap: 2px; padding-left: 12px; border-left: 3px solid var(--lapis); font-size: .93rem; }
+.grade-momentos.compacta { grid-template-columns: 1fr 1fr; margin-top: 8px; }
+.grade-momentos.compacta .momento { padding: 12px; font-size: .9rem; }
+.grade-momentos.compacta .momento-icone { font-size: 1.4rem; }
+.momento.atual { border-color: var(--lapis); background: color-mix(in srgb, var(--lapis) 18%, var(--superficie)); }
+.conta .confirmar-apagar { margin-top: 16px; padding: 16px; border-radius: 8px; border-left: 4px solid var(--alerta); background: var(--papel); display: grid; gap: 12px; }
+.btn-perigo { background: var(--alerta); border-color: var(--alerta); color: #fff; }
+.continuar { width: min(420px, 100%); display: grid; gap: 12px; margin-bottom: 18px; border-left: 4px solid var(--lapis); }
+.login-form-area { align-content: center; }
+footer#rodape { border-top: 1px solid var(--linha); padding-block: 28px; font-size: .85rem; color: var(--texto-suave); margin-top: 24px; }
+.rodape-grade { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+.grade-graficos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; margin-top: 16px; align-items: start; }
+.grade-graficos h3 { margin-bottom: 2px; }
+.grafico-sub { font-size: .85rem; margin-bottom: 12px; }
+.grade-graficos .barra-linha { grid-template-columns: 130px 1fr 54px; }
+
+/* ---- Engajamento ---- */
+.selo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: var(--tinta); color: var(--papel); border-radius: 999px; padding: 6px 12px; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+.selo-xp { color: var(--lapis); }
+.selo-fogo { display: inline-flex; gap: 2px; }
+.selo.pulsa { animation: pulsa .5s ease; }
+@keyframes pulsa { 50% { transform: scale(1.12); } }
+.trilha { display: block; }
+.grade-momentos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+.momento { display: grid; gap: 10px; justify-items: start; text-align: left; padding: 18px; border-radius: var(--raio); border: 2px solid var(--linha); background: var(--papel); color: var(--tinta); font-weight: 600; cursor: pointer; }
+.momento:hover { border-color: var(--tinta); }
+.momento-icone { font-size: 2rem; line-height: 1; }
+.trilha-topo { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+.trilha-topo h2 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 6px 0; }
+.trilha-progresso { text-align: right; display: grid; }
+.trilha-progresso strong { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; }
+.passos { list-style: none; display: grid; gap: 8px; counter-reset: passo; }
+.passos li { display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 8px; background: var(--papel); }
+.passos .marca { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--linha); display: grid; place-items: center; font-weight: 700; }
+.passos li.feito .marca { background: var(--verde); border-color: var(--verde); color: #fff; }
+.passos li.feito .passo-texto { color: var(--texto-suave); text-decoration: line-through; }
+.passo-ir { padding: 6px 16px; font-size: .9rem; }
+.passo-ok { font-size: .85rem; font-weight: 600; color: var(--verde); }
+.trilha-fim { margin-top: 14px; font-weight: 600; }
+.linha-engaja { display: grid; grid-template-columns: 1fr 1.6fr; gap: 18px; align-items: stretch; }
+.desafio-dia { display: grid; gap: 10px; align-content: start; background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.desafio-dia .sobretitulo, .desafio-dia .suave { color: color-mix(in srgb, var(--papel) 75%, transparent); }
+.desafio-dia h3 { font-size: 1.5rem; }
+.desafio-dia .btn { justify-self: start; }
+.desafio-dia .btn-primario { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.desafio-dia .btn-secundario { color: var(--papel); border-color: var(--papel); }
+.sequencia { display: flex; align-items: center; gap: 10px; font-size: 1rem; }
+.fogo { font-size: 2rem; line-height: 1; }
+.nivel-topo { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+.xp-grande { font-family: var(--font-display); font-size: 1.8rem; color: var(--tinta); }
+.medalhas { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.medalha { display: grid; justify-items: center; text-align: center; gap: 2px; padding: 10px 4px; border-radius: 8px; background: var(--papel); opacity: .55; }
+.medalha.ganha { opacity: 1; background: color-mix(in srgb, var(--lapis) 22%, var(--superficie)); }
+.medalha-icone { font-size: 1.6rem; line-height: 1.1; }
+.medalha-nome { font-size: .75rem; font-weight: 700; line-height: 1.2; }
+.medalha-desc { font-size: .68rem; color: var(--texto-suave); line-height: 1.25; }
+.grade-mitos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.mito { position: relative; min-height: 190px; border: none; padding: 0; background: none; cursor: pointer; perspective: 900px; text-align: left; color: var(--tinta); }
+.mito-frente, .mito-verso { position: absolute; inset: 0; display: grid; align-content: center; gap: 10px; padding: 22px; border-radius: var(--raio); backface-visibility: hidden; transition: transform .5s ease; font-size: 1rem; }
+.mito-frente { background: var(--superficie); border: 1px solid var(--linha); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; line-height: 1.3; }
+.mito-aspas { font-size: 3rem; line-height: .5; color: var(--lapis); }
+.mito-toque { font-family: var(--font-corpo); font-size: .8rem; font-weight: 600; color: var(--texto-suave); }
+.mito-verso { background: var(--tinta); color: var(--papel); transform: rotateY(180deg); font-size: .95rem; }
+.mito.virado .mito-frente { transform: rotateY(180deg); }
+.mito.virado .mito-verso { transform: rotateY(360deg); }
+.selo-mito { justify-self: start; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; padding: 2px 14px; border-radius: 999px; }
+.mito-falso { background: var(--alerta); color: #fff; }
+.mito-verdade { background: var(--verde); color: #fff; }
+.combo { margin-top: 12px; font-weight: 700; font-size: 1.1rem; color: var(--alerta); }
+.desafiar { margin-top: 28px; padding: 20px; border-radius: var(--raio); background: var(--papel); display: grid; gap: 14px; }
+.btn-whats { background: #1f8f4e; border-color: #1f8f4e; color: #fff; }
+.confete { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+
+/* ---- Redação ---- */
+.grade-temas { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.tema { display: grid; gap: 10px; align-content: start; text-align: left; padding: 18px; border-radius: var(--raio); border: 1px solid var(--linha); border-left: 5px solid var(--lapis); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.tema:hover { border-color: var(--tinta); border-left-color: var(--lapis); }
+.tema .tag { justify-self: start; }
+.tema-titulo { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; line-height: 1.25; }
+.tema-meta { font-size: .82rem; color: var(--texto-suave); }
+.historico { list-style: none; display: grid; gap: 6px; }
+.historico li { display: grid; grid-template-columns: 1fr auto 60px; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--linha); font-size: .92rem; }
+.historico li b { text-align: right; font-family: var(--font-display); font-size: 1.1rem; }
+#historico-redacoes:empty { display: none; }
+.editor-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 18px; margin-top: 14px; align-items: start; }
+.apoio-caixa { display: grid; gap: 12px; position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; }
+.apoio-caixa .tag { justify-self: start; }
+.editor-tema { font-size: clamp(1.3rem, 2.6vw, 1.7rem); }
+.apoio { display: grid; gap: 10px; }
+.apoio-texto { background: var(--papel); border-radius: 8px; padding: 12px 14px; font-size: .93rem; }
+.apoio-num { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-suave); }
+.estrutura { background: var(--papel); border-radius: 8px; padding: 12px 14px; font-size: .92rem; }
+.estrutura summary { font-weight: 600; cursor: pointer; }
+.estrutura ol { padding-left: 18px; display: grid; gap: 6px; margin-top: 8px; }
+.folha-caixa { display: grid; gap: 10px; }
+.folha-topo { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+.contadores { display: flex; gap: 6px; flex-wrap: wrap; }
+.contador-pill { font-size: .8rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--papel); border: 1px solid var(--linha); }
+.contador-pill.bom { border-color: var(--verde); color: var(--verde); }
+.contador-pill.ruim { border-color: var(--alerta); color: var(--alerta); }
+.cronometro-caixa { display: flex; align-items: center; gap: 8px; }
+.cronometro { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+.cronometro.passou { color: var(--alerta); }
+.btn-pequeno { padding: 6px 14px; font-size: .85rem; }
+.titulo-input { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.folha { font: inherit; font-size: 1.02rem; line-height: 32px; min-height: 560px; resize: vertical; padding: 0 14px; border-radius: 8px; border: 1px solid var(--linha); color: var(--tinta);
+  background-color: var(--superficie); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--linha) 31px, var(--linha) 32px); background-attachment: local; }
+.folha:focus { outline: 2px solid var(--lapis); }
+#btn-corrigir { justify-self: start; }
+.res-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+.nota-redacao { font-family: var(--font-display); font-weight: 800; font-size: clamp(3.4rem, 9vw, 5rem); line-height: 1; margin-top: 8px; }
+.nota-redacao span { font-size: .35em; color: var(--texto-suave); font-weight: 600; }
+.faixa-nota { font-weight: 700; font-size: 1.15rem; }
+.aviso-correcao { font-size: .9rem; background: var(--papel); border-left: 4px solid var(--lapis); padding: 14px 16px; border-radius: 0 8px 8px 0; }
+.zerada, .alerta-red { margin-top: 14px; border-left: 5px solid var(--alerta); }
+.competencias { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 12px; margin-top: 14px; }
+.comp { display: grid; gap: 10px; align-content: start; }
+.comp-topo { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; }
+.comp-topo h3 { font-size: 1rem; }
+.comp-n { width: 34px; height: 34px; border-radius: 50%; background: var(--tinta); color: var(--papel); display: grid; place-items: center; font-weight: 700; font-size: .85rem; }
+.comp-nota { font-family: var(--font-display); font-size: 1.5rem; }
+.comp .quiz-barra { margin: 0; }
+.comp p { font-size: .92rem; color: var(--texto-suave); }
+.duas-colunas-red { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.checklist, .lista-desvios { list-style: none; display: grid; gap: 8px; margin-top: 10px; font-size: .94rem; }
+.checklist li { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.checklist .marca { font-weight: 700; color: var(--alerta); width: 16px; }
+.checklist li.ok .marca { color: var(--verde); }
+.lista-desvios li { padding-left: 12px; border-left: 3px solid var(--alerta); }
+.simulador { display: grid; gap: 14px; }
+.campos-notas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.campo-nota { display: grid; gap: 4px; font-size: .85rem; font-weight: 600; }
+.campo-nota input { font: inherit; font-size: 1.1rem; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); width: 100%; }
+.media-sisu { display: flex; align-items: baseline; gap: 12px; padding: 14px 18px; border-radius: var(--raio); background: var(--tinta); color: var(--papel); }
+.media-sisu strong { font-family: var(--font-display); font-size: 2.2rem; color: var(--lapis); }
+.lista-cortes { display: grid; gap: 6px; }
+.corte { display: grid; grid-template-columns: 200px 1fr 80px 210px; gap: 12px; align-items: center; padding: 8px 12px; border-radius: 8px; background: var(--papel); font-size: .9rem; }
+.corte-nome { font-weight: 600; }
+.corte-escala { position: relative; height: 10px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linha); }
+.corte-faixa { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: color-mix(in srgb, var(--tinta) 35%, transparent); }
+.corte-voce { position: absolute; top: -4px; width: 4px; height: 16px; margin-left: -2px; border-radius: 2px; background: var(--alerta); }
+.corte-num { color: var(--texto-suave); text-align: right; }
+.corte-status { font-weight: 600; font-size: .85rem; }
+.corte.dentro .corte-status { color: var(--verde); }
+.corte.parcial .corte-status { color: var(--verde); }
+.corte.perto .corte-status { color: #b07c00; }
+.corte.longe .corte-status { color: var(--texto-suave); }
+.corte.dentro, .corte.parcial { box-shadow: inset 4px 0 0 var(--verde); }
+.corte.perto { box-shadow: inset 4px 0 0 var(--lapis); }
+
+/* ---- Estudar ---- */
+.grade-blocos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.cartao-bloco { background: var(--superficie); border: 1px solid var(--linha); border-top: 5px solid var(--cor, var(--tinta)); border-radius: var(--raio); padding: 22px; display: grid; gap: 10px; align-content: start; }
+.cartao-bloco .meta { font-size: .88rem; color: var(--texto-suave); }
+.cartao-bloco .btn { justify-self: start; margin-top: 6px; padding: 9px 18px; }
+.cartao-bloco.destaque { background: var(--tinta); color: var(--papel); border-color: var(--tinta); border-top-color: var(--lapis); }
+.cartao-bloco.destaque .meta { color: color-mix(in srgb, var(--papel) 75%, transparent); }
+.cartao-bloco.destaque .btn { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+
+.quiz { max-width: 780px; }
+.quiz-topo { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; font-size: .9rem; color: var(--texto-suave); }
+.quiz-barra { height: 8px; background: var(--papel); border-radius: 999px; overflow: hidden; margin-bottom: 22px; }
+.quiz-barra div { height: 100%; background: var(--lapis); transition: width .4s ease; }
+.tag { display: inline-block; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; background: var(--papel); border: 1px solid var(--linha); }
+.enunciado { font-size: 1.12rem; margin: 14px 0 20px; }
+.alternativas { display: grid; gap: 10px; }
+.alt { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: center; text-align: left; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.alt .letra { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--linha); display: grid; place-items: center; font-weight: 700; }
+.alt:hover:not(:disabled) { border-color: var(--tinta); }
+.alt[aria-pressed="true"] { border-color: var(--tinta); box-shadow: inset 0 0 0 1px var(--tinta); }
+.alt[aria-pressed="true"] .letra { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.alt.certa { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 14%, var(--papel)); }
+.alt.certa .letra { background: var(--verde); border-color: var(--verde); color: #fff; }
+.alt.errada { border-color: var(--alerta); background: color-mix(in srgb, var(--alerta) 12%, var(--papel)); }
+.alt.errada .letra { background: var(--alerta); border-color: var(--alerta); color: #fff; }
+.alt:disabled { cursor: default; }
+.explicacao { margin-top: 18px; padding: 14px 16px; border-left: 4px solid var(--lapis); background: var(--papel); border-radius: 0 6px 6px 0; }
+.quiz-acoes { margin-top: 20px; }
+.resultado-numero { font-family: var(--font-display); font-size: 3.4rem; font-weight: 800; line-height: 1; }
+.revisao { list-style: none; display: grid; gap: 8px; margin: 20px 0; }
+.revisao li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: .95rem; }
+.revisao .ok { color: var(--verde); font-weight: 700; }
+.revisao .x { color: var(--alerta); font-weight: 700; }
+
+.simulado-largo { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px 24px; }
+.simulado-largo .btn { grid-row: 1 / span 3; grid-column: 2; align-self: center; margin: 0; }
+.suave-chip { opacity: .65; font-size: .8em; margin-left: 2px; }
+
+/* ---- Faculdade ---- */
+.grade-ingresso { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.ingresso { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; display: grid; gap: 8px; align-content: start; }
+.ingresso .para-quem { font-size: .85rem; color: var(--verde); font-weight: 600; }
+.ingresso p { font-size: .94rem; color: var(--texto-suave); }
+.teste { display: grid; gap: 18px; max-width: 780px; }
+.teste-opcoes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.teste-op { text-align: left; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.teste-op:hover { border-color: var(--tinta); }
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 22px; }
+.chip { font-size: .9rem; font-weight: 500; padding: 7px 15px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.busca { flex: 1 1 220px; max-width: 320px; margin-left: auto; font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.grade-cursos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.curso { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.curso-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.curso p { font-size: .94rem; color: var(--texto-suave); }
+.curso .porque { color: var(--tinta); font-size: .92rem; border-top: 1px dashed var(--linha); padding-top: 10px; }
+.curso.recomendado { border: 2px solid var(--lapis); }
+
+.filtros-inst-topo { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+.rotulo-campo { font-weight: 600; font-size: .92rem; }
+.seletor { font: inherit; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.lista-instituicoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 16px; margin-top: 14px; align-items: start; }
+.grupo-estado { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; }
+.grupo-estado h3 { margin-bottom: 12px; }
+.lista-inst { list-style: none; display: grid; gap: 0; }
+.lista-inst li { display: grid; gap: 2px; padding: 12px 0; border-top: 1px solid var(--linha); font-size: .95rem; }
+.lista-inst li:first-child { border-top: none; padding-top: 0; }
+.inst-topo { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.inst-dica { font-size: .84rem; color: var(--texto-suave); }
+.tag-fed { border-color: var(--tinta); }
+.tag-est { border-color: var(--verde); color: var(--verde); }
+.tag-if { border-color: var(--lapis); background: color-mix(in srgb, var(--lapis) 22%, var(--superficie)); }
+.particulares { margin-top: 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: center; }
+.links-oficiais { list-style: none; display: grid; gap: 10px; }
+.links-oficiais li { display: grid; }
+.links-oficiais a { font-weight: 600; }
+.links-oficiais .suave { font-size: .82rem; }
+
+/* ---- Aprender a ler ---- */
+.ler-intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: center; }
+.ler-intro .painel { display: grid; gap: 12px; }
+.alfabeto { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
+.letra-btn { display: grid; justify-items: center; gap: 2px; padding: 12px 6px; border-radius: var(--raio); border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.letra-btn:hover, .letra-btn.ativa { border-color: var(--tinta); background: var(--lapis); color: #14213d; }
+.letra-btn .grande { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; line-height: 1; }
+.letra-btn .emoji { font-size: 1.5rem; line-height: 1.2; }
+.letra-btn .palavra { font-size: .8rem; font-weight: 600; letter-spacing: .04em; }
+.atividade { display: grid; gap: 18px; justify-items: center; text-align: center; padding: 32px 24px; }
+.figura { font-size: 4rem; line-height: 1; }
+.montagem { display: flex; gap: 8px; min-height: 64px; flex-wrap: wrap; justify-content: center; }
+.slot { min-width: 72px; height: 60px; border: 2px dashed var(--linha); border-radius: 10px; display: grid; place-items: center; font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; padding-inline: 8px; }
+.slot.cheio { border-style: solid; border-color: var(--tinta); }
+.silabas { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.silaba { min-width: 80px; padding: 14px 16px; border-radius: 10px; border: 2px solid var(--tinta); background: var(--superficie); color: var(--tinta); font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; cursor: pointer; }
+.silaba:disabled { opacity: .25; cursor: default; }
+.mensagem { min-height: 1.6em; font-weight: 600; font-size: 1.1rem; }
+.mensagem.boa { color: var(--verde); }
+.mensagem.ruim { color: var(--alerta); }
+.escolhas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 560px; }
+.escolha { display: grid; justify-items: center; gap: 6px; padding: 18px 10px; border-radius: var(--raio); border: 2px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.escolha .emoji { font-size: 2.6rem; line-height: 1; }
+.escolha .palavra { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; }
+.escolha.certa { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 14%, var(--papel)); }
+.escolha.errada { border-color: var(--alerta); }
+.btn-ouvir-grande { font-size: 1.15rem; padding: 16px 28px; }
+.duas-atividades { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+/* ---- Soluções e dicas ---- */
+.grade-solucoes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.solucao { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 22px; display: grid; gap: 12px; align-content: start; }
+.solucao .tag { justify-self: start; }
+.problema, .resposta { display: grid; grid-template-columns: 90px 1fr; gap: 12px; font-size: .95rem; }
+.problema b { color: var(--alerta); }
+.resposta b { color: var(--verde); }
+.problema span, .resposta span { color: var(--texto-suave); }
+.solucao ul { padding-left: 20px; font-size: .94rem; color: var(--texto-suave); display: grid; gap: 4px; }
+.grade-dicas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+.dica { background: var(--superficie); border: 1px solid var(--linha); border-left: 5px solid var(--lapis); border-radius: var(--raio); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.dica-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.dica .publico { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--texto-suave); }
+.dica p { font-size: .95rem; color: var(--texto-suave); }
+.salvar { background: none; border: 1px solid var(--linha); border-radius: 999px; padding: 4px 12px; font-size: .82rem; cursor: pointer; color: var(--tinta); }
+.salvar[aria-pressed="true"] { background: var(--lapis); border-color: var(--lapis); color: #14213d; font-weight: 600; }
+.vazio { padding: 32px; text-align: center; color: var(--texto-suave); border: 1px dashed var(--linha); border-radius: var(--raio); grid-column: 1 / -1; }
+.contador { font-size: .9rem; color: var(--texto-suave); }
+
+.aviso { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--tinta); color: var(--papel); padding: 12px 20px; border-radius: 999px; font-size: .92rem; z-index: 50; max-width: calc(100% - 32px); }
+footer { border-top: 1px solid var(--linha); padding-block: 32px; font-size: .85rem; color: var(--texto-suave); }
+
+/* ---- Responsivo ---- */
+@media (max-width: 1440px) {
+  .selo-xp { display: none; }
+}
+@media (max-width: 1300px) {
+  .menu-btn { display: block; }
+  .nav { flex-wrap: wrap; }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; background: var(--papel); border-bottom: 1px solid var(--linha); padding: 8px 16px 16px; }
+  .nav-links.aberto { display: flex; }
+  .nav-links a { padding: 12px 14px; font-size: 1rem; }
+}
+@media (max-width: 900px) {
+  .login { grid-template-columns: 1fr; }
+  .login-marca { padding: 32px 24px; }
+  .boas-vindas, .grade-solucoes, .progresso-grade, .ler-intro, .duas-atividades { grid-template-columns: 1fr; }
+  .grade-dicas, .atalhos, .grade-ingresso, .grade-cursos { grid-template-columns: repeat(2, 1fr); }
+  .particulares, .linha-engaja, .editor-grade, .res-topo, .duas-colunas-red, .perfil-grade, .destaques-estudo { grid-template-columns: 1fr; }
+  .perfil-resumo { grid-template-columns: repeat(2, 1fr); }
+  .apoio-caixa { position: static; max-height: none; }
+  .campos-notas { grid-template-columns: repeat(3, 1fr); }
+  .corte { grid-template-columns: 1fr 70px; }
+  .corte-escala { grid-column: 1 / -1; grid-row: 2; }
+  .corte-status { grid-column: 1 / -1; }
+  .grade-momentos, .grade-mitos { grid-template-columns: repeat(2, 1fr); }
+  .faixa-numeros { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .usuario .nome, .ferramenta .rotulo { display: none; }
+  .grade-dicas, .atalhos, .grade-ingresso, .grade-cursos, .teste-opcoes { grid-template-columns: 1fr; }
+  .busca { max-width: none; margin-left: 0; }
+  .simulado-largo { grid-template-columns: 1fr; }
+  .grade-momentos, .grade-mitos, .grade-momentos.compacta { grid-template-columns: 1fr; }
+  .atalhos-icones { grid-template-columns: 1fr 1fr; }
+  .abas-pagina { flex-wrap: nowrap; overflow-x: auto; }
+  .aba-pagina { white-space: nowrap; }
+  .campos-notas { grid-template-columns: repeat(2, 1fr); }
+  .selo-xp { display: none; }
+  .simulado-largo .btn { grid-row: auto; grid-column: auto; justify-self: start; }
+  .escolhas { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 420px) {
+  .faixa-numeros { grid-template-columns: 1fr; }
+  .problema, .resposta { grid-template-columns: 1fr; gap: 2px; }
+  .barra-linha { grid-template-columns: 90px 1fr 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mito-frente, .mito-verso { transition: none; }
+  .selo.pulsa { animation: none; }
+  .btn:hover:not(:disabled) { transform: none; }
+  .barra-valor, .quiz-barra div { transition: none; }
+}
+
+</style>
+</head>
+<body data-pagina="login">
+<div class="login">
+  <aside class="login-marca">
+    <span class="logo"><span class="logo-marca" aria-hidden="true"></span>Ponto de Partida</span>
+    <div>
+      <h1>Educação que <mark>diminui a distância</mark>.</h1>
+      <p>Terminou a escola e parou de estudar? Ainda dá tempo. Aqui você estuda para o ENEM de graça, descobre faculdades públicas perto de você, aprende a ler com áudio e ganha pontos e medalhas enquanto avança.</p>
+    </div>
+    <ul class="recursos-login">
+      <li><b>📚</b> 250 questões no estilo ENEM, com correção na hora</li>
+      <li><b>🎓</b> Universidades públicas de todos os estados</li>
+      <li><b>🔊</b> Leitura em voz alta para quem está aprendendo a ler</li>
+      <li><b>✍️</b> Treino de redação com nota estimada</li>
+      <li><b>🏆</b> Desafio do dia, níveis e medalhas</li>
+    </ul>
+  </aside>
+
+  <main class="login-form-area">
+    <div class="painel continuar" id="continuar" hidden>
+      <p>Você já entrou como <b id="continuar-nome"></b>.</p>
+      <div class="linha-botoes"><button class="btn btn-primario" id="btn-continuar">Continuar</button><button class="link-btn" id="btn-trocar">Entrar com outra conta</button></div>
+    </div>
+    <form class="login-caixa" id="form-entrar" novalidate>
+      <div class="linha-botoes" style="justify-content:space-between">
+        <h2>Entrar</h2>
+        <button type="button" class="ouvir" data-falar="Bem-vindo ao Ponto de Partida. Se você ainda não sabe ler bem, aperte o botão amarelo grande, escrito Entrar sem senha, com leitura em voz alta.">🔊 Ouvir</button>
+      </div>
+      <button type="button" class="btn btn-grande" id="btn-facil" style="background:var(--lapis);border-color:var(--lapis);color:#14213d">🔊 Entrar sem senha, com leitura em voz alta</button>
+      <div class="separador">ou entre com sua conta</div>
+      <div class="form-grade">
+        <div class="campo"><label for="entrar-email">E-mail</label><input type="email" id="entrar-email" autocomplete="email" placeholder="voce@email.com"></div>
+        <div class="campo"><label for="entrar-senha">Senha</label><input type="password" id="entrar-senha" autocomplete="current-password" placeholder="Sua senha"></div>
+      </div>
+      <p class="erro" id="erro-entrar" role="alert"></p>
+      <button type="submit" class="btn btn-primario">Entrar</button>
+      <div class="linha-botoes" style="justify-content:space-between">
+        <button type="button" class="link-btn" id="btn-visitante">Entrar como visitante</button>
+        <button type="button" class="link-btn" id="ir-cadastro">Criar conta</button>
+      </div>
+      <p class="aviso-prototipo">Protótipo: qualquer e-mail e senha funcionam. A senha não é enviada nem guardada; seu progresso fica salvo só neste navegador.</p>
+    </form>
+
+    <form class="login-caixa" id="form-cadastro" novalidate hidden>
+      <div><h2>Criar conta</h2><p class="suave">Leva menos de um minuto.</p></div>
+      <div class="form-grade">
+        <div class="campo"><label for="cad-nome">Nome</label><input type="text" id="cad-nome" autocomplete="name" placeholder="Como quer ser chamado"></div>
+        <div class="campo"><label for="cad-email">E-mail</label><input type="email" id="cad-email" autocomplete="email" placeholder="voce@email.com"></div>
+        <div class="campo"><label for="cad-senha">Senha</label><input type="password" id="cad-senha" autocomplete="new-password" placeholder="Mínimo de 6 caracteres"></div>
+      </div>
+      <p class="erro" id="erro-cadastro" role="alert"></p>
+      <button type="submit" class="btn btn-primario">Criar conta e entrar</button>
+      <p class="suave">Já tem conta? <button type="button" class="link-btn" id="ir-entrar">Entrar</button></p>
+    </form>
+  </main>
+</div>
+
+<script>
+/* ===== js/comum.js ===== */
+/* =========================================================
+   COMUM: usado por todas as páginas (menos o login)
+   - atalhos de código, armazenamento, sessão do usuário
+   - cabeçalho, rodapé, Modo fácil e leitura em voz alta
+   - perfil: XP, níveis, medalhas, trilha e sequência de dias
+   ========================================================= */
+
+/* ---------- Atalhos ---------- */
+const $ = id => document.getElementById(id);
+const embaralhar = arr => arr.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
+const hojeISO = () => new Date().toISOString().slice(0, 10);
+
+const AREAS = {
+  mat: { nome: "Matemática", cor: "#2f6fdf" },
+  lin: { nome: "Linguagens", cor: "#c8452c" },
+  hum: { nome: "Humanas", cor: "#8a5cc7" },
+  nat: { nome: "Natureza", cor: "#2e7d5b" },
+  inf: { nome: "Informática", cor: "#0f8b8d" }
+};
+
+/* ---------- Armazenamento no navegador (com proteção se não existir) ---------- */
+function ler(chave, padrao) {
+  try { const v = localStorage.getItem(chave); return v === null ? padrao : JSON.parse(v); } catch (e) { return padrao; }
+}
+function gravar(chave, valor) {
+  try { localStorage.setItem(chave, JSON.stringify(valor)); } catch (e) { /* segue sem salvar */ }
+}
+
+/* ---------- Sessão ---------- */
+const CHAVE_USUARIO = "pontoDePartida:usuario";
+let usuario = ler(CHAVE_USUARIO, null);
+const PAGINA = document.body.dataset.pagina;
+
+function sair() {
+  try { localStorage.removeItem(CHAVE_USUARIO); speechSynthesis.cancel(); } catch (e) {}
+  location.href = "index.html";
+}
+/* Sem login, volta para a tela de entrada. Se o navegador não guarda dados, entra como visitante. */
+if (PAGINA !== "login" && !usuario) {
+  let temArmazenamento = true;
+  try { localStorage.setItem("teste", "1"); localStorage.removeItem("teste"); } catch (e) { temArmazenamento = false; }
+  if (temArmazenamento) location.replace("index.html");
+  else usuario = "Visitante";
+}
+
+/* ---------- Avisos, voz e comemoração ---------- */
+document.body.insertAdjacentHTML("beforeend",
+  `<div class="aviso" id="aviso" role="status" hidden></div><canvas class="confete" id="confete" aria-hidden="true" hidden></canvas>`);
+
+function avisar(texto) {
+  const el = $("aviso");
+  el.textContent = texto; el.hidden = false;
+  clearTimeout(avisar.t); avisar.t = setTimeout(() => el.hidden = true, 3500);
+}
+function falar(texto) {
+  try {
+    if (!("speechSynthesis" in window)) return avisar("Seu navegador não tem leitura em voz alta.");
+    speechSynthesis.cancel();
+    const fala = new SpeechSynthesisUtterance(texto);
+    fala.lang = "pt-BR"; fala.rate = 0.9;
+    const voz = speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith("pt"));
+    if (voz) fala.voice = voz;
+    speechSynthesis.speak(fala);
+  } catch (e) { avisar("Não foi possível tocar o áudio neste navegador."); }
+}
+/* Qualquer botão com data-falar="texto" lê o texto em voz alta */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-falar]");
+  if (b) falar(b.dataset.falar);
+});
+
+function celebrar(texto) {
+  avisar(texto);
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const tela = $("confete"), ctx = tela.getContext("2d");
+  tela.width = innerWidth; tela.height = innerHeight; tela.hidden = false;
+  const cores = ["#f2b705", "#14213d", "#c8452c", "#2e7d5b", "#2f6fdf", "#8a5cc7"];
+  const pedacos = Array.from({ length: 110 }, () => ({
+    x: innerWidth / 2 + (Math.random() - 0.5) * 120, y: innerHeight * 0.35,
+    vx: (Math.random() - 0.5) * 12, vy: -Math.random() * 11 - 4,
+    t: Math.random() * 6 + 4, r: Math.random() * Math.PI, cor: cores[Math.floor(Math.random() * cores.length)]
+  }));
+  const inicio = performance.now();
+  (function quadro(agora) {
+    ctx.clearRect(0, 0, tela.width, tela.height);
+    pedacos.forEach(p => {
+      p.vy += 0.35; p.x += p.vx; p.y += p.vy; p.r += 0.15;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.cor;
+      ctx.fillRect(-p.t / 2, -p.t / 4, p.t, p.t / 2); ctx.restore();
+    });
+    if (agora - inicio < 1800) requestAnimationFrame(quadro);
+    else { ctx.clearRect(0, 0, tela.width, tela.height); tela.hidden = true; }
+  })(inicio);
+}
+
+/* ---------- Perfil: progresso salvo do usuário ---------- */
+const NIVEIS = [
+  { min: 0, nome: "Recomeço" }, { min: 100, nome: "Aprendiz" }, { min: 300, nome: "Estudante" },
+  { min: 600, nome: "Dedicado" }, { min: 1000, nome: "Rumo à faculdade" }, { min: 1600, nome: "Pronto para o ENEM" }
+];
+const MEDALHAS = [
+  { id: "primeiro-passo", icone: "👣", nome: "Primeiro passo", desc: "Responda sua primeira questão" },
+  { id: "bloco", icone: "📘", nome: "Bloco concluído", desc: "Termine um bloco de questões" },
+  { id: "gabarito", icone: "🏆", nome: "Gabaritou", desc: "Acerte todas as questões de um bloco" },
+  { id: "combo", icone: "🔥", nome: "Em chamas", desc: "Acerte 5 questões seguidas" },
+  { id: "desafio", icone: "☀️", nome: "Desafio do dia", desc: "Complete o desafio do dia" },
+  { id: "simulado", icone: "🎯", nome: "Simulado completo", desc: "Termine o simulado geral" },
+  { id: "todas-areas", icone: "🌈", nome: "Todas as áreas", desc: "Responda questões das 5 áreas" },
+  { id: "explorador", icone: "🧭", nome: "Explorador", desc: "Descubra sua área na página Faculdade" },
+  { id: "leitor", icone: "🔤", nome: "Leitor", desc: "Monte uma palavra com as sílabas" },
+  { id: "constancia", icone: "📅", nome: "Constância", desc: "Entre 3 dias seguidos" },
+  { id: "redator", icone: "✍️", nome: "Redator", desc: "Envie sua primeira redação" },
+  { id: "nota-800", icone: "💯", nome: "Nota 800+", desc: "Tire 800 ou mais na redação" }
+];
+
+const chavePerfil = () => "pontoDePartida:perfil:" + (usuario || "visitante").toLowerCase();
+function perfilNovo() {
+  return {
+    momento: null, xp: 0, medalhas: [], feito: {}, letras: [], areas: [], dias: [], desafioFeito: null, mitosVistos: [],
+    redacoes: [], ultimaRedacao: null, salvas: [], melhores: {},
+    desempenho: Object.fromEntries(Object.keys(AREAS).map(k => [k, { a: 0, t: 0 }]))
+  };
+}
+let perfil = Object.assign(perfilNovo(), ler(chavePerfil(), {}));
+const salvarPerfil = () => gravar(chavePerfil(), perfil);
+
+function sequenciaDias() {
+  const dias = new Set(perfil.dias);
+  let n = 0; const d = new Date();
+  while (dias.has(d.toISOString().slice(0, 10))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function nivelAtual(xp) {
+  let i = 0;
+  NIVEIS.forEach((n, idx) => { if (xp >= n.min) i = idx; });
+  return { i, ...NIVEIS[i], prox: NIVEIS[i + 1] };
+}
+function ganharXP(qtd) {
+  const antes = nivelAtual(perfil.xp).i;
+  perfil.xp += qtd;
+  const depois = nivelAtual(perfil.xp);
+  if (depois.i > antes) celebrar(`Subiu de nível: ${depois.nome}!`);
+  salvarPerfil(); atualizarSelo(true);
+}
+function ganharMedalha(id) {
+  if (perfil.medalhas.includes(id)) return;
+  perfil.medalhas.push(id);
+  const m = MEDALHAS.find(x => x.id === id);
+  perfil.xp += 25;
+  salvarPerfil();
+  celebrar(`${m.icone} Nova medalha: ${m.nome}! +25 XP`);
+}
+
+/* Cada página avisa o que a pessoa fez; aqui viram pontos, medalhas e passos da trilha */
+function registrar(evento, dados = {}) {
+  const f = perfil.feito;
+  switch (evento) {
+    case "resposta":
+      ganharMedalha("primeiro-passo");
+      perfil.desempenho[dados.area].t++;
+      if (dados.acertou) { perfil.desempenho[dados.area].a++; ganharXP(10); }
+      if (dados.seguidas >= 5) ganharMedalha("combo");
+      if (!perfil.areas.includes(dados.area)) perfil.areas.push(dados.area);
+      if (perfil.areas.length >= Object.keys(AREAS).length) ganharMedalha("todas-areas");
+      break;
+    case "fim-quiz":
+      perfil.melhores[dados.bloco] = Math.max(perfil.melhores[dados.bloco] ?? 0, dados.acertos);
+      ganharXP(30);
+      if (dados.bloco === "desafio") {
+        if (perfil.desafioFeito !== hojeISO()) { perfil.desafioFeito = hojeISO(); ganharXP(40); }
+        f.desafio = true; ganharMedalha("desafio");
+      } else if (dados.bloco === "simulado") { f.simulado = true; ganharMedalha("simulado"); }
+      else { f.bloco = true; ganharMedalha("bloco"); }
+      if (dados.acertos === dados.total && dados.total >= 10) { ganharXP(50); ganharMedalha("gabarito"); }
+      break;
+    case "redacao":
+      perfil.redacoes.push({ tema: dados.tema, nota: dados.nota, data: new Date().toLocaleDateString("pt-BR") });
+      perfil.ultimaRedacao = dados.nota; f.redacao = true;
+      ganharXP(50); ganharMedalha("redator");
+      if (dados.nota >= 800) ganharMedalha("nota-800");
+      break;
+    case "teste": f.teste = true; ganharXP(20); ganharMedalha("explorador"); break;
+    case "uf": if (!f.uf) { f.uf = true; ganharXP(10); } break;
+    case "letra":
+      if (!perfil.letras.includes(dados.letra)) { perfil.letras.push(dados.letra); ganharXP(2); }
+      if (perfil.letras.length >= 5) f.letras = true;
+      break;
+    case "silaba": f.silaba = true; ganharXP(10); ganharMedalha("leitor"); break;
+    case "ouvir": f.ouvir = true; ganharXP(5); break;
+    case "dica": if (!f.dica) { f.dica = true; ganharXP(5); } break;
+    case "facil": f.facil = true; break;
+    case "visitou-ler": f["visitou-ler"] = true; break;
+    case "mito":
+      if (!perfil.mitosVistos.includes(dados.i)) { perfil.mitosVistos.push(dados.i); ganharXP(5); }
+      if (perfil.mitosVistos.length >= 3) f.mitos = true;
+      break;
+  }
+  salvarPerfil(); atualizarSelo();
+}
+
+/* Áreas do desafio do dia (as mesmas para todo mundo no mesmo dia) */
+function sementeDoDia() { return [...hojeISO()].reduce((s, c) => (s * 31 + c.charCodeAt(0)) % 2147483647, 7); }
+function areasDoDesafio() {
+  const areas = Object.keys(AREAS), s = sementeDoDia();
+  return [0, 1, 2].map(k => areas[(s + k * 2) % areas.length]);
+}
+
+/* ---------- Cabeçalho e rodapé ---------- */
+const MENU = [
+  { id: "inicio", href: "inicio.html", icone: "🏠", nome: "Início" },
+  { id: "estudar", href: "estudar.html", icone: "📚", nome: "Estudar" },
+  { id: "redacao", href: "redacao.html", icone: "✍️", nome: "Redação" },
+  { id: "faculdade", href: "faculdade.html", icone: "🎓", nome: "Faculdade" },
+  { id: "ler", href: "ler.html", icone: "🔤", nome: "Aprender a ler" },
+  { id: "solucoes", href: "solucoes.html", icone: "💡", nome: "Soluções e dicas" }
+];
+function montarCabecalho() {
+  const topo = $("topo");
+  if (!topo) return;
+  topo.innerHTML = `
+    <nav class="container nav" aria-label="Principal">
+      <a href="inicio.html" class="logo"><span class="logo-marca" aria-hidden="true"></span>Ponto de Partida</a>
+      <ul class="nav-links" id="menu">${MENU.map(m => `
+        <li><a href="${m.href}" ${m.id === PAGINA ? 'aria-current="page"' : ""}><span class="icone" aria-hidden="true">${m.icone}</span>${m.nome}</a></li>`).join("")}
+      </ul>
+      <div class="usuario">
+        <a href="perfil.html" class="selo" id="selo" title="Seu perfil: nível, pontos e sequência de dias" ${PAGINA === "perfil" ? 'aria-current="page"' : ""}>
+          <span class="avatar-mini" aria-hidden="true">${(usuario || "V").charAt(0)}</span>
+          <span id="selo-nivel">Nv. 1</span><span class="selo-xp" id="selo-xp">0 XP</span><span class="selo-fogo">🔥<span id="selo-dias" class="num">0</span></span>
+        </a>
+        <button class="ferramenta" id="btn-ouvir-pagina" title="Ler esta página em voz alta" aria-label="Ouvir esta página">🔊</button>
+        <button class="ferramenta" id="btn-modo-facil" aria-pressed="false" title="Modo fácil: letras maiores" aria-label="Modo fácil">Aa</button>
+        <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+      </div>
+    </nav>`;
+  $("menu-btn").addEventListener("click", () => $("menu-btn").setAttribute("aria-expanded", $("menu").classList.toggle("aberto")));
+  $("btn-modo-facil").addEventListener("click", () => definirModoFacil(!document.documentElement.classList.contains("facil")));
+  $("btn-ouvir-pagina").addEventListener("click", () => {
+    const textos = [...document.querySelectorAll("main [data-ler]")].filter(el => el.offsetParent !== null).map(el => el.textContent.trim());
+    falar(textos.join(". ") || document.title);
+  });
+  atualizarSelo();
+}
+function montarRodape() {
+  const rodape = $("rodape");
+  if (rodape) rodape.innerHTML = `<div class="container rodape-grade">
+    <span>Ponto de Partida · educação contra a desigualdade</span>
+    <span>Questões e textos criados para o site · dados do IBGE (PNAD Contínua Educação 2025) · instituições: confira no e-MEC</span></div>`;
+}
+function atualizarSelo(pulsar) {
+  if (!$("selo")) return;
+  const n = nivelAtual(perfil.xp);
+  $("selo-nivel").textContent = `Nv. ${n.i + 1}`;
+  $("selo-xp").textContent = `${perfil.xp} XP`;
+  $("selo-dias").textContent = sequenciaDias();
+  if (pulsar) { const s = $("selo"); s.classList.remove("pulsa"); void s.offsetWidth; s.classList.add("pulsa"); }
+}
+
+/* ---------- Modo fácil (letras maiores), lembrado entre as páginas ---------- */
+function definirModoFacil(ligado) {
+  document.documentElement.classList.toggle("facil", ligado);
+  if ($("btn-modo-facil")) $("btn-modo-facil").setAttribute("aria-pressed", ligado);
+  gravar("pontoDePartida:modoFacil", ligado);
+  if (ligado && PAGINA !== "login") registrar("facil");
+}
+
+/* ---------- Abas dentro de uma página (ex.: Faculdade) ---------- */
+function ativarAbas(aoTrocar) {
+  const botoes = [...document.querySelectorAll("[data-aba]")];
+  if (!botoes.length) return;
+  const mostrar = id => {
+    if (!botoes.some(b => b.dataset.aba === id)) id = botoes[0].dataset.aba;
+    botoes.forEach(b => b.setAttribute("aria-selected", b.dataset.aba === id));
+    document.querySelectorAll("[data-painel]").forEach(p => p.hidden = p.dataset.painel !== id);
+    if (aoTrocar) aoTrocar(id);
+  };
+  botoes.forEach(b => b.addEventListener("click", () => { history.replaceState(null, "", "#" + b.dataset.aba); mostrar(b.dataset.aba); }));
+  window.addEventListener("hashchange", () => mostrar(location.hash.slice(1)));
+  mostrar(location.hash.slice(1));
+}
+
+/* ---------- Desafiar um amigo ---------- */
+function caixaDesafiarAmigo(nome, acertos, total) {
+  const texto = `Fiz ${acertos}/${total} no ${nome} do Ponto de Partida, um site para estudar para o ENEM de graça. Duvido você me superar!`;
+  return `<div class="desafiar">
+    <div><h3>Desafie um amigo</h3><p class="suave">Estudar junto ajuda a não desistir. Mande seu resultado e chame alguém para estudar com você.</p></div>
+    <div class="linha-botoes">
+      <a class="btn btn-whats" href="https://wa.me/?text=${encodeURIComponent(texto)}" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+      <button class="btn btn-secundario" data-copiar="${texto.replace(/"/g, "&quot;")}">Copiar mensagem</button>
+    </div></div>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copiar]");
+  if (!b) return;
+  try {
+    navigator.clipboard.writeText(b.dataset.copiar).then(() => avisar("Mensagem copiada! Cole no app que quiser."), () => avisar("Não foi possível copiar. Selecione o texto e copie manualmente."));
+  } catch (err) { avisar("Não foi possível copiar neste navegador."); }
+});
+
+/* ---------- Ao abrir qualquer página ---------- */
+if (PAGINA !== "login" && usuario) {
+  if (!perfil.dias.includes(hojeISO())) perfil.dias.push(hojeISO());
+  salvarPerfil();
+  montarCabecalho();
+  montarRodape();
+  if (sequenciaDias() >= 3) ganharMedalha("constancia");
+}
+if (ler("pontoDePartida:modoFacil", false)) {
+  document.documentElement.classList.add("facil");
+  if ($("btn-modo-facil")) $("btn-modo-facil").setAttribute("aria-pressed", "true");
+}
+
+</script>
+<script>
+/* ===== js/login.js ===== */
+/* =========================================================
+   LOGIN (index.html)
+   Protótipo: qualquer e-mail e senha funcionam. Só o nome fica
+   guardado neste navegador; nada é enviado a um servidor.
+   ========================================================= */
+const formEntrar = $("form-entrar"), formCadastro = $("form-cadastro");
+const emailValido = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+
+function entrar(nome, destino = "inicio.html") {
+  const n = nome.charAt(0).toUpperCase() + nome.slice(1);
+  gravar(CHAVE_USUARIO, n);
+  location.href = destino;
+}
+
+/* Se já entrou antes, oferece continuar */
+if (usuario) {
+  $("continuar").hidden = false;
+  $("continuar-nome").textContent = usuario;
+  $("btn-continuar").addEventListener("click", () => location.href = "inicio.html");
+  $("btn-trocar").addEventListener("click", () => { try { localStorage.removeItem(CHAVE_USUARIO); } catch (e) {} $("continuar").hidden = true; });
+}
+
+$("ir-cadastro").addEventListener("click", () => { formEntrar.hidden = true; formCadastro.hidden = false; $("cad-nome").focus(); });
+$("ir-entrar").addEventListener("click", () => { formCadastro.hidden = true; formEntrar.hidden = false; $("entrar-email").focus(); });
+
+formEntrar.addEventListener("submit", e => {
+  e.preventDefault();
+  const email = $("entrar-email").value.trim(), senha = $("entrar-senha").value, erro = $("erro-entrar");
+  if (!emailValido(email)) return erro.textContent = "Digite um e-mail válido, como voce@email.com.";
+  if (!senha) return erro.textContent = "Digite sua senha.";
+  entrar(email.split("@")[0]);
+});
+formCadastro.addEventListener("submit", e => {
+  e.preventDefault();
+  const nome = $("cad-nome").value.trim(), email = $("cad-email").value.trim(), senha = $("cad-senha").value, erro = $("erro-cadastro");
+  if (!nome) return erro.textContent = "Digite seu nome.";
+  if (!emailValido(email)) return erro.textContent = "Digite um e-mail válido, como voce@email.com.";
+  if (senha.length < 6) return erro.textContent = "A senha precisa ter pelo menos 6 caracteres.";
+  entrar(nome);
+});
+$("btn-visitante").addEventListener("click", () => entrar("Visitante"));
+$("btn-facil").addEventListener("click", () => {
+  gravar("pontoDePartida:modoFacil", true);
+  entrar("Visitante", "ler.html");
+});
+
+</script>
+</body>
+</html>

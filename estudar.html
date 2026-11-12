@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudar · Ponto de Partida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== ESTILO (CSS) ===== */
+:root {
+  /* Layout: login em tela dividida; dentro do app, coluna de 1100px com cabeçalho fixo e páginas trocadas pelo # */
+  --papel: #f4f5f0;
+  --superficie: #ffffff;
+  --tinta: #14213d;
+  --texto-suave: #4a5468;
+  --lapis: #f2b705;
+  --alerta: #c8452c;
+  --verde: #2e7d5b;
+  --linha: #d9dccf;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --font-corpo: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --raio: 10px;
+  --max: 1100px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papel: #10141f; --superficie: #181e2c; --tinta: #eef0e8; --texto-suave: #a9b0c0;
+    --lapis: #f5c430; --alerta: #ef7a5f; --verde: #5cc196; --linha: #2a3244;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papel: #10141f; --superficie: #181e2c; --tinta: #eef0e8; --texto-suave: #a9b0c0;
+  --lapis: #f5c430; --alerta: #ef7a5f; --verde: #5cc196; --linha: #2a3244;
+  color-scheme: dark;
+}
+/* Modo fácil: tudo maior */
+html.facil { font-size: 122%; }
+html.facil .texto-ajuda { display: block; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--papel); color: var(--tinta); font-family: var(--font-corpo); font-size: 1.0625rem; line-height: 1.6; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; text-wrap: balance; }
+h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 800; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { max-width: 65ch; }
+a { color: inherit; }
+button { font: inherit; }
+:focus-visible { outline: 3px solid var(--lapis); outline-offset: 3px; border-radius: 4px; }
+.num { font-variant-numeric: tabular-nums; }
+.container { width: min(var(--max), 100% - 32px); margin-inline: auto; }
+.sobretitulo { font-size: .8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--texto-suave); display: block; margin-bottom: 10px; }
+.suave { color: var(--texto-suave); }
+[hidden] { display: none !important; }
+.texto-ajuda { display: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 2px solid var(--tinta); cursor: pointer; }
+.btn-primario { background: var(--tinta); color: var(--papel); }
+.btn-secundario { background: transparent; color: var(--tinta); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.link-btn { background: none; border: none; color: var(--tinta); font-weight: 600; text-decoration: underline; cursor: pointer; padding: 0; }
+.ouvir { display: inline-flex; align-items: center; gap: 6px; background: var(--superficie); border: 1px solid var(--linha); border-radius: 999px; padding: 6px 14px; font-size: .88rem; font-weight: 600; color: var(--tinta); cursor: pointer; }
+.ouvir:hover { border-color: var(--tinta); }
+.linha-botoes { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* ======================= LOGIN ======================= */
+.login { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+.login-marca { background: #14213d; color: #f4f5f0; padding: 48px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; }
+.login-marca .logo { color: #f4f5f0; }
+.login-marca h1 { color: #f4f5f0; max-width: 14ch; }
+.login-marca h1 mark { background: linear-gradient(transparent 60%, #f2b705 60%); color: inherit; padding-inline: 4px; }
+.login-marca p { color: #c9cfdb; margin-top: 18px; }
+.recursos-login { display: grid; gap: 10px; color: #c9cfdb; font-size: .95rem; list-style: none; }
+.recursos-login li { display: flex; gap: 10px; }
+.recursos-login b { color: #f2b705; }
+.login-form-area { display: grid; place-items: center; padding: 48px 24px; }
+.login-caixa { width: min(420px, 100%); display: grid; gap: 20px; }
+.login-caixa h2 { font-size: 2rem; }
+.campo { display: grid; gap: 6px; }
+.campo label { font-weight: 600; font-size: .92rem; }
+.campo input { font: inherit; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.campo input:focus { outline: 2px solid var(--lapis); border-color: var(--tinta); }
+.erro { color: var(--alerta); font-size: .9rem; min-height: 1.4em; }
+.form-grade { display: grid; gap: 16px; }
+.separador { display: flex; align-items: center; gap: 12px; color: var(--texto-suave); font-size: .85rem; }
+.separador::before, .separador::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+.aviso-prototipo { font-size: .8rem; color: var(--texto-suave); background: var(--superficie); border: 1px dashed var(--linha); border-radius: 8px; padding: 10px 12px; }
+.btn-grande { padding: 16px 22px; font-size: 1.05rem; }
+
+/* ======================= APP ======================= */
+.logo { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.logo-marca { width: 22px; height: 22px; background: var(--lapis); border-radius: 50%; border: 3px solid currentColor; flex: none; }
+
+header.topo { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--papel) 94%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--linha); }
+.topo .container { width: min(1440px, 100% - 32px); }
+.nav { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 12px; }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a { display: flex; align-items: center; gap: 6px; text-decoration: none; font-weight: 500; font-size: .92rem; padding: 7px 12px; border-radius: 999px; color: var(--texto-suave); white-space: nowrap; }
+.nav-links a:hover { color: var(--tinta); }
+.nav-links a[aria-current="page"] { background: var(--tinta); color: var(--papel); }
+.icone { font-size: 1.05em; line-height: 1; }
+.usuario { display: flex; align-items: center; gap: 10px; font-size: .9rem; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-weight: 700; flex: none; }
+.ferramentas { display: flex; gap: 8px; }
+.ferramenta { background: var(--superficie); border: 1px solid var(--linha); border-radius: 999px; padding: 6px 12px; font-size: .85rem; font-weight: 600; cursor: pointer; color: var(--tinta); white-space: nowrap; }
+.ferramenta[aria-pressed="true"] { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.menu-btn { display: none; background: none; border: 1px solid var(--linha); border-radius: 8px; padding: 6px 12px; color: var(--tinta); cursor: pointer; }
+
+.pagina { padding-block: 44px 72px; }
+.cabeca-pagina { display: grid; gap: 12px; margin-bottom: 32px; }
+.bloco-secao { margin-top: 56px; }
+.bloco-secao > h2 { margin-bottom: 8px; }
+.bloco-secao > p.suave { margin-bottom: 24px; }
+.painel { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 24px; }
+
+/* ---- Tela inicial ---- */
+.boas-vindas { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: stretch; }
+.boas-vindas p { margin-top: 16px; font-size: 1.1rem; }
+.dica-dia { background: var(--lapis); color: #14213d; border-radius: var(--raio); padding: 24px; display: grid; gap: 10px; align-content: start; }
+.dica-dia .sobretitulo { color: #14213d; opacity: .75; margin: 0; }
+.dica-dia h3 { font-size: 1.3rem; }
+.dica-dia .link-btn { color: #14213d; }
+.atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 36px; }
+.atalho { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 22px; text-decoration: none; display: grid; gap: 6px; align-content: start; }
+.atalho:hover { border-color: var(--tinta); }
+.atalho .icone-grande { font-size: 1.8rem; line-height: 1; }
+.atalho .suave { font-size: .93rem; }
+.progresso-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 28px; align-items: center; }
+.progresso-total strong { font-family: var(--font-display); font-size: 3rem; line-height: 1; display: block; }
+.barras { display: grid; gap: 12px; }
+.barra-linha { display: grid; grid-template-columns: 110px 1fr 64px; align-items: center; gap: 12px; font-size: .92rem; }
+.barra-trilho { height: 16px; background: var(--papel); border-radius: 999px; overflow: hidden; }
+.barra-valor { height: 100%; background: var(--tinta); border-radius: 999px; transition: width .5s ease; }
+.barra-num { text-align: right; font-weight: 600; }
+.faixa-numeros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 26px; background: #14213d; color: #f4f5f0; border-radius: var(--raio); }
+.faixa-numeros div { border-top: 3px solid #f2b705; padding-top: 12px; }
+.faixa-numeros strong { font-family: var(--font-display); font-size: 2rem; line-height: 1; display: block; }
+.faixa-numeros span { display: block; margin-top: 8px; font-size: .88rem; color: #c9cfdb; }
+.fonte { font-size: .8rem; color: var(--texto-suave); margin-top: 10px; }
+
+/* ---- Estrutura das páginas ---- */
+main.pagina { min-height: 60vh; }
+.cabeca-pagina h1 { font-size: clamp(1.9rem, 4.2vw, 2.8rem); }
+.titulo-secao { font-size: clamp(1.25rem, 2.6vw, 1.6rem); margin-bottom: 14px; }
+.abas-pagina { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 2px solid var(--linha); margin-bottom: 28px; }
+.aba-pagina { font: inherit; font-weight: 600; font-size: .95rem; padding: 10px 16px; border: none; background: none; color: var(--texto-suave); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+.aba-pagina:hover { color: var(--tinta); }
+.aba-pagina[aria-selected="true"] { color: var(--tinta); border-bottom-color: var(--lapis); }
+.atalhos-icones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 22px; }
+.atalhos-icones a { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: var(--raio); border: 1px solid var(--linha); background: var(--superficie); text-decoration: none; font-weight: 600; font-size: .95rem; }
+.atalhos-icones a:hover { border-color: var(--tinta); }
+.atalhos-icones span { font-size: 1.4rem; line-height: 1; }
+.avatar-mini { width: 22px; height: 22px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-size: .75rem; }
+.selo[aria-current="page"] { outline: 2px solid var(--lapis); outline-offset: 2px; }
+.ferramenta { min-width: 38px; }
+.destaques-estudo { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 36px; }
+.cartao-bloco.destaque-claro { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.cartao-bloco.destaque-claro .meta, .cartao-bloco.destaque-claro .sobretitulo { color: #14213d; opacity: .8; }
+.cartao-bloco.feito { background: color-mix(in srgb, var(--verde) 7%, var(--superficie)); }
+.nivel-resumo { display: grid; gap: 4px; align-content: start; }
+.medalhas-mini { display: flex; gap: 8px; font-size: 1.7rem; margin: 8px 0; flex-wrap: wrap; }
+.nivel-resumo .link-btn { justify-self: start; margin-top: 6px; }
+.perfil-topo { display: flex; align-items: center; gap: 18px; margin-bottom: 24px; }
+.perfil-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: 2rem; flex: none; }
+.perfil-resumo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.resumo-item { display: grid; gap: 2px; border-top: 3px solid var(--lapis); padding-top: 10px; }
+.resumo-item strong { font-family: var(--font-display); font-size: 2rem; line-height: 1.1; }
+.resumo-item span { font-size: .88rem; color: var(--texto-suave); }
+.perfil-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.medalhas-grandes { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+.medalhas-grandes .medalha { padding: 16px 8px; }
+.medalhas-grandes .medalha-icone { font-size: 2.2rem; }
+.medalhas-grandes .medalha-nome { font-size: .85rem; }
+.medalhas-grandes .medalha-desc { font-size: .75rem; }
+.lista-salvas { list-style: none; display: grid; gap: 10px; }
+.lista-salvas li { display: grid; gap: 2px; padding-left: 12px; border-left: 3px solid var(--lapis); font-size: .93rem; }
+.grade-momentos.compacta { grid-template-columns: 1fr 1fr; margin-top: 8px; }
+.grade-momentos.compacta .momento { padding: 12px; font-size: .9rem; }
+.grade-momentos.compacta .momento-icone { font-size: 1.4rem; }
+.momento.atual { border-color: var(--lapis); background: color-mix(in srgb, var(--lapis) 18%, var(--superficie)); }
+.conta .confirmar-apagar { margin-top: 16px; padding: 16px; border-radius: 8px; border-left: 4px solid var(--alerta); background: var(--papel); display: grid; gap: 12px; }
+.btn-perigo { background: var(--alerta); border-color: var(--alerta); color: #fff; }
+.continuar { width: min(420px, 100%); display: grid; gap: 12px; margin-bottom: 18px; border-left: 4px solid var(--lapis); }
+.login-form-area { align-content: center; }
+footer#rodape { border-top: 1px solid var(--linha); padding-block: 28px; font-size: .85rem; color: var(--texto-suave); margin-top: 24px; }
+.rodape-grade { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+.grade-graficos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; margin-top: 16px; align-items: start; }
+.grade-graficos h3 { margin-bottom: 2px; }
+.grafico-sub { font-size: .85rem; margin-bottom: 12px; }
+.grade-graficos .barra-linha { grid-template-columns: 130px 1fr 54px; }
+
+/* ---- Engajamento ---- */
+.selo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: var(--tinta); color: var(--papel); border-radius: 999px; padding: 6px 12px; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+.selo-xp { color: var(--lapis); }
+.selo-fogo { display: inline-flex; gap: 2px; }
+.selo.pulsa { animation: pulsa .5s ease; }
+@keyframes pulsa { 50% { transform: scale(1.12); } }
+.trilha { display: block; }
+.grade-momentos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+.momento { display: grid; gap: 10px; justify-items: start; text-align: left; padding: 18px; border-radius: var(--raio); border: 2px solid var(--linha); background: var(--papel); color: var(--tinta); font-weight: 600; cursor: pointer; }
+.momento:hover { border-color: var(--tinta); }
+.momento-icone { font-size: 2rem; line-height: 1; }
+.trilha-topo { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+.trilha-topo h2 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 6px 0; }
+.trilha-progresso { text-align: right; display: grid; }
+.trilha-progresso strong { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; }
+.passos { list-style: none; display: grid; gap: 8px; counter-reset: passo; }
+.passos li { display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 8px; background: var(--papel); }
+.passos .marca { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--linha); display: grid; place-items: center; font-weight: 700; }
+.passos li.feito .marca { background: var(--verde); border-color: var(--verde); color: #fff; }
+.passos li.feito .passo-texto { color: var(--texto-suave); text-decoration: line-through; }
+.passo-ir { padding: 6px 16px; font-size: .9rem; }
+.passo-ok { font-size: .85rem; font-weight: 600; color: var(--verde); }
+.trilha-fim { margin-top: 14px; font-weight: 600; }
+.linha-engaja { display: grid; grid-template-columns: 1fr 1.6fr; gap: 18px; align-items: stretch; }
+.desafio-dia { display: grid; gap: 10px; align-content: start; background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.desafio-dia .sobretitulo, .desafio-dia .suave { color: color-mix(in srgb, var(--papel) 75%, transparent); }
+.desafio-dia h3 { font-size: 1.5rem; }
+.desafio-dia .btn { justify-self: start; }
+.desafio-dia .btn-primario { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.desafio-dia .btn-secundario { color: var(--papel); border-color: var(--papel); }
+.sequencia { display: flex; align-items: center; gap: 10px; font-size: 1rem; }
+.fogo { font-size: 2rem; line-height: 1; }
+.nivel-topo { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+.xp-grande { font-family: var(--font-display); font-size: 1.8rem; color: var(--tinta); }
+.medalhas { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.medalha { display: grid; justify-items: center; text-align: center; gap: 2px; padding: 10px 4px; border-radius: 8px; background: var(--papel); opacity: .55; }
+.medalha.ganha { opacity: 1; background: color-mix(in srgb, var(--lapis) 22%, var(--superficie)); }
+.medalha-icone { font-size: 1.6rem; line-height: 1.1; }
+.medalha-nome { font-size: .75rem; font-weight: 700; line-height: 1.2; }
+.medalha-desc { font-size: .68rem; color: var(--texto-suave); line-height: 1.25; }
+.grade-mitos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.mito { position: relative; min-height: 190px; border: none; padding: 0; background: none; cursor: pointer; perspective: 900px; text-align: left; color: var(--tinta); }
+.mito-frente, .mito-verso { position: absolute; inset: 0; display: grid; align-content: center; gap: 10px; padding: 22px; border-radius: var(--raio); backface-visibility: hidden; transition: transform .5s ease; font-size: 1rem; }
+.mito-frente { background: var(--superficie); border: 1px solid var(--linha); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; line-height: 1.3; }
+.mito-aspas { font-size: 3rem; line-height: .5; color: var(--lapis); }
+.mito-toque { font-family: var(--font-corpo); font-size: .8rem; font-weight: 600; color: var(--texto-suave); }
+.mito-verso { background: var(--tinta); color: var(--papel); transform: rotateY(180deg); font-size: .95rem; }
+.mito.virado .mito-frente { transform: rotateY(180deg); }
+.mito.virado .mito-verso { transform: rotateY(360deg); }
+.selo-mito { justify-self: start; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; padding: 2px 14px; border-radius: 999px; }
+.mito-falso { background: var(--alerta); color: #fff; }
+.mito-verdade { background: var(--verde); color: #fff; }
+.combo { margin-top: 12px; font-weight: 700; font-size: 1.1rem; color: var(--alerta); }
+.desafiar { margin-top: 28px; padding: 20px; border-radius: var(--raio); background: var(--papel); display: grid; gap: 14px; }
+.btn-whats { background: #1f8f4e; border-color: #1f8f4e; color: #fff; }
+.confete { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+
+/* ---- Redação ---- */
+.grade-temas { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.tema { display: grid; gap: 10px; align-content: start; text-align: left; padding: 18px; border-radius: var(--raio); border: 1px solid var(--linha); border-left: 5px solid var(--lapis); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.tema:hover { border-color: var(--tinta); border-left-color: var(--lapis); }
+.tema .tag { justify-self: start; }
+.tema-titulo { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; line-height: 1.25; }
+.tema-meta { font-size: .82rem; color: var(--texto-suave); }
+.historico { list-style: none; display: grid; gap: 6px; }
+.historico li { display: grid; grid-template-columns: 1fr auto 60px; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--linha); font-size: .92rem; }
+.historico li b { text-align: right; font-family: var(--font-display); font-size: 1.1rem; }
+#historico-redacoes:empty { display: none; }
+.editor-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 18px; margin-top: 14px; align-items: start; }
+.apoio-caixa { display: grid; gap: 12px; position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; }
+.apoio-caixa .tag { justify-self: start; }
+.editor-tema { font-size: clamp(1.3rem, 2.6vw, 1.7rem); }
+.apoio { display: grid; gap: 10px; }
+.apoio-texto { background: var(--papel); border-radius: 8px; padding: 12px 14px; font-size: .93rem; }
+.apoio-num { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-suave); }
+.estrutura { background: var(--papel); border-radius: 8px; padding: 12px 14px; font-size: .92rem; }
+.estrutura summary { font-weight: 600; cursor: pointer; }
+.estrutura ol { padding-left: 18px; display: grid; gap: 6px; margin-top: 8px; }
+.folha-caixa { display: grid; gap: 10px; }
+.folha-topo { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+.contadores { display: flex; gap: 6px; flex-wrap: wrap; }
+.contador-pill { font-size: .8rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--papel); border: 1px solid var(--linha); }
+.contador-pill.bom { border-color: var(--verde); color: var(--verde); }
+.contador-pill.ruim { border-color: var(--alerta); color: var(--alerta); }
+.cronometro-caixa { display: flex; align-items: center; gap: 8px; }
+.cronometro { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+.cronometro.passou { color: var(--alerta); }
+.btn-pequeno { padding: 6px 14px; font-size: .85rem; }
+.titulo-input { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.folha { font: inherit; font-size: 1.02rem; line-height: 32px; min-height: 560px; resize: vertical; padding: 0 14px; border-radius: 8px; border: 1px solid var(--linha); color: var(--tinta);
+  background-color: var(--superficie); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--linha) 31px, var(--linha) 32px); background-attachment: local; }
+.folha:focus { outline: 2px solid var(--lapis); }
+#btn-corrigir { justify-self: start; }
+.res-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+.nota-redacao { font-family: var(--font-display); font-weight: 800; font-size: clamp(3.4rem, 9vw, 5rem); line-height: 1; margin-top: 8px; }
+.nota-redacao span { font-size: .35em; color: var(--texto-suave); font-weight: 600; }
+.faixa-nota { font-weight: 700; font-size: 1.15rem; }
+.aviso-correcao { font-size: .9rem; background: var(--papel); border-left: 4px solid var(--lapis); padding: 14px 16px; border-radius: 0 8px 8px 0; }
+.zerada, .alerta-red { margin-top: 14px; border-left: 5px solid var(--alerta); }
+.competencias { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 12px; margin-top: 14px; }
+.comp { display: grid; gap: 10px; align-content: start; }
+.comp-topo { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; }
+.comp-topo h3 { font-size: 1rem; }
+.comp-n { width: 34px; height: 34px; border-radius: 50%; background: var(--tinta); color: var(--papel); display: grid; place-items: center; font-weight: 700; font-size: .85rem; }
+.comp-nota { font-family: var(--font-display); font-size: 1.5rem; }
+.comp .quiz-barra { margin: 0; }
+.comp p { font-size: .92rem; color: var(--texto-suave); }
+.duas-colunas-red { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.checklist, .lista-desvios { list-style: none; display: grid; gap: 8px; margin-top: 10px; font-size: .94rem; }
+.checklist li { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.checklist .marca { font-weight: 700; color: var(--alerta); width: 16px; }
+.checklist li.ok .marca { color: var(--verde); }
+.lista-desvios li { padding-left: 12px; border-left: 3px solid var(--alerta); }
+.simulador { display: grid; gap: 14px; }
+.campos-notas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.campo-nota { display: grid; gap: 4px; font-size: .85rem; font-weight: 600; }
+.campo-nota input { font: inherit; font-size: 1.1rem; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); width: 100%; }
+.media-sisu { display: flex; align-items: baseline; gap: 12px; padding: 14px 18px; border-radius: var(--raio); background: var(--tinta); color: var(--papel); }
+.media-sisu strong { font-family: var(--font-display); font-size: 2.2rem; color: var(--lapis); }
+.lista-cortes { display: grid; gap: 6px; }
+.corte { display: grid; grid-template-columns: 200px 1fr 80px 210px; gap: 12px; align-items: center; padding: 8px 12px; border-radius: 8px; background: var(--papel); font-size: .9rem; }
+.corte-nome { font-weight: 600; }
+.corte-escala { position: relative; height: 10px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linha); }
+.corte-faixa { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: color-mix(in srgb, var(--tinta) 35%, transparent); }
+.corte-voce { position: absolute; top: -4px; width: 4px; height: 16px; margin-left: -2px; border-radius: 2px; background: var(--alerta); }
+.corte-num { color: var(--texto-suave); text-align: right; }
+.corte-status { font-weight: 600; font-size: .85rem; }
+.corte.dentro .corte-status { color: var(--verde); }
+.corte.parcial .corte-status { color: var(--verde); }
+.corte.perto .corte-status { color: #b07c00; }
+.corte.longe .corte-status { color: var(--texto-suave); }
+.corte.dentro, .corte.parcial { box-shadow: inset 4px 0 0 var(--verde); }
+.corte.perto { box-shadow: inset 4px 0 0 var(--lapis); }
+
+/* ---- Estudar ---- */
+.grade-blocos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.cartao-bloco { background: var(--superficie); border: 1px solid var(--linha); border-top: 5px solid var(--cor, var(--tinta)); border-radius: var(--raio); padding: 22px; display: grid; gap: 10px; align-content: start; }
+.cartao-bloco .meta { font-size: .88rem; color: var(--texto-suave); }
+.cartao-bloco .btn { justify-self: start; margin-top: 6px; padding: 9px 18px; }
+.cartao-bloco.destaque { background: var(--tinta); color: var(--papel); border-color: var(--tinta); border-top-color: var(--lapis); }
+.cartao-bloco.destaque .meta { color: color-mix(in srgb, var(--papel) 75%, transparent); }
+.cartao-bloco.destaque .btn { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+
+.quiz { max-width: 780px; }
+.quiz-topo { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; font-size: .9rem; color: var(--texto-suave); }
+.quiz-barra { height: 8px; background: var(--papel); border-radius: 999px; overflow: hidden; margin-bottom: 22px; }
+.quiz-barra div { height: 100%; background: var(--lapis); transition: width .4s ease; }
+.tag { display: inline-block; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; background: var(--papel); border: 1px solid var(--linha); }
+.enunciado { font-size: 1.12rem; margin: 14px 0 20px; }
+.alternativas { display: grid; gap: 10px; }
+.alt { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: center; text-align: left; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.alt .letra { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--linha); display: grid; place-items: center; font-weight: 700; }
+.alt:hover:not(:disabled) { border-color: var(--tinta); }
+.alt[aria-pressed="true"] { border-color: var(--tinta); box-shadow: inset 0 0 0 1px var(--tinta); }
+.alt[aria-pressed="true"] .letra { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.alt.certa { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 14%, var(--papel)); }
+.alt.certa .letra { background: var(--verde); border-color: var(--verde); color: #fff; }
+.alt.errada { border-color: var(--alerta); background: color-mix(in srgb, var(--alerta) 12%, var(--papel)); }
+.alt.errada .letra { background: var(--alerta); border-color: var(--alerta); color: #fff; }
+.alt:disabled { cursor: default; }
+.explicacao { margin-top: 18px; padding: 14px 16px; border-left: 4px solid var(--lapis); background: var(--papel); border-radius: 0 6px 6px 0; }
+.quiz-acoes { margin-top: 20px; }
+.resultado-numero { font-family: var(--font-display); font-size: 3.4rem; font-weight: 800; line-height: 1; }
+.revisao { list-style: none; display: grid; gap: 8px; margin: 20px 0; }
+.revisao li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: .95rem; }
+.revisao .ok { color: var(--verde); font-weight: 700; }
+.revisao .x { color: var(--alerta); font-weight: 700; }
+
+.simulado-largo { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px 24px; }
+.simulado-largo .btn { grid-row: 1 / span 3; grid-column: 2; align-self: center; margin: 0; }
+.suave-chip { opacity: .65; font-size: .8em; margin-left: 2px; }
+
+/* ---- Faculdade ---- */
+.grade-ingresso { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.ingresso { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; display: grid; gap: 8px; align-content: start; }
+.ingresso .para-quem { font-size: .85rem; color: var(--verde); font-weight: 600; }
+.ingresso p { font-size: .94rem; color: var(--texto-suave); }
+.teste { display: grid; gap: 18px; max-width: 780px; }
+.teste-opcoes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.teste-op { text-align: left; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.teste-op:hover { border-color: var(--tinta); }
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 22px; }
+.chip { font-size: .9rem; font-weight: 500; padding: 7px 15px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.busca { flex: 1 1 220px; max-width: 320px; margin-left: auto; font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.grade-cursos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.curso { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.curso-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.curso p { font-size: .94rem; color: var(--texto-suave); }
+.curso .porque { color: var(--tinta); font-size: .92rem; border-top: 1px dashed var(--linha); padding-top: 10px; }
+.curso.recomendado { border: 2px solid var(--lapis); }
+
+.filtros-inst-topo { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+.rotulo-campo { font-weight: 600; font-size: .92rem; }
+.seletor { font: inherit; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.lista-instituicoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 16px; margin-top: 14px; align-items: start; }
+.grupo-estado { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; }
+.grupo-estado h3 { margin-bottom: 12px; }
+.lista-inst { list-style: none; display: grid; gap: 0; }
+.lista-inst li { display: grid; gap: 2px; padding: 12px 0; border-top: 1px solid var(--linha); font-size: .95rem; }
+.lista-inst li:first-child { border-top: none; padding-top: 0; }
+.inst-topo { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.inst-dica { font-size: .84rem; color: var(--texto-suave); }
+.tag-fed { border-color: var(--tinta); }
+.tag-est { border-color: var(--verde); color: var(--verde); }
+.tag-if { border-color: var(--lapis); background: color-mix(in srgb, var(--lapis) 22%, var(--superficie)); }
+.particulares { margin-top: 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: center; }
+.links-oficiais { list-style: none; display: grid; gap: 10px; }
+.links-oficiais li { display: grid; }
+.links-oficiais a { font-weight: 600; }
+.links-oficiais .suave { font-size: .82rem; }
+
+/* ---- Aprender a ler ---- */
+.ler-intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: center; }
+.ler-intro .painel { display: grid; gap: 12px; }
+.alfabeto { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
+.letra-btn { display: grid; justify-items: center; gap: 2px; padding: 12px 6px; border-radius: var(--raio); border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.letra-btn:hover, .letra-btn.ativa { border-color: var(--tinta); background: var(--lapis); color: #14213d; }
+.letra-btn .grande { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; line-height: 1; }
+.letra-btn .emoji { font-size: 1.5rem; line-height: 1.2; }
+.letra-btn .palavra { font-size: .8rem; font-weight: 600; letter-spacing: .04em; }
+.atividade { display: grid; gap: 18px; justify-items: center; text-align: center; padding: 32px 24px; }
+.figura { font-size: 4rem; line-height: 1; }
+.montagem { display: flex; gap: 8px; min-height: 64px; flex-wrap: wrap; justify-content: center; }
+.slot { min-width: 72px; height: 60px; border: 2px dashed var(--linha); border-radius: 10px; display: grid; place-items: center; font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; padding-inline: 8px; }
+.slot.cheio { border-style: solid; border-color: var(--tinta); }
+.silabas { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.silaba { min-width: 80px; padding: 14px 16px; border-radius: 10px; border: 2px solid var(--tinta); background: var(--superficie); color: var(--tinta); font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; cursor: pointer; }
+.silaba:disabled { opacity: .25; cursor: default; }
+.mensagem { min-height: 1.6em; font-weight: 600; font-size: 1.1rem; }
+.mensagem.boa { color: var(--verde); }
+.mensagem.ruim { color: var(--alerta); }
+.escolhas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 560px; }
+.escolha { display: grid; justify-items: center; gap: 6px; padding: 18px 10px; border-radius: var(--raio); border: 2px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.escolha .emoji { font-size: 2.6rem; line-height: 1; }
+.escolha .palavra { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; }
+.escolha.certa { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 14%, var(--papel)); }
+.escolha.errada { border-color: var(--alerta); }
+.btn-ouvir-grande { font-size: 1.15rem; padding: 16px 28px; }
+.duas-atividades { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+/* ---- Soluções e dicas ---- */
+.grade-solucoes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.solucao { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 22px; display: grid; gap: 12px; align-content: start; }
+.solucao .tag { justify-self: start; }
+.problema, .resposta { display: grid; grid-template-columns: 90px 1fr; gap: 12px; font-size: .95rem; }
+.problema b { color: var(--alerta); }
+.resposta b { color: var(--verde); }
+.problema span, .resposta span { color: var(--texto-suave); }
+.solucao ul { padding-left: 20px; font-size: .94rem; color: var(--texto-suave); display: grid; gap: 4px; }
+.grade-dicas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+.dica { background: var(--superficie); border: 1px solid var(--linha); border-left: 5px solid var(--lapis); border-radius: var(--raio); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.dica-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.dica .publico { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--texto-suave); }
+.dica p { font-size: .95rem; color: var(--texto-suave); }
+.salvar { background: none; border: 1px solid var(--linha); border-radius: 999px; padding: 4px 12px; font-size: .82rem; cursor: pointer; color: var(--tinta); }
+.salvar[aria-pressed="true"] { background: var(--lapis); border-color: var(--lapis); color: #14213d; font-weight: 600; }
+.vazio { padding: 32px; text-align: center; color: var(--texto-suave); border: 1px dashed var(--linha); border-radius: var(--raio); grid-column: 1 / -1; }
+.contador { font-size: .9rem; color: var(--texto-suave); }
+
+.aviso { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--tinta); color: var(--papel); padding: 12px 20px; border-radius: 999px; font-size: .92rem; z-index: 50; max-width: calc(100% - 32px); }
+footer { border-top: 1px solid var(--linha); padding-block: 32px; font-size: .85rem; color: var(--texto-suave); }
+
+/* ---- Responsivo ---- */
+@media (max-width: 1440px) {
+  .selo-xp { display: none; }
+}
+@media (max-width: 1300px) {
+  .menu-btn { display: block; }
+  .nav { flex-wrap: wrap; }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; background: var(--papel); border-bottom: 1px solid var(--linha); padding: 8px 16px 16px; }
+  .nav-links.aberto { display: flex; }
+  .nav-links a { padding: 12px 14px; font-size: 1rem; }
+}
+@media (max-width: 900px) {
+  .login { grid-template-columns: 1fr; }
+  .login-marca { padding: 32px 24px; }
+  .boas-vindas, .grade-solucoes, .progresso-grade, .ler-intro, .duas-atividades { grid-template-columns: 1fr; }
+  .grade-dicas, .atalhos, .grade-ingresso, .grade-cursos { grid-template-columns: repeat(2, 1fr); }
+  .particulares, .linha-engaja, .editor-grade, .res-topo, .duas-colunas-red, .perfil-grade, .destaques-estudo { grid-template-columns: 1fr; }
+  .perfil-resumo { grid-template-columns: repeat(2, 1fr); }
+  .apoio-caixa { position: static; max-height: none; }
+  .campos-notas { grid-template-columns: repeat(3, 1fr); }
+  .corte { grid-template-columns: 1fr 70px; }
+  .corte-escala { grid-column: 1 / -1; grid-row: 2; }
+  .corte-status { grid-column: 1 / -1; }
+  .grade-momentos, .grade-mitos { grid-template-columns: repeat(2, 1fr); }
+  .faixa-numeros { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .usuario .nome, .ferramenta .rotulo { display: none; }
+  .grade-dicas, .atalhos, .grade-ingresso, .grade-cursos, .teste-opcoes { grid-template-columns: 1fr; }
+  .busca { max-width: none; margin-left: 0; }
+  .simulado-largo { grid-template-columns: 1fr; }
+  .grade-momentos, .grade-mitos, .grade-momentos.compacta { grid-template-columns: 1fr; }
+  .atalhos-icones { grid-template-columns: 1fr 1fr; }
+  .abas-pagina { flex-wrap: nowrap; overflow-x: auto; }
+  .aba-pagina { white-space: nowrap; }
+  .campos-notas { grid-template-columns: repeat(2, 1fr); }
+  .selo-xp { display: none; }
+  .simulado-largo .btn { grid-row: auto; grid-column: auto; justify-self: start; }
+  .escolhas { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 420px) {
+  .faixa-numeros { grid-template-columns: 1fr; }
+  .problema, .resposta { grid-template-columns: 1fr; gap: 2px; }
+  .barra-linha { grid-template-columns: 90px 1fr 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mito-frente, .mito-verso { transition: none; }
+  .selo.pulsa { animation: none; }
+  .btn:hover:not(:disabled) { transform: none; }
+  .barra-valor, .quiz-barra div { transition: none; }
+}
+
+</style>
+</head>
+<body data-pagina="estudar">
+<header class="topo" id="topo"></header>
+
+<main class="pagina container">
+  <div class="cabeca-pagina">
+    <span class="sobretitulo">Estudar</span>
+    <h1 data-ler>Questões no estilo ENEM</h1>
+    <p class="suave" data-ler>250 questões em 5 áreas: Matemática, Linguagens, Humanas, Natureza e Informática básica. Cada resposta vem com explicação.</p>
+  </div>
+  <div id="estudar-lista">
+    <div class="destaques-estudo" id="cartoes-destaque"></div>
+    <h2 class="titulo-secao">Blocos por área</h2>
+    <div class="filtros" id="filtros-areas" role="group" aria-label="Escolher área"></div>
+    <div class="grade-blocos" id="grade-blocos"></div>
+  </div>
+  <div id="estudar-quiz" class="painel quiz" hidden></div>
+</main>
+
+<footer id="rodape"></footer>
+
+<script>
+/* ===== js/comum.js ===== */
+/* =========================================================
+   COMUM: usado por todas as páginas (menos o login)
+   - atalhos de código, armazenamento, sessão do usuário
+   - cabeçalho, rodapé, Modo fácil e leitura em voz alta
+   - perfil: XP, níveis, medalhas, trilha e sequência de dias
+   ========================================================= */
+
+/* ---------- Atalhos ---------- */
+const $ = id => document.getElementById(id);
+const embaralhar = arr => arr.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
+const hojeISO = () => new Date().toISOString().slice(0, 10);
+
+const AREAS = {
+  mat: { nome: "Matemática", cor: "#2f6fdf" },
+  lin: { nome: "Linguagens", cor: "#c8452c" },
+  hum: { nome: "Humanas", cor: "#8a5cc7" },
+  nat: { nome: "Natureza", cor: "#2e7d5b" },
+  inf: { nome: "Informática", cor: "#0f8b8d" }
+};
+
+/* ---------- Armazenamento no navegador (com proteção se não existir) ---------- */
+function ler(chave, padrao) {
+  try { const v = localStorage.getItem(chave); return v === null ? padrao : JSON.parse(v); } catch (e) { return padrao; }
+}
+function gravar(chave, valor) {
+  try { localStorage.setItem(chave, JSON.stringify(valor)); } catch (e) { /* segue sem salvar */ }
+}
+
+/* ---------- Sessão ---------- */
+const CHAVE_USUARIO = "pontoDePartida:usuario";
+let usuario = ler(CHAVE_USUARIO, null);
+const PAGINA = document.body.dataset.pagina;
+
+function sair() {
+  try { localStorage.removeItem(CHAVE_USUARIO); speechSynthesis.cancel(); } catch (e) {}
+  location.href = "index.html";
+}
+/* Sem login, volta para a tela de entrada. Se o navegador não guarda dados, entra como visitante. */
+if (PAGINA !== "login" && !usuario) {
+  let temArmazenamento = true;
+  try { localStorage.setItem("teste", "1"); localStorage.removeItem("teste"); } catch (e) { temArmazenamento = false; }
+  if (temArmazenamento) location.replace("index.html");
+  else usuario = "Visitante";
+}
+
+/* ---------- Avisos, voz e comemoração ---------- */
+document.body.insertAdjacentHTML("beforeend",
+  `<div class="aviso" id="aviso" role="status" hidden></div><canvas class="confete" id="confete" aria-hidden="true" hidden></canvas>`);
+
+function avisar(texto) {
+  const el = $("aviso");
+  el.textContent = texto; el.hidden = false;
+  clearTimeout(avisar.t); avisar.t = setTimeout(() => el.hidden = true, 3500);
+}
+function falar(texto) {
+  try {
+    if (!("speechSynthesis" in window)) return avisar("Seu navegador não tem leitura em voz alta.");
+    speechSynthesis.cancel();
+    const fala = new SpeechSynthesisUtterance(texto);
+    fala.lang = "pt-BR"; fala.rate = 0.9;
+    const voz = speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith("pt"));
+    if (voz) fala.voice = voz;
+    speechSynthesis.speak(fala);
+  } catch (e) { avisar("Não foi possível tocar o áudio neste navegador."); }
+}
+/* Qualquer botão com data-falar="texto" lê o texto em voz alta */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-falar]");
+  if (b) falar(b.dataset.falar);
+});
+
+function celebrar(texto) {
+  avisar(texto);
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const tela = $("confete"), ctx = tela.getContext("2d");
+  tela.width = innerWidth; tela.height = innerHeight; tela.hidden = false;
+  const cores = ["#f2b705", "#14213d", "#c8452c", "#2e7d5b", "#2f6fdf", "#8a5cc7"];
+  const pedacos = Array.from({ length: 110 }, () => ({
+    x: innerWidth / 2 + (Math.random() - 0.5) * 120, y: innerHeight * 0.35,
+    vx: (Math.random() - 0.5) * 12, vy: -Math.random() * 11 - 4,
+    t: Math.random() * 6 + 4, r: Math.random() * Math.PI, cor: cores[Math.floor(Math.random() * cores.length)]
+  }));
+  const inicio = performance.now();
+  (function quadro(agora) {
+    ctx.clearRect(0, 0, tela.width, tela.height);
+    pedacos.forEach(p => {
+      p.vy += 0.35; p.x += p.vx; p.y += p.vy; p.r += 0.15;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.cor;
+      ctx.fillRect(-p.t / 2, -p.t / 4, p.t, p.t / 2); ctx.restore();
+    });
+    if (agora - inicio < 1800) requestAnimationFrame(quadro);
+    else { ctx.clearRect(0, 0, tela.width, tela.height); tela.hidden = true; }
+  })(inicio);
+}
+
+/* ---------- Perfil: progresso salvo do usuário ---------- */
+const NIVEIS = [
+  { min: 0, nome: "Recomeço" }, { min: 100, nome: "Aprendiz" }, { min: 300, nome: "Estudante" },
+  { min: 600, nome: "Dedicado" }, { min: 1000, nome: "Rumo à faculdade" }, { min: 1600, nome: "Pronto para o ENEM" }
+];
+const MEDALHAS = [
+  { id: "primeiro-passo", icone: "👣", nome: "Primeiro passo", desc: "Responda sua primeira questão" },
+  { id: "bloco", icone: "📘", nome: "Bloco concluído", desc: "Termine um bloco de questões" },
+  { id: "gabarito", icone: "🏆", nome: "Gabaritou", desc: "Acerte todas as questões de um bloco" },
+  { id: "combo", icone: "🔥", nome: "Em chamas", desc: "Acerte 5 questões seguidas" },
+  { id: "desafio", icone: "☀️", nome: "Desafio do dia", desc: "Complete o desafio do dia" },
+  { id: "simulado", icone: "🎯", nome: "Simulado completo", desc: "Termine o simulado geral" },
+  { id: "todas-areas", icone: "🌈", nome: "Todas as áreas", desc: "Responda questões das 5 áreas" },
+  { id: "explorador", icone: "🧭", nome: "Explorador", desc: "Descubra sua área na página Faculdade" },
+  { id: "leitor", icone: "🔤", nome: "Leitor", desc: "Monte uma palavra com as sílabas" },
+  { id: "constancia", icone: "📅", nome: "Constância", desc: "Entre 3 dias seguidos" },
+  { id: "redator", icone: "✍️", nome: "Redator", desc: "Envie sua primeira redação" },
+  { id: "nota-800", icone: "💯", nome: "Nota 800+", desc: "Tire 800 ou mais na redação" }
+];
+
+const chavePerfil = () => "pontoDePartida:perfil:" + (usuario || "visitante").toLowerCase();
+function perfilNovo() {
+  return {
+    momento: null, xp: 0, medalhas: [], feito: {}, letras: [], areas: [], dias: [], desafioFeito: null, mitosVistos: [],
+    redacoes: [], ultimaRedacao: null, salvas: [], melhores: {},
+    desempenho: Object.fromEntries(Object.keys(AREAS).map(k => [k, { a: 0, t: 0 }]))
+  };
+}
+let perfil = Object.assign(perfilNovo(), ler(chavePerfil(), {}));
+const salvarPerfil = () => gravar(chavePerfil(), perfil);
+
+function sequenciaDias() {
+  const dias = new Set(perfil.dias);
+  let n = 0; const d = new Date();
+  while (dias.has(d.toISOString().slice(0, 10))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function nivelAtual(xp) {
+  let i = 0;
+  NIVEIS.forEach((n, idx) => { if (xp >= n.min) i = idx; });
+  return { i, ...NIVEIS[i], prox: NIVEIS[i + 1] };
+}
+function ganharXP(qtd) {
+  const antes = nivelAtual(perfil.xp).i;
+  perfil.xp += qtd;
+  const depois = nivelAtual(perfil.xp);
+  if (depois.i > antes) celebrar(`Subiu de nível: ${depois.nome}!`);
+  salvarPerfil(); atualizarSelo(true);
+}
+function ganharMedalha(id) {
+  if (perfil.medalhas.includes(id)) return;
+  perfil.medalhas.push(id);
+  const m = MEDALHAS.find(x => x.id === id);
+  perfil.xp += 25;
+  salvarPerfil();
+  celebrar(`${m.icone} Nova medalha: ${m.nome}! +25 XP`);
+}
+
+/* Cada página avisa o que a pessoa fez; aqui viram pontos, medalhas e passos da trilha */
+function registrar(evento, dados = {}) {
+  const f = perfil.feito;
+  switch (evento) {
+    case "resposta":
+      ganharMedalha("primeiro-passo");
+      perfil.desempenho[dados.area].t++;
+      if (dados.acertou) { perfil.desempenho[dados.area].a++; ganharXP(10); }
+      if (dados.seguidas >= 5) ganharMedalha("combo");
+      if (!perfil.areas.includes(dados.area)) perfil.areas.push(dados.area);
+      if (perfil.areas.length >= Object.keys(AREAS).length) ganharMedalha("todas-areas");
+      break;
+    case "fim-quiz":
+      perfil.melhores[dados.bloco] = Math.max(perfil.melhores[dados.bloco] ?? 0, dados.acertos);
+      ganharXP(30);
+      if (dados.bloco === "desafio") {
+        if (perfil.desafioFeito !== hojeISO()) { perfil.desafioFeito = hojeISO(); ganharXP(40); }
+        f.desafio = true; ganharMedalha("desafio");
+      } else if (dados.bloco === "simulado") { f.simulado = true; ganharMedalha("simulado"); }
+      else { f.bloco = true; ganharMedalha("bloco"); }
+      if (dados.acertos === dados.total && dados.total >= 10) { ganharXP(50); ganharMedalha("gabarito"); }
+      break;
+    case "redacao":
+      perfil.redacoes.push({ tema: dados.tema, nota: dados.nota, data: new Date().toLocaleDateString("pt-BR") });
+      perfil.ultimaRedacao = dados.nota; f.redacao = true;
+      ganharXP(50); ganharMedalha("redator");
+      if (dados.nota >= 800) ganharMedalha("nota-800");
+      break;
+    case "teste": f.teste = true; ganharXP(20); ganharMedalha("explorador"); break;
+    case "uf": if (!f.uf) { f.uf = true; ganharXP(10); } break;
+    case "letra":
+      if (!perfil.letras.includes(dados.letra)) { perfil.letras.push(dados.letra); ganharXP(2); }
+      if (perfil.letras.length >= 5) f.letras = true;
+      break;
+    case "silaba": f.silaba = true; ganharXP(10); ganharMedalha("leitor"); break;
+    case "ouvir": f.ouvir = true; ganharXP(5); break;
+    case "dica": if (!f.dica) { f.dica = true; ganharXP(5); } break;
+    case "facil": f.facil = true; break;
+    case "visitou-ler": f["visitou-ler"] = true; break;
+    case "mito":
+      if (!perfil.mitosVistos.includes(dados.i)) { perfil.mitosVistos.push(dados.i); ganharXP(5); }
+      if (perfil.mitosVistos.length >= 3) f.mitos = true;
+      break;
+  }
+  salvarPerfil(); atualizarSelo();
+}
+
+/* Áreas do desafio do dia (as mesmas para todo mundo no mesmo dia) */
+function sementeDoDia() { return [...hojeISO()].reduce((s, c) => (s * 31 + c.charCodeAt(0)) % 2147483647, 7); }
+function areasDoDesafio() {
+  const areas = Object.keys(AREAS), s = sementeDoDia();
+  return [0, 1, 2].map(k => areas[(s + k * 2) % areas.length]);
+}
+
+/* ---------- Cabeçalho e rodapé ---------- */
+const MENU = [
+  { id: "inicio", href: "inicio.html", icone: "🏠", nome: "Início" },
+  { id: "estudar", href: "estudar.html", icone: "📚", nome: "Estudar" },
+  { id: "redacao", href: "redacao.html", icone: "✍️", nome: "Redação" },
+  { id: "faculdade", href: "faculdade.html", icone: "🎓", nome: "Faculdade" },
+  { id: "ler", href: "ler.html", icone: "🔤", nome: "Aprender a ler" },
+  { id: "solucoes", href: "solucoes.html", icone: "💡", nome: "Soluções e dicas" }
+];
+function montarCabecalho() {
+  const topo = $("topo");
+  if (!topo) return;
+  topo.innerHTML = `
+    <nav class="container nav" aria-label="Principal">
+      <a href="inicio.html" class="logo"><span class="logo-marca" aria-hidden="true"></span>Ponto de Partida</a>
+      <ul class="nav-links" id="menu">${MENU.map(m => `
+        <li><a href="${m.href}" ${m.id === PAGINA ? 'aria-current="page"' : ""}><span class="icone" aria-hidden="true">${m.icone}</span>${m.nome}</a></li>`).join("")}
+      </ul>
+      <div class="usuario">
+        <a href="perfil.html" class="selo" id="selo" title="Seu perfil: nível, pontos e sequência de dias" ${PAGINA === "perfil" ? 'aria-current="page"' : ""}>
+          <span class="avatar-mini" aria-hidden="true">${(usuario || "V").charAt(0)}</span>
+          <span id="selo-nivel">Nv. 1</span><span class="selo-xp" id="selo-xp">0 XP</span><span class="selo-fogo">🔥<span id="selo-dias" class="num">0</span></span>
+        </a>
+        <button class="ferramenta" id="btn-ouvir-pagina" title="Ler esta página em voz alta" aria-label="Ouvir esta página">🔊</button>
+        <button class="ferramenta" id="btn-modo-facil" aria-pressed="false" title="Modo fácil: letras maiores" aria-label="Modo fácil">Aa</button>
+        <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+      </div>
+    </nav>`;
+  $("menu-btn").addEventListener("click", () => $("menu-btn").setAttribute("aria-expanded", $("menu").classList.toggle("aberto")));
+  $("btn-modo-facil").addEventListener("click", () => definirModoFacil(!document.documentElement.classList.contains("facil")));
+  $("btn-ouvir-pagina").addEventListener("click", () => {
+    const textos = [...document.querySelectorAll("main [data-ler]")].filter(el => el.offsetParent !== null).map(el => el.textContent.trim());
+    falar(textos.join(". ") || document.title);
+  });
+  atualizarSelo();
+}
+function montarRodape() {
+  const rodape = $("rodape");
+  if (rodape) rodape.innerHTML = `<div class="container rodape-grade">
+    <span>Ponto de Partida · educação contra a desigualdade</span>
+    <span>Questões e textos criados para o site · dados do IBGE (PNAD Contínua Educação 2025) · instituições: confira no e-MEC</span></div>`;
+}
+function atualizarSelo(pulsar) {
+  if (!$("selo")) return;
+  const n = nivelAtual(perfil.xp);
+  $("selo-nivel").textContent = `Nv. ${n.i + 1}`;
+  $("selo-xp").textContent = `${perfil.xp} XP`;
+  $("selo-dias").textContent = sequenciaDias();
+  if (pulsar) { const s = $("selo"); s.classList.remove("pulsa"); void s.offsetWidth; s.classList.add("pulsa"); }
+}
+
+/* ---------- Modo fácil (letras maiores), lembrado entre as páginas ---------- */
+function definirModoFacil(ligado) {
+  document.documentElement.classList.toggle("facil", ligado);
+  if ($("btn-modo-facil")) $("btn-modo-facil").setAttribute("aria-pressed", ligado);
+  gravar("pontoDePartida:modoFacil", ligado);
+  if (ligado && PAGINA !== "login") registrar("facil");
+}
+
+/* ---------- Abas dentro de uma página (ex.: Faculdade) ---------- */
+function ativarAbas(aoTrocar) {
+  const botoes = [...document.querySelectorAll("[data-aba]")];
+  if (!botoes.length) return;
+  const mostrar = id => {
+    if (!botoes.some(b => b.dataset.aba === id)) id = botoes[0].dataset.aba;
+    botoes.forEach(b => b.setAttribute("aria-selected", b.dataset.aba === id));
+    document.querySelectorAll("[data-painel]").forEach(p => p.hidden = p.dataset.painel !== id);
+    if (aoTrocar) aoTrocar(id);
+  };
+  botoes.forEach(b => b.addEventListener("click", () => { history.replaceState(null, "", "#" + b.dataset.aba); mostrar(b.dataset.aba); }));
+  window.addEventListener("hashchange", () => mostrar(location.hash.slice(1)));
+  mostrar(location.hash.slice(1));
+}
+
+/* ---------- Desafiar um amigo ---------- */
+function caixaDesafiarAmigo(nome, acertos, total) {
+  const texto = `Fiz ${acertos}/${total} no ${nome} do Ponto de Partida, um site para estudar para o ENEM de graça. Duvido você me superar!`;
+  return `<div class="desafiar">
+    <div><h3>Desafie um amigo</h3><p class="suave">Estudar junto ajuda a não desistir. Mande seu resultado e chame alguém para estudar com você.</p></div>
+    <div class="linha-botoes">
+      <a class="btn btn-whats" href="https://wa.me/?text=${encodeURIComponent(texto)}" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+      <button class="btn btn-secundario" data-copiar="${texto.replace(/"/g, "&quot;")}">Copiar mensagem</button>
+    </div></div>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copiar]");
+  if (!b) return;
+  try {
+    navigator.clipboard.writeText(b.dataset.copiar).then(() => avisar("Mensagem copiada! Cole no app que quiser."), () => avisar("Não foi possível copiar. Selecione o texto e copie manualmente."));
+  } catch (err) { avisar("Não foi possível copiar neste navegador."); }
+});
+
+/* ---------- Ao abrir qualquer página ---------- */
+if (PAGINA !== "login" && usuario) {
+  if (!perfil.dias.includes(hojeISO())) perfil.dias.push(hojeISO());
+  salvarPerfil();
+  montarCabecalho();
+  montarRodape();
+  if (sequenciaDias() >= 3) ganharMedalha("constancia");
+}
+if (ler("pontoDePartida:modoFacil", false)) {
+  document.documentElement.classList.add("facil");
+  if ($("btn-modo-facil")) $("btn-modo-facil").setAttribute("aria-pressed", "true");
+}
+
+</script>
+<script>
+/* ===== js/dados/questoes.js ===== */
+/* =========================================================
+   BANCO DE QUESTÕES NO ESTILO ENEM (criadas para o Ponto de Partida)
+   Formato de cada questão:
+   [área, enunciado, alternativa certa, [quatro alternativas erradas], explicação]
+   As alternativas são embaralhadas na hora de mostrar.
+   Áreas: mat, lin, hum, nat, inf
+   ========================================================= */
+const QUESTOES = [
+
+/* ===================== MATEMÁTICA (50) ===================== */
+["mat", "Uma família pagava R$ 120,00 de conta de luz. No mês seguinte, a conta foi de R$ 150,00. De quanto foi o aumento, em porcentagem?", "25%", ["15%", "20%", "30%", "50%"], "O aumento foi de R$ 30. Como 30 ÷ 120 = 0,25, o aumento foi de 25%."],
+["mat", "Em uma escola com 400 alunos, 3 de cada 5 usam transporte público. Quantos alunos usam transporte público?", "240", ["160", "200", "260", "300"], "3/5 de 400 = 400 ÷ 5 × 3 = 80 × 3 = 240."],
+["mat", "Um aluno tirou 6, 7 e 8 nas três primeiras provas. Que nota precisa tirar na quarta prova para ficar com média 7,5?", "9", ["7", "8", "8,5", "10"], "Para média 7,5 em 4 provas, a soma precisa ser 30. Ele já tem 21, então falta 9."],
+["mat", "Um mapa está na escala 1 : 50.000. Duas cidades estão a 4 cm de distância no mapa. Qual é a distância real?", "2 km", ["0,2 km", "20 km", "200 km", "2.000 km"], "4 cm × 50.000 = 200.000 cm = 2.000 m = 2 km."],
+["mat", "Uma caixa-d'água em forma de cubo tem 2 m de aresta. Sabendo que 1 m³ = 1.000 litros, quantos litros ela comporta?", "8.000 L", ["800 L", "4.000 L", "6.000 L", "80.000 L"], "Volume = 2 × 2 × 2 = 8 m³, que equivalem a 8.000 litros."],
+["mat", "Um tênis custa R$ 80,00 e está com 15% de desconto. Qual é o preço final?", "R$ 68,00", ["R$ 65,00", "R$ 70,00", "R$ 72,00", "R$ 78,50"], "15% de 80 = 12. Então 80 − 12 = 68."],
+["mat", "Uma pessoa pegou R$ 1.000,00 emprestados a juros simples de 2% ao mês, por 6 meses. Quanto pagará só de juros?", "R$ 120,00", ["R$ 12,00", "R$ 60,00", "R$ 200,00", "R$ 1.120,00"], "Juros por mês = 2% de 1.000 = 20. Em 6 meses: 20 × 6 = 120."],
+["mat", "Uma receita usa 2 xícaras de farinha para servir 8 pessoas. Quantas xícaras são necessárias para 20 pessoas?", "5", ["4", "4,5", "6", "10"], "Cada xícara serve 4 pessoas. Para 20 pessoas: 20 ÷ 4 = 5 xícaras."],
+["mat", "Um terreno retangular mede 12 m por 15 m. Qual é sua área?", "180 m²", ["27 m²", "54 m²", "150 m²", "200 m²"], "Área do retângulo = base × altura = 12 × 15 = 180 m²."],
+["mat", "Qual é o perímetro de um quadrado com 7 cm de lado?", "28 cm", ["14 cm", "21 cm", "49 cm", "56 cm"], "O quadrado tem 4 lados iguais: 4 × 7 = 28 cm."],
+["mat", "Qual é a raiz quadrada de 144?", "12", ["11", "13", "14", "72"], "12 × 12 = 144."],
+["mat", "Qual é o valor de 2³ + 3²?", "17", ["12", "13", "15", "36"], "2³ = 8 e 3² = 9. Então 8 + 9 = 17."],
+["mat", "Na equação 3x + 5 = 20, qual é o valor de x?", "5", ["3", "4", "6", "15"], "3x = 20 − 5 = 15, então x = 15 ÷ 3 = 5."],
+["mat", "Ao lançar um dado comum de 6 faces, qual é a probabilidade de sair um número par?", "1/2", ["1/6", "1/3", "2/3", "5/6"], "Os pares são 2, 4 e 6: 3 casos em 6 possíveis, ou seja, 3/6 = 1/2."],
+["mat", "Uma moeda é lançada duas vezes. Qual é a probabilidade de sair cara nas duas?", "1/4", ["1/2", "1/3", "1/6", "1/8"], "Cada lançamento tem chance 1/2. Nos dois: 1/2 × 1/2 = 1/4."],
+["mat", "Um motorista de aplicativo cobra R$ 5,00 fixos mais R$ 2,00 por quilômetro. Quanto custa uma corrida de 8 km?", "R$ 21,00", ["R$ 16,00", "R$ 18,00", "R$ 26,00", "R$ 40,00"], "5 + 2 × 8 = 5 + 16 = 21."],
+["mat", "Dada a função f(x) = 2x + 3, qual é o valor de f(4)?", "11", ["8", "9", "10", "14"], "f(4) = 2 × 4 + 3 = 8 + 3 = 11."],
+["mat", "Qual é a mediana do conjunto 3, 7, 9, 12, 15?", "9", ["7", "9,2", "12", "15"], "Com os valores em ordem, a mediana é o termo do meio: 9."],
+["mat", "Qual é a moda do conjunto 2, 3, 3, 5, 7, 3, 8?", "3", ["2", "5", "7", "8"], "Moda é o valor que mais se repete. O 3 aparece três vezes."],
+["mat", "Um celular custa R$ 1.200,00 em 12 parcelas iguais, sem juros. Qual é o valor de cada parcela?", "R$ 100,00", ["R$ 80,00", "R$ 120,00", "R$ 144,00", "R$ 200,00"], "1.200 ÷ 12 = 100."],
+["mat", "Uma torneira enche 1 balde em 4 minutos. Em quanto tempo enche 6 baldes iguais?", "24 minutos", ["10 minutos", "20 minutos", "28 minutos", "30 minutos"], "6 × 4 = 24 minutos."],
+["mat", "Quanto vale a soma dos ângulos internos de qualquer triângulo?", "180°", ["90°", "270°", "360°", "540°"], "Em todo triângulo, os três ângulos internos somam 180°."],
+["mat", "Um triângulo retângulo tem catetos de 6 cm e 8 cm. Quanto mede a hipotenusa?", "10 cm", ["12 cm", "14 cm", "48 cm", "100 cm"], "Pelo teorema de Pitágoras: h² = 6² + 8² = 36 + 64 = 100, então h = 10."],
+["mat", "Qual é o comprimento de uma circunferência de raio 5 cm? Use π = 3,14.", "31,4 cm", ["15,7 cm", "25 cm", "78,5 cm", "10 cm"], "Comprimento = 2 × π × r = 2 × 3,14 × 5 = 31,4 cm."],
+["mat", "Uma praça circular tem 10 m de raio. Usando π = 3, qual é a área da praça?", "300 m²", ["30 m²", "60 m²", "100 m²", "600 m²"], "Área do círculo = π × r² = 3 × 100 = 300 m²."],
+["mat", "Quantos minutos há em 2,5 horas?", "150", ["125", "130", "250", "90"], "2,5 × 60 = 150 minutos."],
+["mat", "Qual fração é igual a 0,75?", "3/4", ["1/4", "1/2", "2/3", "7/5"], "0,75 = 75/100, que simplificado dá 3/4."],
+["mat", "Quanto é 30% de 250?", "75", ["25", "50", "80", "100"], "30% de 250 = 0,30 × 250 = 75."],
+["mat", "Um salário de R$ 2.000,00 teve reajuste de 10% e, depois, mais 10% sobre o novo valor. Qual é o salário final?", "R$ 2.420,00", ["R$ 2.200,00", "R$ 2.400,00", "R$ 2.440,00", "R$ 2.500,00"], "2.000 × 1,10 = 2.200. Depois, 2.200 × 1,10 = 2.420. Aumentos seguidos não se somam simplesmente."],
+["mat", "Uma turma tem 30 alunos, dos quais 18 são meninas. Qual é a razão entre meninos e meninas?", "2/3", ["3/2", "3/5", "2/5", "1/2"], "São 12 meninos e 18 meninas: 12/18 = 2/3."],
+["mat", "Qual é o próximo número da sequência 3, 7, 11, 15, ...?", "19", ["17", "18", "20", "21"], "A sequência aumenta de 4 em 4: 15 + 4 = 19."],
+["mat", "Em uma progressão aritmética, o 1º termo é 2 e a razão é 3. Qual é o 10º termo?", "29", ["27", "30", "32", "35"], "a₁₀ = a₁ + 9r = 2 + 9 × 3 = 29."],
+["mat", "Qual é o próximo termo da progressão geométrica 2, 6, 18, ...?", "54", ["24", "36", "48", "72"], "Cada termo é o anterior vezes 3: 18 × 3 = 54."],
+["mat", "Uma caixa tem 3 cm de largura, 4 cm de comprimento e 5 cm de altura. Qual é o volume?", "60 cm³", ["12 cm³", "47 cm³", "72 cm³", "120 cm³"], "Volume = 3 × 4 × 5 = 60 cm³."],
+["mat", "Numa pesquisa com 200 pessoas, 25% disseram usar ônibus para ir ao trabalho. Quantas pessoas são?", "50", ["25", "40", "75", "100"], "25% é um quarto: 200 ÷ 4 = 50."],
+["mat", "Quantos metros há em 3 km?", "3.000 m", ["30 m", "300 m", "30.000 m", "0,3 m"], "1 km = 1.000 m, então 3 km = 3.000 m."],
+["mat", "Quantos copos de 250 mL dá para encher com uma garrafa de 2 litros?", "8", ["4", "6", "10", "12"], "2 L = 2.000 mL. 2.000 ÷ 250 = 8 copos."],
+["mat", "O ônibus A passa no ponto a cada 4 minutos e o ônibus B a cada 6 minutos. Se passaram juntos agora, daqui a quantos minutos passarão juntos de novo?", "12", ["2", "10", "18", "24"], "É o mínimo múltiplo comum (MMC) de 4 e 6, que é 12."],
+["mat", "Uma professora tem 18 lápis e 24 canetas e quer montar kits iguais, sem sobrar nada. Qual é o maior número de kits possível?", "6", ["3", "4", "8", "12"], "É o máximo divisor comum (MDC) de 18 e 24, que é 6."],
+["mat", "Qual é a solução da inequação 2x − 4 > 6?", "x > 5", ["x > 1", "x < 5", "x > 10", "x < 2"], "2x > 10, então x > 5."],
+["mat", "No sistema x + y = 10 e x − y = 2, qual é o valor de x?", "6", ["4", "5", "7", "8"], "Somando as equações: 2x = 12, então x = 6 (e y = 4)."],
+["mat", "Quais são as raízes da equação x² − 5x + 6 = 0?", "2 e 3", ["1 e 6", "−2 e −3", "−1 e 6", "3 e 4"], "Procuramos dois números com soma 5 e produto 6: 2 e 3."],
+["mat", "Como se escreve 0,0005 em notação científica?", "5 × 10⁻⁴", ["5 × 10⁻³", "5 × 10⁴", "0,5 × 10⁻²", "50 × 10⁻³"], "Andamos a vírgula 4 casas para a direita, então o expoente é −4."],
+["mat", "A população de uma cidade passou de 50.000 para 55.000 habitantes. Qual foi o crescimento percentual?", "10%", ["5%", "15%", "20%", "50%"], "Cresceu 5.000. 5.000 ÷ 50.000 = 0,10 = 10%."],
+["mat", "Um carro faz 12 km com 1 litro de gasolina. Quantos litros gasta para rodar 180 km?", "15 L", ["12 L", "18 L", "20 L", "25 L"], "180 ÷ 12 = 15 litros."],
+["mat", "Um aluno tirou 8 na prova (peso 2) e 5 no trabalho (peso 1). Qual é a média ponderada?", "7", ["6", "6,5", "7,5", "8"], "(8 × 2 + 5 × 1) ÷ (2 + 1) = 21 ÷ 3 = 7."],
+["mat", "Às 3 horas em ponto, qual é o menor ângulo entre os ponteiros de um relógio?", "90°", ["30°", "45°", "60°", "180°"], "O relógio tem 12 divisões de 30°. Do 12 ao 3 são 3 divisões: 3 × 30° = 90°."],
+["mat", "R$ 900,00 serão divididos entre duas pessoas na razão 1 : 2. Quanto recebe quem fica com a maior parte?", "R$ 600,00", ["R$ 300,00", "R$ 450,00", "R$ 500,00", "R$ 900,00"], "São 3 partes de R$ 300. A maior parte tem 2 partes: R$ 600."],
+["mat", "Uma aula começou às 13h45 e durou 2h30. A que horas terminou?", "16h15", ["15h15", "16h05", "16h30", "15h45"], "13h45 + 2h = 15h45. Mais 30 min = 16h15."],
+["mat", "Um município tem 20.000 habitantes e 400 km² de área. Qual é sua densidade demográfica?", "50 hab/km²", ["20 hab/km²", "40 hab/km²", "80 hab/km²", "500 hab/km²"], "Densidade = população ÷ área = 20.000 ÷ 400 = 50."],
+
+/* ===================== LINGUAGENS (50) ===================== */
+["lin", "Uma propaganda para jovens usa a frase “Cê tá ligado que o futuro começa agora?”. O principal objetivo dessa linguagem é:", "aproximar-se do público com um registro informal", ["corrigir a forma de falar dos jovens", "mostrar que a norma-padrão é desnecessária", "dificultar a compreensão da mensagem", "imitar a linguagem de documentos oficiais"], "A linguagem informal cria identificação com o público jovem, algo comum na publicidade."],
+["lin", "Um poema cujo assunto é o próprio ato de escrever poemas apresenta, principalmente, a função:", "metalinguística", ["referencial", "fática", "conativa", "emotiva"], "Quando a linguagem fala de si mesma, temos a função metalinguística."],
+["lin", "Na frase “Ela chorou rios de lágrimas”, a figura de linguagem usada é:", "hipérbole", ["metáfora", "ironia", "antítese", "eufemismo"], "Hipérbole é o exagero intencional para dar ênfase."],
+["lin", "Em inglês, a palavra “library” significa:", "biblioteca", ["livraria", "liberdade", "livro", "papelaria"], "“Library” é um falso cognato. Livraria, em inglês, é “bookstore”."],
+["lin", "Um texto dividido em “Ingredientes” e “Modo de preparo”, com verbos como “misture” e “asse”, é do tipo:", "injuntivo (instrucional)", ["narrativo", "descritivo", "dissertativo", "expositivo"], "Textos que orientam o leitor a fazer algo, com verbos no imperativo, são injuntivos."],
+["lin", "Em “Embora estivesse cansado, continuou estudando”, a palavra “embora” indica:", "concessão", ["causa", "conclusão", "tempo", "finalidade"], "“Embora” apresenta um obstáculo que não impede a ação principal: é uma ideia de concessão."],
+["lin", "Em “Estudou muito, por isso foi aprovado”, a expressão “por isso” indica:", "conclusão ou consequência", ["oposição", "concessão", "condição", "comparação"], "“Por isso” liga a causa (estudou) à consequência (foi aprovado)."],
+["lin", "Qual é o plural correto de “cidadão”?", "cidadãos", ["cidadões", "cidadães", "cidadãoes", "cidadans"], "“Cidadão” faz o plural em “-ãos”, como “irmão/irmãos”."],
+["lin", "Em qual frase o acento grave (crase) foi usado corretamente?", "Vou à escola amanhã.", ["Fui à pé até o centro.", "Comecei à estudar cedo.", "Entreguei o livro à ele.", "Ficaram frente à frente."], "Há crase em “à escola” porque “ir a” + “a escola”. Não há crase antes de verbo, pronome pessoal, palavra masculina ou em palavras repetidas."],
+["lin", "Qual destas palavras é oxítona (sílaba mais forte é a última)?", "café", ["mesa", "lâmpada", "árvore", "caderno"], "Em “ca-FÉ”, a sílaba tônica é a última."],
+["lin", "Qual palavra é sinônimo de “efêmero”?", "passageiro", ["eterno", "enorme", "alegre", "pesado"], "Efêmero é o que dura pouco, passageiro."],
+["lin", "Qual palavra é antônimo de “escasso”?", "abundante", ["raro", "pequeno", "limitado", "pouco"], "Escasso é o que existe em pouca quantidade. O contrário é abundante."],
+["lin", "Um texto publicado em jornal, assinado por um autor, que defende um ponto de vista sobre um tema atual é:", "um artigo de opinião", ["uma notícia", "uma receita", "uma bula", "um verbete"], "O artigo de opinião apresenta e defende uma tese, com argumentos."],
+["lin", "Qual é a principal característica de uma notícia?", "relatar fatos recentes de forma objetiva", ["defender a opinião do jornalista", "contar uma história inventada", "ensinar a fazer algo passo a passo", "expressar sentimentos em versos"], "A notícia informa o que aconteceu, quando, onde e com quem, de forma objetiva."],
+["lin", "Qual destas obras foi escrita por Machado de Assis?", "Dom Casmurro", ["Vidas Secas", "O Cortiço", "Iracema", "Capitães da Areia"], "Dom Casmurro (1899) é de Machado de Assis. As outras são de Graciliano Ramos, Aluísio Azevedo, José de Alencar e Jorge Amado."],
+["lin", "O romance “Vidas Secas”, de Graciliano Ramos, retrata:", "uma família de retirantes fugindo da seca no sertão", ["imigrantes italianos em São Paulo", "a vida da corte no Rio de Janeiro", "a guerra entre portugueses e holandeses", "jovens ricos em uma praia carioca"], "A obra acompanha Fabiano, Sinhá Vitória e os filhos em busca de sobrevivência no sertão."],
+["lin", "A Semana de Arte Moderna, marco do Modernismo brasileiro, aconteceu em:", "1922, em São Paulo", ["1822, no Rio de Janeiro", "1888, em Salvador", "1930, em Recife", "1945, em Belo Horizonte"], "A Semana de 22 ocorreu no Theatro Municipal de São Paulo."],
+["lin", "O romance indianista “Iracema” foi escrito por:", "José de Alencar", ["Machado de Assis", "Rachel de Queiroz", "Clarice Lispector", "Carlos Drummond de Andrade"], "José de Alencar, escritor cearense do Romantismo, publicou Iracema em 1865."],
+["lin", "O livro “Quarto de Despejo”, de Carolina Maria de Jesus, é:", "o diário de uma catadora de papel que vivia em uma favela de São Paulo", ["um romance sobre a corte portuguesa", "um livro de poemas sobre o mar", "um manual de economia doméstica", "uma peça de teatro sobre a Independência"], "Publicado em 1960, o diário mostra a fome e a desigualdade pelo olhar de quem as vivia."],
+["lin", "A literatura de cordel é:", "poesia popular em folhetos, típica do Nordeste, muitas vezes ilustrada com xilogravuras", ["um tipo de romance policial europeu", "uma forma de teatro japonês", "a poesia dos jesuítas no século XVI", "um gênero exclusivo da internet"], "Os folhetos eram pendurados em cordões nas feiras, daí o nome cordel."],
+["lin", "A frase em inglês “I have been studying for two hours” significa:", "Estou estudando há duas horas.", ["Estudarei por duas horas.", "Estudei duas horas atrás.", "Tenho duas horas de aula.", "Preciso estudar duas horas."], "O “present perfect continuous” indica ação que começou no passado e continua até agora."],
+["lin", "Em inglês, o verbo “pretend” significa:", "fingir", ["pretender", "prender", "apresentar", "proteger"], "Falso cognato: “pretender”, em inglês, é “intend”."],
+["lin", "Em inglês, “actually” significa:", "na verdade", ["atualmente", "agilmente", "ativamente", "anualmente"], "“Atualmente”, em inglês, é “nowadays” ou “currently”."],
+["lin", "A frase em inglês “She doesn't like coffee” significa:", "Ela não gosta de café.", ["Ela gosta muito de café.", "Ela não tem café.", "Ela não bebeu café.", "Ela quer café."], "“Doesn't like” é a forma negativa de “like” (gostar) na 3ª pessoa."],
+["lin", "Qual é o passado do verbo “go” (ir) em inglês?", "went", ["goed", "gone", "going", "goes"], "“Go” é um verbo irregular: go – went – gone."],
+["lin", "Em espanhol, a palavra “exquisito” significa:", "delicioso", ["esquisito", "estranho", "exagerado", "escondido"], "Falso cognato: “esquisito” em espanhol é “raro” ou “extraño”."],
+["lin", "Em espanhol, “embarazada” significa:", "grávida", ["envergonhada", "embaraçada", "embalada", "embriagada"], "Envergonhada, em espanhol, é “avergonzada”."],
+["lin", "Em espanhol, “oficina” significa:", "escritório", ["oficina mecânica", "fábrica", "escola", "farmácia"], "Oficina mecânica, em espanhol, é “taller”."],
+["lin", "Em espanhol, a expressão “un rato” significa:", "um momento, um pouco de tempo", ["um rato (animal)", "um rastro", "um retrato", "uma corrida"], "O animal rato, em espanhol, é “ratón”."],
+["lin", "Sobre a variação linguística, é correto afirmar que:", "existem formas de falar mais adequadas a cada situação, e todas merecem respeito", ["só a norma-padrão é português de verdade", "sotaques regionais são erros de português", "a língua nunca muda com o tempo", "a fala informal deve ser usada em qualquer documento"], "A norma-padrão é adequada em situações formais, mas nenhuma variedade deve ser motivo de preconceito."],
+["lin", "Um semáforo vermelho comunica “pare” usando linguagem:", "não verbal", ["verbal escrita", "verbal oral", "metalinguística", "poética"], "A mensagem é transmitida pela cor, sem palavras."],
+["lin", "Em um diário íntimo, no qual o autor fala de seus sentimentos, predomina a função:", "emotiva (expressiva)", ["referencial", "conativa", "fática", "metalinguística"], "O foco está no emissor e em suas emoções."],
+["lin", "A frase “Alô? Está me ouvindo?”, dita ao telefone, é exemplo da função:", "fática", ["poética", "emotiva", "referencial", "metalinguística"], "A função fática testa ou mantém o canal de comunicação."],
+["lin", "Uma propaganda com a frase “Compre já e ganhe frete grátis!” usa principalmente a função:", "conativa (apelativa)", ["referencial", "emotiva", "fática", "metalinguística"], "O texto tenta convencer o leitor, com verbo no imperativo."],
+["lin", "Em uma notícia sobre a previsão do tempo, predomina a função:", "referencial", ["emotiva", "poética", "fática", "conativa"], "O objetivo é informar sobre um fato de forma objetiva."],
+["lin", "Na frase “Aquele professor é uma enciclopédia”, a figura de linguagem é:", "metáfora", ["hipérbole", "ironia", "onomatopeia", "eufemismo"], "Compara-se o professor a uma enciclopédia sem usar “como”: é uma metáfora."],
+["lin", "Na frase “Que beleza, perdi o ônibus de novo!”, a figura de linguagem é:", "ironia", ["metáfora", "eufemismo", "antítese", "pleonasmo"], "Diz-se o contrário do que se pensa: perder o ônibus não é “uma beleza”."],
+["lin", "Na frase “Ele partiu desta para melhor”, usada para falar de alguém que morreu, a figura é:", "eufemismo", ["hipérbole", "ironia", "metonímia", "antítese"], "Eufemismo suaviza uma ideia triste ou desagradável."],
+["lin", "Na frase “Era o melhor e o pior dia da minha vida”, a figura de linguagem é:", "antítese", ["hipérbole", "eufemismo", "onomatopeia", "ironia"], "A antítese aproxima ideias opostas: melhor e pior."],
+["lin", "Na frase “O relógio fazia tic-tac a noite toda”, a figura de linguagem é:", "onomatopeia", ["metáfora", "antítese", "ironia", "eufemismo"], "Onomatopeia é a palavra que imita um som."],
+["lin", "Na oração “Choveu muito ontem”, o sujeito é classificado como:", "inexistente (oração sem sujeito)", ["simples", "composto", "oculto", "indeterminado"], "Verbos que indicam fenômenos da natureza não têm sujeito."],
+["lin", "Em “Eu estudei ontem”, o verbo está no:", "pretérito perfeito", ["presente", "futuro do presente", "pretérito imperfeito", "imperativo"], "Indica uma ação passada e concluída."],
+["lin", "Em qual frase a vírgula separa um vocativo (a pessoa com quem se fala)?", "João, feche a porta.", ["Comprei arroz, feijão e óleo.", "Ontem, fui ao mercado.", "Ele estudou, mas não passou.", "Fortaleza, capital do Ceará, é bonita."], "Vocativo é o chamamento: “João”. As outras vírgulas separam enumeração, adjunto, oração e aposto."],
+["lin", "Qual é um benefício comprovado da atividade física regular?", "melhorar o condicionamento e reduzir o risco de doenças crônicas", ["substituir a alimentação", "dispensar o sono", "curar qualquer doença", "aumentar o estresse"], "Exercícios regulares fortalecem coração, músculos e ossos e ajudam a prevenir doenças como diabetes e hipertensão."],
+["lin", "A capoeira é uma manifestação cultural que:", "une luta, dança e música, com origem afro-brasileira", ["surgiu no Japão no século XX", "é praticada só em academias europeias", "não usa instrumentos musicais", "foi criada como esporte olímpico"], "A roda de capoeira é reconhecida como patrimônio cultural do Brasil e da humanidade."],
+["lin", "A pintura “Abaporu”, ícone do Modernismo brasileiro, é de:", "Tarsila do Amaral", ["Candido Portinari", "Di Cavalcanti", "Anita Malfatti", "Romero Britto"], "Tarsila pintou Abaporu em 1928, obra que inspirou o Movimento Antropofágico."],
+["lin", "A tela “Retirantes” (1944), que mostra uma família fugindo da seca, é de:", "Candido Portinari", ["Tarsila do Amaral", "Pablo Picasso", "Vincent van Gogh", "Frida Kahlo"], "Portinari retratou trabalhadores e problemas sociais do Brasil."],
+["lin", "Ao receber uma notícia chocante pelo celular, qual atitude ajuda a evitar fake news?", "conferir a fonte e procurar a notícia em veículos confiáveis", ["compartilhar logo para avisar todo mundo", "acreditar se tiver muitas curtidas", "confiar porque veio de um parente", "ler só o título"], "Checar a origem e comparar com outras fontes evita espalhar informação falsa."],
+["lin", "Leia: “A escola do bairro passou a abrir a biblioteca aos sábados. Em três meses, o número de livros emprestados dobrou.” O texto permite concluir que:", "abrir aos sábados ampliou o acesso à leitura", ["ninguém lia durante a semana", "a biblioteca fechou nos outros dias", "os livros ficaram mais caros", "os alunos pararam de ir à escola"], "O aumento dos empréstimos depois da mudança indica maior acesso aos livros."],
+["lin", "Leia: “Joana trabalha de dia e estuda à noite na EJA. Diz que, agora, consegue ler as mensagens dos netos sem ajuda.” O texto destaca:", "a importância da educação de adultos para a autonomia", ["que estudar à noite é proibido", "que só jovens podem aprender a ler", "que Joana parou de trabalhar", "que mensagens de celular são difíceis para todos"], "Aprender a ler deu a Joana mais independência no dia a dia."],
+
+/* ===================== HUMANAS (50) ===================== */
+["hum", "A abolição da escravidão no Brasil, em 1888, não garantiu terra, trabalho nem escola aos libertos. Uma consequência foi:", "a marginalização social de grande parte da população negra", ["a igualdade imediata de renda entre brancos e negros", "o fim das desigualdades regionais", "a criação de universidades para ex-escravizados", "a volta do absolutismo"], "Sem políticas de integração, a população negra foi empurrada para trabalhos precários, o que ajuda a explicar desigualdades atuais."],
+["hum", "Segundo a Constituição Federal de 1988, a educação é:", "direito de todos e dever do Estado e da família", ["privilégio de quem pode pagar", "responsabilidade só da família", "obrigatória só até os 10 anos", "serviço exclusivo de escolas particulares"], "É o que diz o artigo 205 da Constituição."],
+["hum", "A grande migração do campo para as cidades, intensificada no Brasil a partir dos anos 1950, é chamada de:", "êxodo rural", ["transumância", "nomadismo", "diáspora", "conurbação"], "Muitas famílias deixaram o campo em busca de emprego e serviços nas cidades."],
+["hum", "O Índice de Desenvolvimento Humano (IDH) considera três dimensões. Quais?", "renda, educação e saúde", ["renda, exportações e indústria", "educação, religião e cultura", "saúde, clima e população", "segurança, transporte e lazer"], "O IDH combina renda, escolaridade e expectativa de vida."],
+["hum", "A Primeira Revolução Industrial, no século XVIII, começou em:", "Inglaterra", ["Estados Unidos", "França", "Alemanha", "Japão"], "A Inglaterra tinha carvão, capital acumulado e mão de obra disponível."],
+["hum", "A Independência do Brasil, em 1822, foi proclamada por:", "Dom Pedro I", ["Tiradentes", "Dom Pedro II", "Marechal Deodoro", "Getúlio Vargas"], "Dom Pedro I declarou a Independência em 7 de setembro de 1822."],
+["hum", "A República foi proclamada no Brasil em 1889 por:", "Marechal Deodoro da Fonseca", ["Dom Pedro I", "Princesa Isabel", "Juscelino Kubitschek", "Tiradentes"], "Deodoro liderou o movimento militar de 15 de novembro de 1889."],
+["hum", "A Consolidação das Leis do Trabalho (CLT), de 1943, foi criada no governo de:", "Getúlio Vargas", ["Juscelino Kubitschek", "Dom Pedro II", "Fernando Henrique Cardoso", "Marechal Deodoro"], "A CLT reuniu direitos como carteira assinada, férias e jornada de trabalho."],
+["hum", "A ditadura militar no Brasil durou de:", "1964 a 1985", ["1930 a 1945", "1889 a 1930", "1945 a 1964", "1985 a 1990"], "Começou com o golpe de 1964 e terminou com a posse de um presidente civil em 1985."],
+["hum", "O Ato Institucional nº 5 (AI-5), de 1968:", "endureceu a ditadura, permitindo fechar o Congresso e suspender garantias", ["devolveu as eleições diretas", "criou a Constituição de 1988", "aboliu a escravidão", "proclamou a República"], "O AI-5 marcou o período mais repressivo do regime militar."],
+["hum", "O movimento Diretas Já (1983–1984) defendia:", "eleições diretas para presidente", ["a volta da monarquia", "o fim do voto feminino", "a mudança da capital", "o fim da CLT"], "Milhões de pessoas foram às ruas pedindo o direito de votar para presidente."],
+["hum", "A Constituição de 1988 ficou conhecida como:", "Constituição Cidadã", ["Constituição Polaca", "Constituição Imperial", "Carta Militar", "Lei Áurea"], "Ela ampliou direitos sociais e políticos após a ditadura."],
+["hum", "Zumbi dos Palmares, lembrado no Dia da Consciência Negra (20 de novembro), foi:", "líder do Quilombo dos Palmares", ["imperador do Brasil", "autor da Lei Áurea", "bandeirante paulista", "primeiro presidente do Brasil"], "Palmares, em Alagoas, foi o maior quilombo das Américas."],
+["hum", "A Lei Áurea, que aboliu a escravidão no Brasil em 1888, foi assinada por:", "Princesa Isabel", ["Dom Pedro I", "Marechal Deodoro", "Getúlio Vargas", "Tiradentes"], "A princesa assinou a lei em 13 de maio de 1888."],
+["hum", "Nos séculos XVI e XVII, a principal atividade econômica do Nordeste colonial foi:", "a produção de açúcar a partir da cana", ["a mineração de ouro", "o cultivo de café", "a extração de borracha", "a indústria têxtil"], "Os engenhos de açúcar usavam mão de obra escravizada."],
+["hum", "No século XVIII, a mineração de ouro e diamantes concentrou-se principalmente em:", "Minas Gerais", ["Ceará", "Rio Grande do Sul", "Amazonas", "Paraná"], "A descoberta de ouro levou o centro econômico da colônia para o Sudeste."],
+["hum", "O lema da Revolução Francesa (1789) era:", "Liberdade, Igualdade, Fraternidade", ["Ordem e Progresso", "Deus, Pátria e Família", "Paz, Terra e Pão", "Trabalho e Riqueza"], "O lema resumia os ideais contra o absolutismo e os privilégios."],
+["hum", "O pensamento iluminista do século XVIII defendia:", "o uso da razão e limites ao poder dos reis", ["o poder absoluto dos reis", "a proibição da ciência", "o fim da educação pública", "a volta do feudalismo"], "Pensadores como Locke, Montesquieu e Rousseau criticaram o absolutismo."],
+["hum", "A Guerra Fria (1947–1991) foi uma disputa entre:", "Estados Unidos e União Soviética", ["Brasil e Argentina", "França e Inglaterra", "Japão e China", "Alemanha e Itália"], "Era a rivalidade entre o bloco capitalista e o bloco socialista."],
+["hum", "A queda do Muro de Berlim, em 1989, simbolizou:", "o fim da divisão da Alemanha e o enfraquecimento do bloco socialista", ["o início da Segunda Guerra Mundial", "a criação da ONU", "a independência dos Estados Unidos", "o começo da Guerra Fria"], "A Alemanha foi reunificada em 1990 e a URSS acabou em 1991."],
+["hum", "A Segunda Guerra Mundial aconteceu entre:", "1939 e 1945", ["1914 e 1918", "1929 e 1933", "1950 e 1953", "1964 e 1985"], "Começou com a invasão da Polônia pela Alemanha e terminou em 1945."],
+["hum", "O Holocausto foi:", "a perseguição e o assassinato de milhões de judeus e outros grupos pelo regime nazista", ["um acordo de paz entre países europeus", "uma epidemia na Idade Média", "uma revolução industrial", "um movimento artístico"], "Cerca de 6 milhões de judeus foram mortos, além de ciganos, pessoas com deficiência e outros grupos."],
+["hum", "O apartheid, na África do Sul, foi:", "um regime oficial de segregação racial", ["um movimento pela independência do Brasil", "uma forma de governo monárquico", "um acordo comercial", "uma religião africana"], "Nelson Mandela foi um dos principais líderes da luta contra o apartheid."],
+["hum", "A democracia, como forma de governo em que cidadãos votam as leis, surgiu na Grécia Antiga, na cidade de:", "Atenas", ["Esparta", "Roma", "Tróia", "Cartago"], "Em Atenas, porém, mulheres, estrangeiros e escravizados não votavam."],
+["hum", "No feudalismo, na Idade Média europeia, a sociedade era formada principalmente por:", "senhores feudais, clero e servos", ["operários e empresários", "cidadãos e eleitores", "colonos e indígenas", "imperadores e senadores"], "Os servos trabalhavam a terra dos senhores em troca de proteção."],
+["hum", "Em 1500, a esquadra portuguesa que chegou ao litoral do atual Brasil era comandada por:", "Pedro Álvares Cabral", ["Cristóvão Colombo", "Vasco da Gama", "Américo Vespúcio", "Fernão de Magalhães"], "A chegada ocorreu no litoral da atual Bahia."],
+["hum", "A Caatinga é um bioma:", "exclusivamente brasileiro, típico do semiárido nordestino", ["presente em toda a Europa", "de clima frio e chuvoso", "formado por florestas de pinheiros", "localizado só na região Sul"], "A Caatinga tem plantas adaptadas à seca, como o mandacaru."],
+["hum", "Qual é o maior bioma do Brasil em área?", "Amazônia", ["Cerrado", "Caatinga", "Pampa", "Pantanal"], "A Amazônia ocupa cerca de metade do território brasileiro."],
+["hum", "O rio São Francisco, chamado de “rio da integração nacional”, nasce em:", "Minas Gerais", ["Bahia", "Pernambuco", "Goiás", "Sergipe"], "Nasce na Serra da Canastra (MG) e deságua entre Alagoas e Sergipe."],
+["hum", "Brasília foi inaugurada como capital do Brasil em:", "1960", ["1822", "1889", "1930", "1988"], "A mudança da capital foi obra do governo de Juscelino Kubitschek."],
+["hum", "Em quantas grandes regiões o IBGE divide o Brasil?", "5", ["3", "4", "6", "7"], "Norte, Nordeste, Centro-Oeste, Sudeste e Sul."],
+["hum", "Quantos fusos horários existem no território brasileiro?", "4", ["1", "2", "3", "5"], "Incluindo as ilhas oceânicas, como Fernando de Noronha, o Brasil tem 4 fusos."],
+["hum", "O clima semiárido, comum no interior do Nordeste, tem como característica:", "chuvas escassas e irregulares", ["neve no inverno", "chuvas fortes o ano todo", "temperaturas negativas", "umidade muito alta"], "A irregularidade das chuvas causa períodos longos de seca."],
+["hum", "O aumento do efeito estufa está ligado principalmente:", "à queima de combustíveis fósseis e ao desmatamento", ["ao uso de energia solar", "ao plantio de árvores", "à reciclagem de lixo", "ao uso de bicicletas"], "Essas atividades liberam gases como o CO₂, que retêm calor na atmosfera."],
+["hum", "O crescimento de favelas nas grandes cidades está relacionado:", "à urbanização rápida sem planejamento e à falta de moradia acessível", ["ao excesso de casas vazias no campo", "à diminuição da população urbana", "ao clima frio", "ao fim do êxodo rural"], "Sem política habitacional, muitas famílias ocupam áreas sem infraestrutura."],
+["hum", "A globalização pode ser definida como:", "a maior integração econômica, cultural e de comunicação entre os países", ["o isolamento das nações", "o fim do comércio internacional", "a volta às economias locais", "a proibição da internet"], "Tecnologias de transporte e comunicação aproximaram mercados e culturas."],
+["hum", "A Linha do Equador divide a Terra em:", "hemisférios Norte e Sul", ["hemisférios Leste e Oeste", "continentes e oceanos", "zonas urbana e rural", "fusos horários"], "É a linha imaginária de latitude 0°."],
+["hum", "O Meridiano de Greenwich divide a Terra em:", "hemisférios Leste e Oeste", ["hemisférios Norte e Sul", "zonas tropicais", "polos", "continentes"], "É a linha de longitude 0°, que passa por Londres."],
+["hum", "A reforma agrária tem como objetivo:", "redistribuir terras para quem trabalha no campo e não tem onde plantar", ["concentrar terras em poucos proprietários", "proibir a agricultura", "transferir a população para as cidades", "acabar com a pecuária"], "Ela busca reduzir a concentração fundiária e a desigualdade no campo."],
+["hum", "Desigualdade social é:", "a diferença no acesso a renda, educação, saúde e oportunidades entre grupos", ["a diversidade de culturas em um país", "a diferença de clima entre regiões", "a variedade de idiomas", "a quantidade de partidos políticos"], "Ela aparece quando a origem da pessoa define suas chances na vida."],
+["hum", "O conceito de racismo estrutural indica que:", "a discriminação está presente nas instituições e na organização da sociedade, não só em atitudes individuais", ["o racismo acabou com a abolição", "só existe racismo em outros países", "o racismo é apenas uma opinião pessoal", "as leis eliminaram toda desigualdade racial"], "Por isso, ele aparece em dados de renda, educação e violência."],
+["hum", "Mobilidade social é:", "a mudança de posição de uma pessoa ou grupo na estrutura social", ["a mudança de cidade por motivo de férias", "o transporte público urbano", "a troca de emprego no mesmo cargo", "o crescimento da população"], "A educação é um dos principais fatores de mobilidade social."],
+["hum", "A ideia de que a história é marcada pela luta de classes é associada a:", "Karl Marx", ["Émile Durkheim", "Max Weber", "Sócrates", "Platão"], "Marx analisou o conflito entre burguesia e proletariado."],
+["hum", "O conceito de “fato social”, formas de agir que exercem pressão sobre o indivíduo, foi criado por:", "Émile Durkheim", ["Karl Marx", "Max Weber", "Aristóteles", "Descartes"], "Durkheim é um dos fundadores da Sociologia."],
+["hum", "O conceito de “ação social”, ação orientada pelo comportamento dos outros, é associado a:", "Max Weber", ["Karl Marx", "Émile Durkheim", "Sócrates", "Rousseau"], "Weber estudou como as pessoas dão sentido às suas ações."],
+["hum", "A frase “Só sei que nada sei” é atribuída a:", "Sócrates", ["Platão", "Aristóteles", "Descartes", "Kant"], "Sócrates valorizava reconhecer a própria ignorância como início do conhecimento."],
+["hum", "O Mito da Caverna, de Platão, trata:", "da diferença entre as aparências e o conhecimento verdadeiro", ["da origem do universo", "das regras do futebol", "da formação das montanhas", "da construção das pirâmides"], "Os prisioneiros veem apenas sombras e as tomam pela realidade."],
+["hum", "A ideia de que o ser humano é um “animal político” é de:", "Aristóteles", ["Sócrates", "Descartes", "Maquiavel", "Marx"], "Para Aristóteles, vivemos naturalmente em comunidade, na pólis."],
+["hum", "A frase “Penso, logo existo” é de:", "René Descartes", ["Sócrates", "Aristóteles", "Nietzsche", "Platão"], "Descartes buscava uma certeza que resistisse a toda dúvida."],
+["hum", "O Estatuto da Criança e do Adolescente (ECA), criado em 1990, tem como objetivo:", "garantir os direitos e a proteção de crianças e adolescentes", ["regular o trabalho infantil em fábricas", "criar escolas particulares", "reduzir a maioridade penal", "proibir crianças nas escolas"], "O ECA garante direitos como educação, saúde, convivência familiar e proteção contra violência."],
+
+/* ===================== NATUREZA (50) ===================== */
+["nat", "Na fotossíntese, as plantas usam luz, água e gás carbônico. Qual gás liberam para a atmosfera?", "oxigênio", ["nitrogênio", "metano", "gás carbônico", "hidrogênio"], "A fotossíntese produz glicose e libera oxigênio."],
+["nat", "As vacinas protegem contra doenças porque:", "estimulam o sistema imunológico a produzir anticorpos e memória", ["matam todos os vírus do ambiente", "substituem a alimentação", "funcionam como antibióticos", "impedem o contato com outras pessoas"], "O corpo aprende a reconhecer o agente e reage mais rápido numa infecção real."],
+["nat", "Um ônibus percorre 120 km em 2 horas. Qual foi a velocidade média?", "60 km/h", ["40 km/h", "80 km/h", "120 km/h", "240 km/h"], "Velocidade média = distância ÷ tempo = 120 ÷ 2 = 60 km/h."],
+["nat", "Em cidades muito altas, a água ferve abaixo de 100 °C porque:", "a pressão atmosférica é menor", ["a gravidade é maior", "a água tem mais sal", "há mais oxigênio no ar", "a temperatura do ar é sempre maior"], "Com menos pressão, as moléculas de água precisam de menos energia para virar vapor."],
+["nat", "O Nordeste tem ventos fortes e constantes. Que fonte renovável aproveita esse recurso?", "energia eólica", ["termelétrica a carvão", "nuclear", "a diesel", "geotérmica"], "A energia eólica transforma o vento em eletricidade. O Nordeste é o maior produtor do país."],
+["nat", "Qual organela da célula é responsável pela respiração celular, que libera energia?", "mitocôndria", ["ribossomo", "cloroplasto", "núcleo", "membrana plasmática"], "A mitocôndria usa glicose e oxigênio para produzir energia (ATP)."],
+["nat", "Nas células animais e vegetais, o DNA fica principalmente:", "no núcleo", ["na parede celular", "no vacúolo", "na membrana", "no citoplasma livre"], "Células eucariontes guardam o material genético dentro do núcleo."],
+["nat", "Seres vivos que produzem o próprio alimento, como as plantas, são chamados de:", "autótrofos (produtores)", ["heterótrofos", "decompositores", "parasitas", "consumidores"], "Eles produzem matéria orgânica pela fotossíntese."],
+["nat", "Na cadeia alimentar capim → gafanhoto → sapo → cobra, o sapo é:", "consumidor secundário", ["produtor", "consumidor primário", "decompositor", "consumidor terciário"], "O sapo come o gafanhoto, que é consumidor primário."],
+["nat", "A dengue é transmitida pelo mosquito Aedes aegypti. Qual é a melhor forma de prevenção?", "eliminar água parada em vasos, pneus e caixas-d'água", ["tomar antibiótico", "evitar comer carne", "usar roupas escuras", "beber mais água"], "Sem água parada, o mosquito não consegue se reproduzir."],
+["nat", "Qual destas doenças é causada por bactéria e tratada com antibiótico?", "tuberculose", ["gripe", "dengue", "sarampo", "catapora"], "As outras são causadas por vírus, contra os quais antibióticos não funcionam."],
+["nat", "Qual tipo sanguíneo é chamado de “doador universal” de hemácias?", "O negativo", ["AB positivo", "A positivo", "B negativo", "AB negativo"], "O tipo O negativo não tem antígenos A, B nem Rh nas hemácias."],
+["nat", "Gregor Mendel, considerado o pai da Genética, fez seus experimentos com:", "ervilhas", ["moscas", "ratos", "bactérias", "milho transgênico"], "Ele estudou como características passavam de uma geração de ervilhas para outra."],
+["nat", "A teoria da evolução por seleção natural foi proposta por:", "Charles Darwin", ["Isaac Newton", "Louis Pasteur", "Albert Einstein", "Gregor Mendel"], "Darwin publicou “A Origem das Espécies” em 1859."],
+["nat", "Em que parte do sistema digestório ocorre a maior parte da absorção de nutrientes?", "intestino delgado", ["boca", "estômago", "esôfago", "intestino grosso"], "As vilosidades do intestino delgado aumentam a área de absorção."],
+["nat", "Quantas cavidades tem o coração humano?", "4", ["2", "3", "5", "6"], "Dois átrios e dois ventrículos."],
+["nat", "O acesso a água tratada e coleta de esgoto ajuda a reduzir doenças como:", "diarreias e verminoses", ["miopia e cárie", "gripe e resfriado", "fraturas", "alergias de pele"], "Saneamento básico evita a contaminação da água e dos alimentos."],
+["nat", "Uma consequência do desmatamento é:", "perda de biodiversidade e erosão do solo", ["aumento das chuvas em todo o planeta", "aumento de espécies nativas", "solo mais fértil", "redução do efeito estufa"], "Sem a vegetação, o solo fica exposto e muitas espécies perdem seu habitat."],
+["nat", "A camada de ozônio protege a Terra contra:", "a radiação ultravioleta do Sol", ["meteoros", "terremotos", "ventos fortes", "a gravidade da Lua"], "O excesso de raios UV causa queimaduras e câncer de pele."],
+["nat", "A fórmula da água é H₂O. Isso significa que cada molécula tem:", "2 átomos de hidrogênio e 1 de oxigênio", ["1 átomo de hidrogênio e 2 de oxigênio", "2 átomos de hélio e 1 de oxigênio", "1 átomo de hidrogênio e 1 de oxigênio", "2 átomos de hidrogênio e 2 de oxigênio"], "O número pequeno indica a quantidade de átomos do elemento."],
+["nat", "O suco de limão tem pH perto de 2. Isso indica que ele é:", "ácido", ["básico", "neutro", "salino", "alcalino"], "pH menor que 7 indica substância ácida."],
+["nat", "Qual destas é uma mistura homogênea (uma única fase)?", "água com sal dissolvido", ["água e óleo", "água e areia", "granito", "água com gelo"], "O sal se dissolve totalmente e não dá para ver as partes separadas."],
+["nat", "Qual método separa a areia da água?", "filtração", ["destilação", "evaporação", "decantação de gases", "imantação"], "O filtro segura os grãos de areia e deixa a água passar."],
+["nat", "Qual processo permite obter água pura a partir da água do mar?", "destilação", ["filtração", "peneiração", "imantação", "catação"], "Na destilação, a água evapora e depois condensa, deixando o sal para trás."],
+["nat", "O gelo derretendo é um exemplo de:", "fusão", ["solidificação", "condensação", "sublimação", "vaporização"], "Fusão é a passagem do estado sólido para o líquido."],
+["nat", "Qual destes é um exemplo de transformação química?", "o ferro enferrujando", ["o gelo derretendo", "o papel sendo rasgado", "a água fervendo", "o açúcar se dissolvendo na água"], "Na ferrugem forma-se uma substância nova, o óxido de ferro."],
+["nat", "Na tabela periódica, o símbolo do sódio é:", "Na", ["S", "So", "Sd", "N"], "Vem do latim “natrium”."],
+["nat", "Na tabela periódica, o símbolo do ferro é:", "Fe", ["F", "Fr", "Ir", "Fo"], "Vem do latim “ferrum”."],
+["nat", "Qual é o gás mais abundante na atmosfera da Terra?", "nitrogênio", ["oxigênio", "gás carbônico", "hidrogênio", "hélio"], "O nitrogênio forma cerca de 78% do ar."],
+["nat", "Qual destes é um combustível fóssil?", "petróleo", ["etanol", "biodiesel", "hidrogênio verde", "biogás"], "Combustíveis fósseis vêm de restos de seres vivos soterrados há milhões de anos."],
+["nat", "No Brasil, o etanol usado como combustível é produzido principalmente a partir de:", "cana-de-açúcar", ["petróleo", "carvão mineral", "soja", "trigo"], "O etanol de cana é uma fonte renovável."],
+["nat", "Quando um ônibus freia de repente, os passageiros são jogados para a frente. Isso é explicado pela:", "inércia (1ª lei de Newton)", ["lei da gravitação", "lei de Ohm", "3ª lei de Newton", "lei de Lavoisier"], "Os corpos tendem a continuar em movimento quando nada os segura."],
+["nat", "Um foguete sobe porque expele gases para baixo. Esse fenômeno é explicado pela:", "lei da ação e reação (3ª lei de Newton)", ["lei da inércia", "lei de Ohm", "lei da conservação da massa", "lei de Hooke"], "O foguete empurra os gases para baixo, e os gases empurram o foguete para cima."],
+["nat", "Qual é o peso de uma pessoa de 60 kg, considerando g = 10 m/s²?", "600 N", ["6 N", "60 N", "70 N", "6.000 N"], "Peso = massa × gravidade = 60 × 10 = 600 newtons."],
+["nat", "Qual é a principal fonte de geração de eletricidade no Brasil?", "hidrelétrica", ["nuclear", "carvão mineral", "petróleo", "geotérmica"], "As usinas hidrelétricas aproveitam a força dos rios."],
+["nat", "Uma lâmpada de 100 W fica ligada por 10 horas. Quanta energia ela consome?", "1 kWh", ["10 kWh", "100 kWh", "0,1 kWh", "1.000 kWh"], "100 W × 10 h = 1.000 Wh = 1 kWh."],
+["nat", "Em muitas casas brasileiras, qual aparelho costuma ter a maior potência e pesar muito na conta de luz?", "chuveiro elétrico", ["carregador de celular", "lâmpada LED", "rádio", "relógio digital"], "O chuveiro precisa de muita potência para aquecer a água rapidamente."],
+["nat", "Por que o som não se propaga no espaço sideral?", "porque o som precisa de um meio material, e lá há vácuo", ["porque faz muito frio", "porque a luz atrapalha", "porque não há gravidade", "porque o espaço é escuro"], "O som é uma onda mecânica e precisa de ar, água ou sólidos."],
+["nat", "Numa tempestade, vemos o relâmpago antes de ouvir o trovão porque:", "a luz é muito mais rápida que o som", ["o trovão acontece depois do relâmpago", "o som é mais rápido que a luz", "os olhos são mais rápidos que os ouvidos", "o vento atrasa a luz"], "A luz viaja a cerca de 300.000 km/s, e o som a cerca de 340 m/s."],
+["nat", "O arco-íris é formado:", "pela decomposição da luz do Sol nas gotas de chuva", ["pela reflexão da luz da Lua", "pela poluição do ar", "pelo calor das nuvens", "pela eletricidade dos raios"], "A luz branca se separa nas cores ao atravessar as gotas."],
+["nat", "A imagem formada por um espelho plano é:", "do mesmo tamanho e com direita e esquerda trocadas", ["sempre maior que o objeto", "sempre de cabeça para baixo", "menor e sem cores", "projetada fora do espelho"], "Por isso a palavra AMBULÂNCIA é escrita invertida nos veículos."],
+["nat", "Um cobertor nos mantém aquecidos porque:", "dificulta a perda de calor do corpo para o ambiente", ["produz calor sozinho", "absorve o frio", "esquenta o ar do quarto", "atrai a luz do Sol"], "O cobertor é um isolante térmico."],
+["nat", "Uma colher de metal e uma de madeira estão na mesma temperatura, mas a de metal parece mais fria. Isso ocorre porque o metal:", "conduz calor melhor e retira calor da mão mais rápido", ["está mais frio de verdade", "é mais pesado", "tem menos átomos", "reflete a luz"], "A sensação de frio vem da rapidez com que a mão perde calor."],
+["nat", "Em uma instalação elétrica, o disjuntor serve para:", "desligar o circuito quando há excesso de corrente", ["aumentar a voltagem", "economizar água", "guardar energia", "acender lâmpadas"], "Ele evita superaquecimento e incêndios."],
+["nat", "Ao aproximar dois ímãs pelos polos iguais (norte com norte), eles:", "se repelem", ["se atraem", "ficam parados sem força", "perdem o magnetismo", "esquentam"], "Polos iguais se repelem e polos opostos se atraem."],
+["nat", "As estações do ano acontecem por causa:", "da inclinação do eixo da Terra", ["da distância da Lua", "da rotação da Terra", "das fases da Lua", "dos ventos"], "A inclinação faz cada hemisfério receber mais ou menos luz ao longo do ano."],
+["nat", "O dia e a noite acontecem por causa:", "da rotação da Terra em torno do próprio eixo", ["da translação da Terra ao redor do Sol", "das fases da Lua", "dos eclipses", "da inclinação do eixo"], "A rotação dura cerca de 24 horas."],
+["nat", "As fases da Lua acontecem porque:", "vemos partes diferentes da face iluminada pelo Sol conforme a Lua gira ao redor da Terra", ["a sombra da Terra cobre a Lua todo dia", "a Lua muda de tamanho", "a Lua tem luz própria", "as nuvens escondem a Lua"], "A Lua não tem luz própria. Ela reflete a luz do Sol."],
+["nat", "Na coleta seletiva, qual é a cor da lixeira para plástico?", "vermelho", ["azul", "verde", "amarelo", "marrom"], "Azul é papel, verde é vidro, amarelo é metal e marrom é orgânico."],
+["nat", "Por que a reciclagem ajuda o meio ambiente?", "reduz a extração de matéria-prima e o lixo nos aterros", ["aumenta o uso de plástico", "faz o lixo desaparecer sozinho", "acaba com a necessidade de água", "aumenta a poluição dos rios"], "Reaproveitar materiais economiza recursos naturais e energia."],
+
+/* ===================== INFORMÁTICA BÁSICA (50) ===================== */
+["inf", "Qual destes é um exemplo de hardware (parte física do computador)?", "teclado", ["Windows", "navegador", "WhatsApp", "editor de texto"], "Hardware é tudo o que dá para tocar. Os outros são programas (software)."],
+["inf", "Qual destes é um exemplo de software?", "sistema operacional Windows", ["mouse", "monitor", "impressora", "pen drive"], "Software são os programas que rodam no computador."],
+["inf", "Para que serve o sistema operacional?", "gerenciar o computador e permitir usar os outros programas", ["apenas mostrar fotos", "só acessar a internet", "imprimir documentos", "proteger contra quedas de energia"], "Windows, Linux, Android e iOS são sistemas operacionais."],
+["inf", "A CPU (processador) é responsável por:", "processar as instruções e os cálculos do computador", ["guardar arquivos para sempre", "mostrar imagens na tela", "conectar à internet sem fio", "imprimir"], "É chamada de “cérebro” do computador."],
+["inf", "A memória RAM:", "guarda dados temporariamente enquanto o computador está ligado", ["guarda arquivos para sempre, mesmo desligado", "é o mesmo que o pen drive", "serve para imprimir", "é um tipo de vírus"], "Quando o computador desliga, o conteúdo da RAM é apagado."],
+["inf", "Onde os arquivos ficam guardados mesmo com o computador desligado?", "no HD ou SSD", ["na memória RAM", "no processador", "na placa de vídeo", "no monitor"], "HD e SSD são unidades de armazenamento permanente."],
+["inf", "Qual destas unidades de armazenamento é a maior?", "terabyte (TB)", ["gigabyte (GB)", "megabyte (MB)", "kilobyte (KB)", "byte"], "A ordem crescente é byte, KB, MB, GB e TB."],
+["inf", "Qual destes é um dispositivo de entrada?", "mouse", ["monitor", "impressora", "caixa de som", "projetor"], "Dispositivos de entrada enviam informações para o computador."],
+["inf", "Qual destes é um dispositivo de saída?", "impressora", ["teclado", "mouse", "microfone", "scanner"], "Dispositivos de saída mostram ou entregam o resultado do processamento."],
+["inf", "Um navegador, como Chrome ou Firefox, serve para:", "acessar páginas da internet", ["editar planilhas", "proteger contra vírus", "gravar CDs", "desligar o computador"], "O navegador abre sites a partir de seus endereços."],
+["inf", "O que é uma URL?", "o endereço de uma página na internet", ["um tipo de vírus", "um programa de desenho", "uma peça do computador", "uma senha"], "Exemplo: https://www.gov.br."],
+["inf", "O cadeado e o “https” na barra de endereço indicam que:", "a conexão com o site é criptografada", ["o site é do governo", "o site é gratuito", "o computador está sem internet", "o site não tem propagandas"], "A criptografia protege os dados no caminho, mas não garante que o site seja confiável."],
+["inf", "Uma mensagem que finge ser de um banco e pede sua senha por um link é um golpe chamado:", "phishing", ["backup", "download", "firewall", "spam de boas-vindas"], "Bancos não pedem senha por mensagem. Na dúvida, entre em contato pelos canais oficiais."],
+["inf", "Qual destas é a senha mais segura?", "Cafe#Azul2026!", ["123456", "senha", "joao2008", "qwerty"], "Senhas fortes são longas e misturam letras maiúsculas, minúsculas, números e símbolos."],
+["inf", "A verificação em duas etapas:", "pede uma segunda confirmação, como um código no celular, além da senha", ["dispensa o uso de senha", "deixa o computador mais rápido", "apaga os arquivos antigos", "bloqueia a internet"], "Mesmo que roubem sua senha, o invasor ainda precisa do segundo código."],
+["inf", "O que é um malware?", "um programa malicioso, como vírus e programas espiões", ["um tipo de teclado", "um navegador seguro", "um cabo de rede", "um aplicativo de mensagens"], "Malware danifica, espiona ou sequestra dados."],
+["inf", "Fazer backup significa:", "criar uma cópia de segurança dos arquivos", ["apagar arquivos antigos", "instalar um vírus", "desligar o computador", "aumentar a memória"], "Se o computador estragar, os arquivos podem ser recuperados."],
+["inf", "Armazenar arquivos “na nuvem” significa:", "guardá-los em servidores na internet, acessíveis de qualquer lugar", ["guardá-los em um pen drive", "imprimi-los", "apagá-los", "guardá-los só na memória RAM"], "Exemplos: Google Drive, OneDrive e iCloud."],
+["inf", "Na maioria dos programas, o atalho Ctrl + C serve para:", "copiar", ["colar", "recortar", "desfazer", "imprimir"], "Depois de copiar, use Ctrl + V para colar."],
+["inf", "Na maioria dos programas, o atalho Ctrl + V serve para:", "colar", ["copiar", "salvar", "fechar", "selecionar tudo"], "Cola o que foi copiado ou recortado."],
+["inf", "Na maioria dos programas, o atalho Ctrl + Z serve para:", "desfazer a última ação", ["refazer", "fechar o programa", "aumentar o zoom", "abrir um arquivo"], "Muito útil quando apagamos algo sem querer."],
+["inf", "Na maioria dos programas, o atalho Ctrl + X serve para:", "recortar", ["copiar", "colar", "excluir para sempre", "sair do programa"], "Recortar tira o conteúdo do lugar para colá-lo em outro."],
+["inf", "No Windows, o atalho Alt + Tab serve para:", "alternar entre as janelas abertas", ["desligar o computador", "abrir o navegador", "copiar texto", "aumentar o volume"], "Segure Alt e aperte Tab várias vezes para escolher a janela."],
+["inf", "Na maioria dos programas e navegadores, o atalho Ctrl + P serve para:", "imprimir", ["pesquisar", "pausar", "colar", "proteger com senha"], "Abre a janela de impressão."],
+["inf", "Programas como Word e LibreOffice Writer são usados principalmente para:", "escrever e formatar documentos de texto", ["editar vídeos", "fazer cálculos em tabelas", "navegar na internet", "criar senhas"], "São editores de texto."],
+["inf", "Em uma planilha (Excel ou Calc em português), qual fórmula soma os valores de A1 até A5?", "=SOMA(A1:A5)", ["=A1+A5", "SOMA A1 A5", "=TOTAL(A1;A5)", "=MAIS(A1-A5)"], "Os dois-pontos indicam o intervalo de A1 a A5."],
+["inf", "Numa planilha, a célula B3 fica:", "na coluna B, linha 3", ["na linha B, coluna 3", "na terceira planilha", "na coluna 3 da página B", "fora da tabela"], "Colunas são letras e linhas são números."],
+["inf", "Numa planilha, a fórmula =A1*B1:", "multiplica os valores de A1 e B1", ["soma A1 e B1", "divide A1 por B1", "copia A1 para B1", "apaga A1 e B1"], "O asterisco (*) é o sinal de multiplicação."],
+["inf", "Programas como PowerPoint e LibreOffice Impress servem para:", "criar apresentações de slides", ["editar planilhas", "proteger contra vírus", "enviar e-mails", "baixar músicas"], "São usados em seminários e apresentações."],
+["inf", "Um arquivo chamado “foto.jpg” é:", "uma imagem", ["um vídeo", "uma planilha", "um áudio", "um programa"], ".jpg e .png são extensões comuns de imagem."],
+["inf", "Um arquivo chamado “musica.mp3” é:", "um arquivo de áudio", ["uma imagem", "um texto", "uma planilha", "um vírus"], ".mp3 é uma extensão de áudio."],
+["inf", "Para que servem as pastas no computador?", "organizar arquivos em grupos", ["deixar o computador mais rápido", "conectar à internet", "imprimir", "proteger contra quedas"], "Pastas funcionam como gavetas para documentos."],
+["inf", "No Windows, quando você exclui um arquivo normalmente, ele:", "vai para a Lixeira e pode ser recuperado", ["some para sempre na hora", "vai para a internet", "é enviado por e-mail", "vira um atalho"], "Ele só é apagado de vez quando a Lixeira é esvaziada."],
+["inf", "Num e-mail, o campo “Cc” serve para:", "enviar uma cópia para outras pessoas", ["escrever o assunto", "anexar arquivos", "bloquear o remetente", "apagar a mensagem"], "Todos os destinatários veem quem está em Cc."],
+["inf", "Num e-mail, o campo “Cco” serve para:", "enviar uma cópia oculta, sem que os outros vejam esse destinatário", ["enviar com urgência", "corrigir o português", "agendar o envio", "criptografar o anexo"], "É útil para proteger os endereços em envios para muitas pessoas."],
+["inf", "O que é um anexo num e-mail?", "um arquivo enviado junto com a mensagem", ["o assunto do e-mail", "a assinatura do remetente", "um vírus", "a lista de contatos"], "Pode ser uma foto, um PDF ou um documento."],
+["inf", "O Wi-Fi é:", "uma conexão sem fio a uma rede ou à internet", ["um cabo de energia", "um tipo de vírus", "um programa de texto", "um modelo de celular"], "Funciona por ondas de rádio, a partir de um roteador."],
+["inf", "Fazer download de um arquivo significa:", "baixá-lo da internet para o seu aparelho", ["enviá-lo para a internet", "apagá-lo", "imprimi-lo", "renomeá-lo"], "Enviar um arquivo para a internet é fazer upload."],
+["inf", "Num buscador como o Google, colocar a frase entre aspas serve para:", "buscar exatamente aquela frase", ["excluir a frase da busca", "traduzir a frase", "buscar só imagens", "deixar a busca mais lenta"], "Exemplo: \"educação de jovens e adultos\"."],
+["inf", "O HTML é usado para:", "estruturar o conteúdo de páginas da web", ["proteger contra vírus", "editar fotos", "fazer cálculos em planilhas", "gravar vídeos"], "HTML organiza títulos, textos e imagens. O CSS cuida do visual e o JavaScript da interação."],
+["inf", "Qual atitude é mais segura nas redes sociais?", "não publicar endereço, documentos e rotina", ["aceitar todos os pedidos de amizade", "compartilhar a senha com amigos", "postar foto do cartão de crédito", "deixar o perfil sempre público com telefone"], "Dados pessoais expostos facilitam golpes."],
+["inf", "Se alguém sofre cyberbullying, o que é recomendado?", "guardar provas, bloquear o agressor e pedir ajuda a um adulto ou à escola", ["responder com mais ofensas", "apagar tudo e ficar calado", "compartilhar a agressão", "trocar de celular"], "Os prints servem como prova, e a escola e os responsáveis podem agir."],
+["inf", "O Bluetooth é usado para:", "conectar aparelhos próximos sem fio, como fones e caixas de som", ["acessar a internet a longa distância", "carregar a bateria", "imprimir sem papel", "proteger contra vírus"], "Tem alcance curto, de poucos metros."],
+["inf", "Um pen drive é:", "um dispositivo portátil de armazenamento que se liga na porta USB", ["um programa de desenho", "um tipo de monitor", "um site de vídeos", "um processador"], "Serve para levar arquivos de um computador para outro."],
+["inf", "Por que é importante instalar as atualizações do sistema?", "elas corrigem falhas de segurança e problemas", ["deixam o computador sem internet", "apagam todos os arquivos", "só mudam as cores", "não servem para nada"], "Muitos ataques exploram falhas que já foram corrigidas em atualizações."],
+["inf", "Um antivírus serve para:", "detectar e remover programas maliciosos", ["aumentar a velocidade da internet", "editar textos", "fazer backup automático de fotos", "carregar o celular"], "Mesmo com antivírus, é preciso cuidado com links e anexos."],
+["inf", "O que é um algoritmo?", "uma sequência de passos para resolver um problema", ["um tipo de computador", "um vírus", "uma peça de hardware", "uma rede social"], "Uma receita de bolo é um exemplo de algoritmo do dia a dia."],
+["inf", "Qual destes é uma linguagem de programação?", "Python", ["Windows", "Excel", "Google", "Wi-Fi"], "Python é muito usada para ensinar programação e em ciência de dados."],
+["inf", "Sobre ferramentas de inteligência artificial, é correto afirmar que:", "podem errar, então é importante conferir as informações em fontes confiáveis", ["nunca cometem erros", "substituem totalmente o estudo", "sempre citam fontes verdadeiras", "só funcionam sem internet"], "A IA ajuda a estudar, mas as respostas devem ser checadas."],
+["inf", "Qual é uma forma confiável de pesquisar para um trabalho escolar?", "usar sites de instituições oficiais, universidades e veículos reconhecidos", ["copiar o primeiro resultado sem ler", "usar só comentários de redes sociais", "confiar em correntes de mensagem", "usar sites sem autor nem data"], "Fontes conhecidas e com autor identificado são mais confiáveis."]
+];
+
+</script>
+<script>
+/* ===== js/estudar.js ===== */
+/* =========================================================
+   ESTUDAR: blocos de 10 questões por área, treino aleatório,
+   simulado geral e desafio do dia (questões em dados/questoes.js)
+   ========================================================= */
+const POR_BLOCO = 10;
+const questoes = QUESTOES.map(([a, e, certa, erradas, x]) => ({ a, e, certa, erradas, x }));
+let areaEstudo = "mat", quiz = null;
+
+/* ---------- Lista de blocos ---------- */
+function mostrarBlocos() {
+  $("estudar-lista").hidden = false; $("estudar-quiz").hidden = true;
+  history.replaceState(null, "", location.pathname);
+  const melhores = perfil.melhores;
+
+  const melhorSim = melhores.simulado, feitoHoje = perfil.desafioFeito === hojeISO();
+  $("cartoes-destaque").innerHTML = `
+    <article class="cartao-bloco destaque">
+      <span class="sobretitulo" style="margin:0">Simulado geral</span><h3>20 questões, 4 de cada área</h3>
+      <span class="meta">Sorteadas a cada tentativa · ${melhorSim != null ? `Melhor: ${melhorSim} de 20` : "Ainda não feito"}</span>
+      <button class="btn" data-bloco="simulado">Fazer simulado</button>
+    </article>
+    <article class="cartao-bloco destaque-claro">
+      <span class="sobretitulo" style="margin:0">☀️ Desafio do dia</span><h3>3 questões rápidas</h3>
+      <span class="meta">${feitoHoje ? "Concluído hoje. Volte amanhã!" : "Vale +40 XP extra"}</span>
+      <button class="btn btn-primario" data-bloco="desafio">${feitoHoje ? "Refazer" : "Começar"}</button>
+    </article>`;
+
+  $("filtros-areas").innerHTML = Object.entries(AREAS).map(([k, area]) => {
+    const d = perfil.desempenho[k];
+    return `<button class="chip" aria-pressed="${k === areaEstudo}" data-area="${k}">${area.nome}${d.t ? ` <span class="num suave-chip">${Math.round((d.a / d.t) * 100)}%</span>` : ""}</button>`;
+  }).join("");
+  $("filtros-areas").querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => { areaEstudo = b.dataset.area; mostrarBlocos(); }));
+
+  const area = AREAS[areaEstudo], daArea = questoes.filter(q => q.a === areaEstudo);
+  const cartoes = [];
+  for (let n = 0; n < Math.ceil(daArea.length / POR_BLOCO); n++) {
+    const chave = `${areaEstudo}-${n}`, ini = n * POR_BLOCO + 1, fim = Math.min((n + 1) * POR_BLOCO, daArea.length);
+    const melhor = melhores[chave] != null ? `Melhor: ${melhores[chave]} de ${fim - ini + 1}` : "Ainda não feito";
+    cartoes.push(`<article class="cartao-bloco ${melhores[chave] != null ? "feito" : ""}" style="--cor:${area.cor}">
+      <span class="sobretitulo" style="margin:0">${area.nome}</span><h3>Bloco ${n + 1}</h3>
+      <span class="meta">Questões ${ini} a ${fim} · ${melhor}</span>
+      <button class="btn btn-primario" data-bloco="${chave}">${melhores[chave] != null ? "Refazer" : "Começar"}</button></article>`);
+  }
+  const ma = melhores[`${areaEstudo}-tudo`];
+  cartoes.push(`<article class="cartao-bloco" style="--cor:${area.cor}">
+      <span class="sobretitulo" style="margin:0">${area.nome}</span><h3>Treino aleatório</h3>
+      <span class="meta">10 questões sorteadas · ${ma != null ? `Melhor: ${ma} de 10` : "Ainda não feito"}</span>
+      <button class="btn btn-secundario" data-bloco="${areaEstudo}-tudo">Sortear</button></article>`);
+  $("grade-blocos").innerHTML = cartoes.join("");
+  document.querySelectorAll("#estudar-lista [data-bloco]").forEach(b => b.addEventListener("click", () => iniciarQuiz(b.dataset.bloco)));
+}
+
+/* ---------- Montar a lista de questões de cada modo ---------- */
+function desafioDeHoje() {
+  const s = sementeDoDia();
+  return areasDoDesafio().map((area, k) => { const da = questoes.filter(q => q.a === area); return da[(s * (k + 3)) % da.length]; });
+}
+function montarLista(bloco) {
+  if (bloco === "desafio") return desafioDeHoje();
+  if (bloco === "simulado") return Object.keys(AREAS).flatMap(k => embaralhar(questoes.filter(q => q.a === k)).slice(0, 4));
+  const [area, parte] = bloco.split("-");
+  const daArea = questoes.filter(q => q.a === area);
+  if (parte === "tudo") return embaralhar(daArea).slice(0, POR_BLOCO);
+  return daArea.slice(+parte * POR_BLOCO, (+parte + 1) * POR_BLOCO);
+}
+function nomeDoBloco(bloco) {
+  if (bloco === "desafio") return "Desafio do dia";
+  if (bloco === "simulado") return "Simulado geral";
+  const [area, parte] = bloco.split("-");
+  return `${AREAS[area].nome} · ${parte === "tudo" ? "Treino aleatório" : "Bloco " + (+parte + 1)}`;
+}
+
+/* ---------- Responder ---------- */
+function iniciarQuiz(bloco) {
+  const lista = montarLista(bloco).map(q => { const o = embaralhar([q.certa, ...q.erradas]); return { ...q, o, c: o.indexOf(q.certa) }; });
+  quiz = { bloco, lista, i: 0, escolha: null, respostas: [], seguidas: 0 };
+  $("estudar-lista").hidden = true; $("estudar-quiz").hidden = false;
+  mostrarQuestao(); window.scrollTo(0, 0);
+}
+function mostrarQuestao() {
+  const q = quiz.lista[quiz.i], area = AREAS[q.a];
+  $("estudar-quiz").innerHTML = `
+    <div class="quiz-topo"><span>${nomeDoBloco(quiz.bloco)} · Questão ${quiz.i + 1} de ${quiz.lista.length}</span>
+      <div class="linha-botoes"><button class="ouvir" id="ouvir-questao">🔊 Ouvir questão</button><button class="link-btn" id="sair-quiz">Sair</button></div></div>
+    <div class="quiz-barra"><div style="width:${(quiz.i / quiz.lista.length) * 100}%"></div></div>
+    <span class="tag" style="border-color:${area.cor};color:${area.cor}">${area.nome}</span>
+    <p class="enunciado">${q.e}</p>
+    <div class="alternativas">${q.o.map((t, i) => `<button class="alt" data-i="${i}" aria-pressed="false"><span class="letra">${"ABCDE"[i]}</span><span>${t}</span></button>`).join("")}</div>
+    <div id="explicacao"></div>
+    <div class="quiz-acoes"><button class="btn btn-primario" id="confirmar" disabled>Confirmar resposta</button></div>`;
+  quiz.escolha = null;
+  document.querySelectorAll(".alt").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll(".alt").forEach(x => x.setAttribute("aria-pressed", "false"));
+    b.setAttribute("aria-pressed", "true"); quiz.escolha = +b.dataset.i; $("confirmar").disabled = false;
+  }));
+  $("confirmar").addEventListener("click", confirmarResposta);
+  $("sair-quiz").addEventListener("click", mostrarBlocos);
+  $("ouvir-questao").addEventListener("click", () => falar(q.e + " " + q.o.map((t, i) => `Letra ${"ABCDE"[i]}: ${t}.`).join(" ")));
+}
+function confirmarResposta() {
+  const q = quiz.lista[quiz.i], acertou = quiz.escolha === q.c;
+  quiz.respostas.push(acertou);
+  quiz.seguidas = acertou ? quiz.seguidas + 1 : 0;
+  registrar("resposta", { acertou, seguidas: quiz.seguidas, area: q.a });
+  const alts = document.querySelectorAll(".alt");
+  alts.forEach(b => { b.disabled = true; });
+  alts[q.c].classList.add("certa");
+  if (!acertou) alts[quiz.escolha].classList.add("errada");
+  $("explicacao").innerHTML = `<div class="explicacao"><strong>${acertou ? "Você acertou! +10 XP" : `Resposta certa: letra ${"ABCDE"[q.c]}.`}</strong> ${q.x}</div>${quiz.seguidas >= 3 ? `<p class="combo">🔥 ${quiz.seguidas} acertos seguidos!</p>` : ""}`;
+  const ultima = quiz.i === quiz.lista.length - 1;
+  $("confirmar").outerHTML = `<button class="btn btn-primario" id="proxima">${ultima ? "Ver resultado" : "Próxima questão"}</button>`;
+  $("proxima").addEventListener("click", () => { if (ultima) mostrarResultado(); else { quiz.i++; mostrarQuestao(); } });
+  $("proxima").focus();
+}
+
+/* ---------- Resultado ---------- */
+function mostrarResultado() {
+  const acertos = quiz.respostas.filter(Boolean).length, total = quiz.lista.length;
+  registrar("fim-quiz", { bloco: quiz.bloco, acertos, total });
+  const pct = acertos / total;
+  const msg = pct === 1 ? "Gabaritou! Que tal tentar o próximo bloco?" : pct >= 0.6 ? "Bom resultado. Revise as que errou e tente de novo." : "Continue treinando. Leia as explicações das questões que errou.";
+  let porArea = "";
+  if (quiz.bloco === "simulado") {
+    porArea = `<div class="barras" style="margin:18px 0">${Object.entries(AREAS).map(([k, area]) => {
+      const idx = quiz.lista.map((q, i) => q.a === k ? i : -1).filter(i => i >= 0);
+      const ac = idx.filter(i => quiz.respostas[i]).length;
+      return `<div class="barra-linha"><span>${area.nome}</span><div class="barra-trilho"><div class="barra-valor" style="width:${(ac / idx.length) * 100}%;background:${area.cor}"></div></div><span class="barra-num num">${ac}/${idx.length}</span></div>`;
+    }).join("")}</div>`;
+  }
+  $("estudar-quiz").innerHTML = `
+    <div class="quiz-barra"><div style="width:100%"></div></div>
+    <span class="sobretitulo">Resultado · ${nomeDoBloco(quiz.bloco)}</span>
+    <p class="resultado-numero num">${acertos}/${total}</p>
+    <p style="margin-top:8px">${msg}</p>
+    ${porArea}
+    <ul class="revisao">${quiz.lista.map((q, i) => `<li><span class="${quiz.respostas[i] ? "ok" : "x"}">${quiz.respostas[i] ? "✓" : "✗"}</span><span>${q.e.length > 110 ? q.e.slice(0, 110) + "…" : q.e}${quiz.respostas[i] ? "" : ` <b>Resposta: ${q.certa}</b>`}</span></li>`).join("")}</ul>
+    <div class="linha-botoes"><button class="btn btn-primario" id="refazer">Refazer</button><button class="btn btn-secundario" id="voltar-blocos">Voltar aos blocos</button></div>
+    ${caixaDesafiarAmigo(nomeDoBloco(quiz.bloco), acertos, total)}`;
+  $("refazer").addEventListener("click", () => iniciarQuiz(quiz.bloco));
+  $("voltar-blocos").addEventListener("click", mostrarBlocos);
+}
+
+/* Links como estudar.html#desafio ou #simulado já abrem o modo certo */
+const pedido = location.hash.slice(1);
+if (pedido === "desafio" || pedido === "simulado") iniciarQuiz(pedido);
+else { if (AREAS[pedido]) areaEstudo = pedido; mostrarBlocos(); }
+
+</script>
+</body>
+</html>

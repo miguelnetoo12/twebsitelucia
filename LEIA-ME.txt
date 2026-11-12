@@ -1,0 +1,41 @@
+PONTO DE PARTIDA - Educação e desigualdade social
+==================================================
+
+COMO ABRIR
+1. Extraia o .zip numa pasta (não abra direto de dentro do zip).
+2. Dê dois cliques em index.html. Ele abre no navegador (Chrome recomendado).
+3. Entre com qualquer e-mail e senha, ou como visitante.
+
+Nesta versão, o CSS e o JavaScript ficam dentro de cada arquivo HTML.
+Mantenha os 8 arquivos .html juntos na mesma pasta, porque eles têm links entre si.
+
+PÁGINAS
+index.html      Login
+inicio.html     Tela inicial: trilha, desafio do dia, mitos
+estudar.html    250 questões no estilo ENEM, blocos e simulado
+redacao.html    20 temas, editor e correção automática
+faculdade.html  Como entrar, teste de área, universidades, cursos, simulador
+ler.html        Aprender a ler com áudio
+solucoes.html   Soluções, dicas e números do IBGE
+perfil.html     Nível, medalhas, desempenho, redações
+
+COMO EDITAR O CONTEÚDO
+- Nova questão: dentro de estudar.html, na lista QUESTOES, copie uma linha e troque o texto.
+  Formato: ["área", "enunciado", "alternativa certa", ["4 erradas"], "explicação"]
+  Áreas: mat, lin, hum, nat, inf
+- Novo tema de redação: dentro de redacao.html, na lista TEMAS.
+- Dicas, soluções, cursos e mitos: na lista correspondente dentro de cada página
+  (ex.: dicas em solucoes.html). Como o conteúdo se repete em várias páginas,
+  para editar com facilidade prefira a versão com pastas css/ e js/.
+
+OBSERVAÇÕES
+- O login é de demonstração: não há servidor, a senha não é guardada.
+- O progresso fica salvo no navegador (localStorage). Em outro aparelho começa do zero.
+- A leitura em voz alta usa a voz do navegador; funciona melhor no Chrome.
+- A correção de redação é uma estimativa automática, não substitui um professor.
+- As notas de corte são referência do Sisu 2026 (Ceará, ampla concorrência).
+- Para publicar na internet de graça: GitHub Pages, Netlify ou Vercel
+  (basta enviar a pasta inteira).
+
+Fontes dos dados: IBGE, PNAD Contínua Educação 2025; jornal O Povo (notas de
+corte Sisu 2026, 2ª parcial); confira as instituições no e-MEC (emec.mec.gov.br).

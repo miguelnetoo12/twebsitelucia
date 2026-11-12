@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculdade · Ponto de Partida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== ESTILO (CSS) ===== */
+:root {
+  /* Layout: login em tela dividida; dentro do app, coluna de 1100px com cabeçalho fixo e páginas trocadas pelo # */
+  --papel: #f4f5f0;
+  --superficie: #ffffff;
+  --tinta: #14213d;
+  --texto-suave: #4a5468;
+  --lapis: #f2b705;
+  --alerta: #c8452c;
+  --verde: #2e7d5b;
+  --linha: #d9dccf;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --font-corpo: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --raio: 10px;
+  --max: 1100px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papel: #10141f; --superficie: #181e2c; --tinta: #eef0e8; --texto-suave: #a9b0c0;
+    --lapis: #f5c430; --alerta: #ef7a5f; --verde: #5cc196; --linha: #2a3244;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papel: #10141f; --superficie: #181e2c; --tinta: #eef0e8; --texto-suave: #a9b0c0;
+  --lapis: #f5c430; --alerta: #ef7a5f; --verde: #5cc196; --linha: #2a3244;
+  color-scheme: dark;
+}
+/* Modo fácil: tudo maior */
+html.facil { font-size: 122%; }
+html.facil .texto-ajuda { display: block; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--papel); color: var(--tinta); font-family: var(--font-corpo); font-size: 1.0625rem; line-height: 1.6; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; text-wrap: balance; }
+h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 800; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { max-width: 65ch; }
+a { color: inherit; }
+button { font: inherit; }
+:focus-visible { outline: 3px solid var(--lapis); outline-offset: 3px; border-radius: 4px; }
+.num { font-variant-numeric: tabular-nums; }
+.container { width: min(var(--max), 100% - 32px); margin-inline: auto; }
+.sobretitulo { font-size: .8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--texto-suave); display: block; margin-bottom: 10px; }
+.suave { color: var(--texto-suave); }
+[hidden] { display: none !important; }
+.texto-ajuda { display: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 2px solid var(--tinta); cursor: pointer; }
+.btn-primario { background: var(--tinta); color: var(--papel); }
+.btn-secundario { background: transparent; color: var(--tinta); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.link-btn { background: none; border: none; color: var(--tinta); font-weight: 600; text-decoration: underline; cursor: pointer; padding: 0; }
+.ouvir { display: inline-flex; align-items: center; gap: 6px; background: var(--superficie); border: 1px solid var(--linha); border-radius: 999px; padding: 6px 14px; font-size: .88rem; font-weight: 600; color: var(--tinta); cursor: pointer; }
+.ouvir:hover { border-color: var(--tinta); }
+.linha-botoes { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* ======================= LOGIN ======================= */
+.login { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+.login-marca { background: #14213d; color: #f4f5f0; padding: 48px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; }
+.login-marca .logo { color: #f4f5f0; }
+.login-marca h1 { color: #f4f5f0; max-width: 14ch; }
+.login-marca h1 mark { background: linear-gradient(transparent 60%, #f2b705 60%); color: inherit; padding-inline: 4px; }
+.login-marca p { color: #c9cfdb; margin-top: 18px; }
+.recursos-login { display: grid; gap: 10px; color: #c9cfdb; font-size: .95rem; list-style: none; }
+.recursos-login li { display: flex; gap: 10px; }
+.recursos-login b { color: #f2b705; }
+.login-form-area { display: grid; place-items: center; padding: 48px 24px; }
+.login-caixa { width: min(420px, 100%); display: grid; gap: 20px; }
+.login-caixa h2 { font-size: 2rem; }
+.campo { display: grid; gap: 6px; }
+.campo label { font-weight: 600; font-size: .92rem; }
+.campo input { font: inherit; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.campo input:focus { outline: 2px solid var(--lapis); border-color: var(--tinta); }
+.erro { color: var(--alerta); font-size: .9rem; min-height: 1.4em; }
+.form-grade { display: grid; gap: 16px; }
+.separador { display: flex; align-items: center; gap: 12px; color: var(--texto-suave); font-size: .85rem; }
+.separador::before, .separador::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+.aviso-prototipo { font-size: .8rem; color: var(--texto-suave); background: var(--superficie); border: 1px dashed var(--linha); border-radius: 8px; padding: 10px 12px; }
+.btn-grande { padding: 16px 22px; font-size: 1.05rem; }
+
+/* ======================= APP ======================= */
+.logo { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.logo-marca { width: 22px; height: 22px; background: var(--lapis); border-radius: 50%; border: 3px solid currentColor; flex: none; }
+
+header.topo { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--papel) 94%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--linha); }
+.topo .container { width: min(1440px, 100% - 32px); }
+.nav { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 12px; }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a { display: flex; align-items: center; gap: 6px; text-decoration: none; font-weight: 500; font-size: .92rem; padding: 7px 12px; border-radius: 999px; color: var(--texto-suave); white-space: nowrap; }
+.nav-links a:hover { color: var(--tinta); }
+.nav-links a[aria-current="page"] { background: var(--tinta); color: var(--papel); }
+.icone { font-size: 1.05em; line-height: 1; }
+.usuario { display: flex; align-items: center; gap: 10px; font-size: .9rem; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-weight: 700; flex: none; }
+.ferramentas { display: flex; gap: 8px; }
+.ferramenta { background: var(--superficie); border: 1px solid var(--linha); border-radius: 999px; padding: 6px 12px; font-size: .85rem; font-weight: 600; cursor: pointer; color: var(--tinta); white-space: nowrap; }
+.ferramenta[aria-pressed="true"] { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.menu-btn { display: none; background: none; border: 1px solid var(--linha); border-radius: 8px; padding: 6px 12px; color: var(--tinta); cursor: pointer; }
+
+.pagina { padding-block: 44px 72px; }
+.cabeca-pagina { display: grid; gap: 12px; margin-bottom: 32px; }
+.bloco-secao { margin-top: 56px; }
+.bloco-secao > h2 { margin-bottom: 8px; }
+.bloco-secao > p.suave { margin-bottom: 24px; }
+.painel { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 24px; }
+
+/* ---- Tela inicial ---- */
+.boas-vindas { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: stretch; }
+.boas-vindas p { margin-top: 16px; font-size: 1.1rem; }
+.dica-dia { background: var(--lapis); color: #14213d; border-radius: var(--raio); padding: 24px; display: grid; gap: 10px; align-content: start; }
+.dica-dia .sobretitulo { color: #14213d; opacity: .75; margin: 0; }
+.dica-dia h3 { font-size: 1.3rem; }
+.dica-dia .link-btn { color: #14213d; }
+.atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 36px; }
+.atalho { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 22px; text-decoration: none; display: grid; gap: 6px; align-content: start; }
+.atalho:hover { border-color: var(--tinta); }
+.atalho .icone-grande { font-size: 1.8rem; line-height: 1; }
+.atalho .suave { font-size: .93rem; }
+.progresso-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 28px; align-items: center; }
+.progresso-total strong { font-family: var(--font-display); font-size: 3rem; line-height: 1; display: block; }
+.barras { display: grid; gap: 12px; }
+.barra-linha { display: grid; grid-template-columns: 110px 1fr 64px; align-items: center; gap: 12px; font-size: .92rem; }
+.barra-trilho { height: 16px; background: var(--papel); border-radius: 999px; overflow: hidden; }
+.barra-valor { height: 100%; background: var(--tinta); border-radius: 999px; transition: width .5s ease; }
+.barra-num { text-align: right; font-weight: 600; }
+.faixa-numeros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 26px; background: #14213d; color: #f4f5f0; border-radius: var(--raio); }
+.faixa-numeros div { border-top: 3px solid #f2b705; padding-top: 12px; }
+.faixa-numeros strong { font-family: var(--font-display); font-size: 2rem; line-height: 1; display: block; }
+.faixa-numeros span { display: block; margin-top: 8px; font-size: .88rem; color: #c9cfdb; }
+.fonte { font-size: .8rem; color: var(--texto-suave); margin-top: 10px; }
+
+/* ---- Estrutura das páginas ---- */
+main.pagina { min-height: 60vh; }
+.cabeca-pagina h1 { font-size: clamp(1.9rem, 4.2vw, 2.8rem); }
+.titulo-secao { font-size: clamp(1.25rem, 2.6vw, 1.6rem); margin-bottom: 14px; }
+.abas-pagina { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 2px solid var(--linha); margin-bottom: 28px; }
+.aba-pagina { font: inherit; font-weight: 600; font-size: .95rem; padding: 10px 16px; border: none; background: none; color: var(--texto-suave); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+.aba-pagina:hover { color: var(--tinta); }
+.aba-pagina[aria-selected="true"] { color: var(--tinta); border-bottom-color: var(--lapis); }
+.atalhos-icones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 22px; }
+.atalhos-icones a { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: var(--raio); border: 1px solid var(--linha); background: var(--superficie); text-decoration: none; font-weight: 600; font-size: .95rem; }
+.atalhos-icones a:hover { border-color: var(--tinta); }
+.atalhos-icones span { font-size: 1.4rem; line-height: 1; }
+.avatar-mini { width: 22px; height: 22px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-size: .75rem; }
+.selo[aria-current="page"] { outline: 2px solid var(--lapis); outline-offset: 2px; }
+.ferramenta { min-width: 38px; }
+.destaques-estudo { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 36px; }
+.cartao-bloco.destaque-claro { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.cartao-bloco.destaque-claro .meta, .cartao-bloco.destaque-claro .sobretitulo { color: #14213d; opacity: .8; }
+.cartao-bloco.feito { background: color-mix(in srgb, var(--verde) 7%, var(--superficie)); }
+.nivel-resumo { display: grid; gap: 4px; align-content: start; }
+.medalhas-mini { display: flex; gap: 8px; font-size: 1.7rem; margin: 8px 0; flex-wrap: wrap; }
+.nivel-resumo .link-btn { justify-self: start; margin-top: 6px; }
+.perfil-topo { display: flex; align-items: center; gap: 18px; margin-bottom: 24px; }
+.perfil-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: 2rem; flex: none; }
+.perfil-resumo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.resumo-item { display: grid; gap: 2px; border-top: 3px solid var(--lapis); padding-top: 10px; }
+.resumo-item strong { font-family: var(--font-display); font-size: 2rem; line-height: 1.1; }
+.resumo-item span { font-size: .88rem; color: var(--texto-suave); }
+.perfil-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.medalhas-grandes { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+.medalhas-grandes .medalha { padding: 16px 8px; }
+.medalhas-grandes .medalha-icone { font-size: 2.2rem; }
+.medalhas-grandes .medalha-nome { font-size: .85rem; }
+.medalhas-grandes .medalha-desc { font-size: .75rem; }
+.lista-salvas { list-style: none; display: grid; gap: 10px; }
+.lista-salvas li { display: grid; gap: 2px; padding-left: 12px; border-left: 3px solid var(--lapis); font-size: .93rem; }
+.grade-momentos.compacta { grid-template-columns: 1fr 1fr; margin-top: 8px; }
+.grade-momentos.compacta .momento { padding: 12px; font-size: .9rem; }
+.grade-momentos.compacta .momento-icone { font-size: 1.4rem; }
+.momento.atual { border-color: var(--lapis); background: color-mix(in srgb, var(--lapis) 18%, var(--superficie)); }
+.conta .confirmar-apagar { margin-top: 16px; padding: 16px; border-radius: 8px; border-left: 4px solid var(--alerta); background: var(--papel); display: grid; gap: 12px; }
+.btn-perigo { background: var(--alerta); border-color: var(--alerta); color: #fff; }
+.continuar { width: min(420px, 100%); display: grid; gap: 12px; margin-bottom: 18px; border-left: 4px solid var(--lapis); }
+.login-form-area { align-content: center; }
+footer#rodape { border-top: 1px solid var(--linha); padding-block: 28px; font-size: .85rem; color: var(--texto-suave); margin-top: 24px; }
+.rodape-grade { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+.grade-graficos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; margin-top: 16px; align-items: start; }
+.grade-graficos h3 { margin-bottom: 2px; }
+.grafico-sub { font-size: .85rem; margin-bottom: 12px; }
+.grade-graficos .barra-linha { grid-template-columns: 130px 1fr 54px; }
+
+/* ---- Engajamento ---- */
+.selo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: var(--tinta); color: var(--papel); border-radius: 999px; padding: 6px 12px; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+.selo-xp { color: var(--lapis); }
+.selo-fogo { display: inline-flex; gap: 2px; }
+.selo.pulsa { animation: pulsa .5s ease; }
+@keyframes pulsa { 50% { transform: scale(1.12); } }
+.trilha { display: block; }
+.grade-momentos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+.momento { display: grid; gap: 10px; justify-items: start; text-align: left; padding: 18px; border-radius: var(--raio); border: 2px solid var(--linha); background: var(--papel); color: var(--tinta); font-weight: 600; cursor: pointer; }
+.momento:hover { border-color: var(--tinta); }
+.momento-icone { font-size: 2rem; line-height: 1; }
+.trilha-topo { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+.trilha-topo h2 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 6px 0; }
+.trilha-progresso { text-align: right; display: grid; }
+.trilha-progresso strong { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; }
+.passos { list-style: none; display: grid; gap: 8px; counter-reset: passo; }
+.passos li { display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 8px; background: var(--papel); }
+.passos .marca { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--linha); display: grid; place-items: center; font-weight: 700; }
+.passos li.feito .marca { background: var(--verde); border-color: var(--verde); color: #fff; }
+.passos li.feito .passo-texto { color: var(--texto-suave); text-decoration: line-through; }
+.passo-ir { padding: 6px 16px; font-size: .9rem; }
+.passo-ok { font-size: .85rem; font-weight: 600; color: var(--verde); }
+.trilha-fim { margin-top: 14px; font-weight: 600; }
+.linha-engaja { display: grid; grid-template-columns: 1fr 1.6fr; gap: 18px; align-items: stretch; }
+.desafio-dia { display: grid; gap: 10px; align-content: start; background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.desafio-dia .sobretitulo, .desafio-dia .suave { color: color-mix(in srgb, var(--papel) 75%, transparent); }
+.desafio-dia h3 { font-size: 1.5rem; }
+.desafio-dia .btn { justify-self: start; }
+.desafio-dia .btn-primario { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.desafio-dia .btn-secundario { color: var(--papel); border-color: var(--papel); }
+.sequencia { display: flex; align-items: center; gap: 10px; font-size: 1rem; }
+.fogo { font-size: 2rem; line-height: 1; }
+.nivel-topo { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+.xp-grande { font-family: var(--font-display); font-size: 1.8rem; color: var(--tinta); }
+.medalhas { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.medalha { display: grid; justify-items: center; text-align: center; gap: 2px; padding: 10px 4px; border-radius: 8px; background: var(--papel); opacity: .55; }
+.medalha.ganha { opacity: 1; background: color-mix(in srgb, var(--lapis) 22%, var(--superficie)); }
+.medalha-icone { font-size: 1.6rem; line-height: 1.1; }
+.medalha-nome { font-size: .75rem; font-weight: 700; line-height: 1.2; }
+.medalha-desc { font-size: .68rem; color: var(--texto-suave); line-height: 1.25; }
+.grade-mitos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.mito { position: relative; min-height: 190px; border: none; padding: 0; background: none; cursor: pointer; perspective: 900px; text-align: left; color: var(--tinta); }
+.mito-frente, .mito-verso { position: absolute; inset: 0; display: grid; align-content: center; gap: 10px; padding: 22px; border-radius: var(--raio); backface-visibility: hidden; transition: transform .5s ease; font-size: 1rem; }
+.mito-frente { background: var(--superficie); border: 1px solid var(--linha); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; line-height: 1.3; }
+.mito-aspas { font-size: 3rem; line-height: .5; color: var(--lapis); }
+.mito-toque { font-family: var(--font-corpo); font-size: .8rem; font-weight: 600; color: var(--texto-suave); }
+.mito-verso { background: var(--tinta); color: var(--papel); transform: rotateY(180deg); font-size: .95rem; }
+.mito.virado .mito-frente { transform: rotateY(180deg); }
+.mito.virado .mito-verso { transform: rotateY(360deg); }
+.selo-mito { justify-self: start; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; padding: 2px 14px; border-radius: 999px; }
+.mito-falso { background: var(--alerta); color: #fff; }
+.mito-verdade { background: var(--verde); color: #fff; }
+.combo { margin-top: 12px; font-weight: 700; font-size: 1.1rem; color: var(--alerta); }
+.desafiar { margin-top: 28px; padding: 20px; border-radius: var(--raio); background: var(--papel); display: grid; gap: 14px; }
+.btn-whats { background: #1f8f4e; border-color: #1f8f4e; color: #fff; }
+.confete { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+
+/* ---- Redação ---- */
+.grade-temas { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.tema { display: grid; gap: 10px; align-content: start; text-align: left; padding: 18px; border-radius: var(--raio); border: 1px solid var(--linha); border-left: 5px solid var(--lapis); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.tema:hover { border-color: var(--tinta); border-left-color: var(--lapis); }
+.tema .tag { justify-self: start; }
+.tema-titulo { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; line-height: 1.25; }
+.tema-meta { font-size: .82rem; color: var(--texto-suave); }
+.historico { list-style: none; display: grid; gap: 6px; }
+.historico li { display: grid; grid-template-columns: 1fr auto 60px; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--linha); font-size: .92rem; }
+.historico li b { text-align: right; font-family: var(--font-display); font-size: 1.1rem; }
+#historico-redacoes:empty { display: none; }
+.editor-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 18px; margin-top: 14px; align-items: start; }
+.apoio-caixa { display: grid; gap: 12px; position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; }
+.apoio-caixa .tag { justify-self: start; }
+.editor-tema { font-size: clamp(1.3rem, 2.6vw, 1.7rem); }
+.apoio { display: grid; gap: 10px; }
+.apoio-texto { background: var(--papel); border-radius: 8px; padding: 12px 14px; font-size: .93rem; }
+.apoio-num { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-suave); }
+.estrutura { background: var(--papel); border-radius: 8px; padding: 12px 14px; font-size: .92rem; }
+.estrutura summary { font-weight: 600; cursor: pointer; }
+.estrutura ol { padding-left: 18px; display: grid; gap: 6px; margin-top: 8px; }
+.folha-caixa { display: grid; gap: 10px; }
+.folha-topo { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+.contadores { display: flex; gap: 6px; flex-wrap: wrap; }
+.contador-pill { font-size: .8rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--papel); border: 1px solid var(--linha); }
+.contador-pill.bom { border-color: var(--verde); color: var(--verde); }
+.contador-pill.ruim { border-color: var(--alerta); color: var(--alerta); }
+.cronometro-caixa { display: flex; align-items: center; gap: 8px; }
+.cronometro { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+.cronometro.passou { color: var(--alerta); }
+.btn-pequeno { padding: 6px 14px; font-size: .85rem; }
+.titulo-input { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.folha { font: inherit; font-size: 1.02rem; line-height: 32px; min-height: 560px; resize: vertical; padding: 0 14px; border-radius: 8px; border: 1px solid var(--linha); color: var(--tinta);
+  background-color: var(--superficie); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--linha) 31px, var(--linha) 32px); background-attachment: local; }
+.folha:focus { outline: 2px solid var(--lapis); }
+#btn-corrigir { justify-self: start; }
+.res-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+.nota-redacao { font-family: var(--font-display); font-weight: 800; font-size: clamp(3.4rem, 9vw, 5rem); line-height: 1; margin-top: 8px; }
+.nota-redacao span { font-size: .35em; color: var(--texto-suave); font-weight: 600; }
+.faixa-nota { font-weight: 700; font-size: 1.15rem; }
+.aviso-correcao { font-size: .9rem; background: var(--papel); border-left: 4px solid var(--lapis); padding: 14px 16px; border-radius: 0 8px 8px 0; }
+.zerada, .alerta-red { margin-top: 14px; border-left: 5px solid var(--alerta); }
+.competencias { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 12px; margin-top: 14px; }
+.comp { display: grid; gap: 10px; align-content: start; }
+.comp-topo { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; }
+.comp-topo h3 { font-size: 1rem; }
+.comp-n { width: 34px; height: 34px; border-radius: 50%; background: var(--tinta); color: var(--papel); display: grid; place-items: center; font-weight: 700; font-size: .85rem; }
+.comp-nota { font-family: var(--font-display); font-size: 1.5rem; }
+.comp .quiz-barra { margin: 0; }
+.comp p { font-size: .92rem; color: var(--texto-suave); }
+.duas-colunas-red { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.checklist, .lista-desvios { list-style: none; display: grid; gap: 8px; margin-top: 10px; font-size: .94rem; }
+.checklist li { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.checklist .marca { font-weight: 700; color: var(--alerta); width: 16px; }
+.checklist li.ok .marca { color: var(--verde); }
+.lista-desvios li { padding-left: 12px; border-left: 3px solid var(--alerta); }
+.simulador { display: grid; gap: 14px; }
+.campos-notas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.campo-nota { display: grid; gap: 4px; font-size: .85rem; font-weight: 600; }
+.campo-nota input { font: inherit; font-size: 1.1rem; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); width: 100%; }
+.media-sisu { display: flex; align-items: baseline; gap: 12px; padding: 14px 18px; border-radius: var(--raio); background: var(--tinta); color: var(--papel); }
+.media-sisu strong { font-family: var(--font-display); font-size: 2.2rem; color: var(--lapis); }
+.lista-cortes { display: grid; gap: 6px; }
+.corte { display: grid; grid-template-columns: 200px 1fr 80px 210px; gap: 12px; align-items: center; padding: 8px 12px; border-radius: 8px; background: var(--papel); font-size: .9rem; }
+.corte-nome { font-weight: 600; }
+.corte-escala { position: relative; height: 10px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linha); }
+.corte-faixa { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: color-mix(in srgb, var(--tinta) 35%, transparent); }
+.corte-voce { position: absolute; top: -4px; width: 4px; height: 16px; margin-left: -2px; border-radius: 2px; background: var(--alerta); }
+.corte-num { color: var(--texto-suave); text-align: right; }
+.corte-status { font-weight: 600; font-size: .85rem; }
+.corte.dentro .corte-status { color: var(--verde); }
+.corte.parcial .corte-status { color: var(--verde); }
+.corte.perto .corte-status { color: #b07c00; }
+.corte.longe .corte-status { color: var(--texto-suave); }
+.corte.dentro, .corte.parcial { box-shadow: inset 4px 0 0 var(--verde); }
+.corte.perto { box-shadow: inset 4px 0 0 var(--lapis); }
+
+/* ---- Estudar ---- */
+.grade-blocos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.cartao-bloco { background: var(--superficie); border: 1px solid var(--linha); border-top: 5px solid var(--cor, var(--tinta)); border-radius: var(--raio); padding: 22px; display: grid; gap: 10px; align-content: start; }
+.cartao-bloco .meta { font-size: .88rem; color: var(--texto-suave); }
+.cartao-bloco .btn { justify-self: start; margin-top: 6px; padding: 9px 18px; }
+.cartao-bloco.destaque { background: var(--tinta); color: var(--papel); border-color: var(--tinta); border-top-color: var(--lapis); }
+.cartao-bloco.destaque .meta { color: color-mix(in srgb, var(--papel) 75%, transparent); }
+.cartao-bloco.destaque .btn { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+
+.quiz { max-width: 780px; }
+.quiz-topo { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; font-size: .9rem; color: var(--texto-suave); }
+.quiz-barra { height: 8px; background: var(--papel); border-radius: 999px; overflow: hidden; margin-bottom: 22px; }
+.quiz-barra div { height: 100%; background: var(--lapis); transition: width .4s ease; }
+.tag { display: inline-block; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; background: var(--papel); border: 1px solid var(--linha); }
+.enunciado { font-size: 1.12rem; margin: 14px 0 20px; }
+.alternativas { display: grid; gap: 10px; }
+.alt { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: center; text-align: left; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.alt .letra { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--linha); display: grid; place-items: center; font-weight: 700; }
+.alt:hover:not(:disabled) { border-color: var(--tinta); }
+.alt[aria-pressed="true"] { border-color: var(--tinta); box-shadow: inset 0 0 0 1px var(--tinta); }
+.alt[aria-pressed="true"] .letra { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.alt.certa { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 14%, var(--papel)); }
+.alt.certa .letra { background: var(--verde); border-color: var(--verde); color: #fff; }
+.alt.errada { border-color: var(--alerta); background: color-mix(in srgb, var(--alerta) 12%, var(--papel)); }
+.alt.errada .letra { background: var(--alerta); border-color: var(--alerta); color: #fff; }
+.alt:disabled { cursor: default; }
+.explicacao { margin-top: 18px; padding: 14px 16px; border-left: 4px solid var(--lapis); background: var(--papel); border-radius: 0 6px 6px 0; }
+.quiz-acoes { margin-top: 20px; }
+.resultado-numero { font-family: var(--font-display); font-size: 3.4rem; font-weight: 800; line-height: 1; }
+.revisao { list-style: none; display: grid; gap: 8px; margin: 20px 0; }
+.revisao li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: .95rem; }
+.revisao .ok { color: var(--verde); font-weight: 700; }
+.revisao .x { color: var(--alerta); font-weight: 700; }
+
+.simulado-largo { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px 24px; }
+.simulado-largo .btn { grid-row: 1 / span 3; grid-column: 2; align-self: center; margin: 0; }
+.suave-chip { opacity: .65; font-size: .8em; margin-left: 2px; }
+
+/* ---- Faculdade ---- */
+.grade-ingresso { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.ingresso { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; display: grid; gap: 8px; align-content: start; }
+.ingresso .para-quem { font-size: .85rem; color: var(--verde); font-weight: 600; }
+.ingresso p { font-size: .94rem; color: var(--texto-suave); }
+.teste { display: grid; gap: 18px; max-width: 780px; }
+.teste-opcoes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.teste-op { text-align: left; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.teste-op:hover { border-color: var(--tinta); }
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 22px; }
+.chip { font-size: .9rem; font-weight: 500; padding: 7px 15px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.busca { flex: 1 1 220px; max-width: 320px; margin-left: auto; font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.grade-cursos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.curso { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.curso-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.curso p { font-size: .94rem; color: var(--texto-suave); }
+.curso .porque { color: var(--tinta); font-size: .92rem; border-top: 1px dashed var(--linha); padding-top: 10px; }
+.curso.recomendado { border: 2px solid var(--lapis); }
+
+.filtros-inst-topo { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+.rotulo-campo { font-weight: 600; font-size: .92rem; }
+.seletor { font: inherit; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.lista-instituicoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 16px; margin-top: 14px; align-items: start; }
+.grupo-estado { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; }
+.grupo-estado h3 { margin-bottom: 12px; }
+.lista-inst { list-style: none; display: grid; gap: 0; }
+.lista-inst li { display: grid; gap: 2px; padding: 12px 0; border-top: 1px solid var(--linha); font-size: .95rem; }
+.lista-inst li:first-child { border-top: none; padding-top: 0; }
+.inst-topo { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.inst-dica { font-size: .84rem; color: var(--texto-suave); }
+.tag-fed { border-color: var(--tinta); }
+.tag-est { border-color: var(--verde); color: var(--verde); }
+.tag-if { border-color: var(--lapis); background: color-mix(in srgb, var(--lapis) 22%, var(--superficie)); }
+.particulares { margin-top: 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: center; }
+.links-oficiais { list-style: none; display: grid; gap: 10px; }
+.links-oficiais li { display: grid; }
+.links-oficiais a { font-weight: 600; }
+.links-oficiais .suave { font-size: .82rem; }
+
+/* ---- Aprender a ler ---- */
+.ler-intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: center; }
+.ler-intro .painel { display: grid; gap: 12px; }
+.alfabeto { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
+.letra-btn { display: grid; justify-items: center; gap: 2px; padding: 12px 6px; border-radius: var(--raio); border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.letra-btn:hover, .letra-btn.ativa { border-color: var(--tinta); background: var(--lapis); color: #14213d; }
+.letra-btn .grande { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; line-height: 1; }
+.letra-btn .emoji { font-size: 1.5rem; line-height: 1.2; }
+.letra-btn .palavra { font-size: .8rem; font-weight: 600; letter-spacing: .04em; }
+.atividade { display: grid; gap: 18px; justify-items: center; text-align: center; padding: 32px 24px; }
+.figura { font-size: 4rem; line-height: 1; }
+.montagem { display: flex; gap: 8px; min-height: 64px; flex-wrap: wrap; justify-content: center; }
+.slot { min-width: 72px; height: 60px; border: 2px dashed var(--linha); border-radius: 10px; display: grid; place-items: center; font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; padding-inline: 8px; }
+.slot.cheio { border-style: solid; border-color: var(--tinta); }
+.silabas { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.silaba { min-width: 80px; padding: 14px 16px; border-radius: 10px; border: 2px solid var(--tinta); background: var(--superficie); color: var(--tinta); font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; cursor: pointer; }
+.silaba:disabled { opacity: .25; cursor: default; }
+.mensagem { min-height: 1.6em; font-weight: 600; font-size: 1.1rem; }
+.mensagem.boa { color: var(--verde); }
+.mensagem.ruim { color: var(--alerta); }
+.escolhas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 560px; }
+.escolha { display: grid; justify-items: center; gap: 6px; padding: 18px 10px; border-radius: var(--raio); border: 2px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.escolha .emoji { font-size: 2.6rem; line-height: 1; }
+.escolha .palavra { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; }
+.escolha.certa { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 14%, var(--papel)); }
+.escolha.errada { border-color: var(--alerta); }
+.btn-ouvir-grande { font-size: 1.15rem; padding: 16px 28px; }
+.duas-atividades { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+/* ---- Soluções e dicas ---- */
+.grade-solucoes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.solucao { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 22px; display: grid; gap: 12px; align-content: start; }
+.solucao .tag { justify-self: start; }
+.problema, .resposta { display: grid; grid-template-columns: 90px 1fr; gap: 12px; font-size: .95rem; }
+.problema b { color: var(--alerta); }
+.resposta b { color: var(--verde); }
+.problema span, .resposta span { color: var(--texto-suave); }
+.solucao ul { padding-left: 20px; font-size: .94rem; color: var(--texto-suave); display: grid; gap: 4px; }
+.grade-dicas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+.dica { background: var(--superficie); border: 1px solid var(--linha); border-left: 5px solid var(--lapis); border-radius: var(--raio); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.dica-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.dica .publico { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--texto-suave); }
+.dica p { font-size: .95rem; color: var(--texto-suave); }
+.salvar { background: none; border: 1px solid var(--linha); border-radius: 999px; padding: 4px 12px; font-size: .82rem; cursor: pointer; color: var(--tinta); }
+.salvar[aria-pressed="true"] { background: var(--lapis); border-color: var(--lapis); color: #14213d; font-weight: 600; }
+.vazio { padding: 32px; text-align: center; color: var(--texto-suave); border: 1px dashed var(--linha); border-radius: var(--raio); grid-column: 1 / -1; }
+.contador { font-size: .9rem; color: var(--texto-suave); }
+
+.aviso { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--tinta); color: var(--papel); padding: 12px 20px; border-radius: 999px; font-size: .92rem; z-index: 50; max-width: calc(100% - 32px); }
+footer { border-top: 1px solid var(--linha); padding-block: 32px; font-size: .85rem; color: var(--texto-suave); }
+
+/* ---- Responsivo ---- */
+@media (max-width: 1440px) {
+  .selo-xp { display: none; }
+}
+@media (max-width: 1300px) {
+  .menu-btn { display: block; }
+  .nav { flex-wrap: wrap; }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; background: var(--papel); border-bottom: 1px solid var(--linha); padding: 8px 16px 16px; }
+  .nav-links.aberto { display: flex; }
+  .nav-links a { padding: 12px 14px; font-size: 1rem; }
+}
+@media (max-width: 900px) {
+  .login { grid-template-columns: 1fr; }
+  .login-marca { padding: 32px 24px; }
+  .boas-vindas, .grade-solucoes, .progresso-grade, .ler-intro, .duas-atividades { grid-template-columns: 1fr; }
+  .grade-dicas, .atalhos, .grade-ingresso, .grade-cursos { grid-template-columns: repeat(2, 1fr); }
+  .particulares, .linha-engaja, .editor-grade, .res-topo, .duas-colunas-red, .perfil-grade, .destaques-estudo { grid-template-columns: 1fr; }
+  .perfil-resumo { grid-template-columns: repeat(2, 1fr); }
+  .apoio-caixa { position: static; max-height: none; }
+  .campos-notas { grid-template-columns: repeat(3, 1fr); }
+  .corte { grid-template-columns: 1fr 70px; }
+  .corte-escala { grid-column: 1 / -1; grid-row: 2; }
+  .corte-status { grid-column: 1 / -1; }
+  .grade-momentos, .grade-mitos { grid-template-columns: repeat(2, 1fr); }
+  .faixa-numeros { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .usuario .nome, .ferramenta .rotulo { display: none; }
+  .grade-dicas, .atalhos, .grade-ingresso, .grade-cursos, .teste-opcoes { grid-template-columns: 1fr; }
+  .busca { max-width: none; margin-left: 0; }
+  .simulado-largo { grid-template-columns: 1fr; }
+  .grade-momentos, .grade-mitos, .grade-momentos.compacta { grid-template-columns: 1fr; }
+  .atalhos-icones { grid-template-columns: 1fr 1fr; }
+  .abas-pagina { flex-wrap: nowrap; overflow-x: auto; }
+  .aba-pagina { white-space: nowrap; }
+  .campos-notas { grid-template-columns: repeat(2, 1fr); }
+  .selo-xp { display: none; }
+  .simulado-largo .btn { grid-row: auto; grid-column: auto; justify-self: start; }
+  .escolhas { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 420px) {
+  .faixa-numeros { grid-template-columns: 1fr; }
+  .problema, .resposta { grid-template-columns: 1fr; gap: 2px; }
+  .barra-linha { grid-template-columns: 90px 1fr 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mito-frente, .mito-verso { transition: none; }
+  .selo.pulsa { animation: none; }
+  .btn:hover:not(:disabled) { transform: none; }
+  .barra-valor, .quiz-barra div { transition: none; }
+}
+
+</style>
+</head>
+<body data-pagina="faculdade">
+<header class="topo" id="topo"></header>
+
+<main class="pagina container">
+  <div class="cabeca-pagina">
+    <span class="sobretitulo">Faculdade</span>
+    <h1 data-ler>Depois da escola, qual é o próximo passo?</h1>
+    <p class="suave" data-ler>Veja como entrar de graça ou com bolsa, descubra sua área, encontre universidades no seu estado e simule sua nota.</p>
+  </div>
+  <div class="abas-pagina" role="tablist" aria-label="Seções da página Faculdade">
+    <button class="aba-pagina" role="tab" data-aba="como-entrar" aria-selected="false">Como entrar</button>
+    <button class="aba-pagina" role="tab" data-aba="descubra" aria-selected="false">Descubra sua área</button>
+    <button class="aba-pagina" role="tab" data-aba="universidades" aria-selected="false">Universidades</button>
+    <button class="aba-pagina" role="tab" data-aba="cursos" aria-selected="false">Cursos</button>
+    <button class="aba-pagina" role="tab" data-aba="simulador" aria-selected="false">Simulador de notas</button>
+  </div>
+  <section data-painel="como-entrar">
+    <div class="grade-ingresso" id="grade-ingresso"></div>
+  </section>
+  <section data-painel="descubra" hidden>
+    <h2 class="titulo-secao">Descubra sua área</h2>
+    <p class="suave" style="margin-bottom:16px">Responda 4 perguntas rápidas e veja os cursos que combinam com você.</p>
+    <div class="painel teste" id="teste-area"></div>
+  </section>
+  <section data-painel="universidades" hidden>
+    <p class="suave" style="margin-bottom:16px">Instituições públicas e gratuitas em todos os estados. Escolha o seu estado.</p>
+      <div class="filtros-inst-topo">
+        <label for="select-uf" class="rotulo-campo">Estado</label>
+        <select id="select-uf" class="seletor"></select>
+        <input type="search" id="busca-inst" class="busca" placeholder="Buscar por nome ou sigla…" aria-label="Buscar instituição">
+      </div>
+      <div class="filtros" id="filtros-inst" role="group" aria-label="Filtrar por tipo"></div>
+      <p class="contador" id="contador-inst"></p>
+      <div class="lista-instituicoes" id="lista-instituicoes"></div>
+      <div class="painel particulares">
+        <div>
+          <h3>Faculdades particulares com bolsa ou financiamento</h3>
+          <p class="suave">Milhares de faculdades particulares aceitam ProUni e FIES. Consulte as instituições e os cursos reconhecidos pelo MEC nos sites oficiais:</p>
+        </div>
+        <ul class="links-oficiais">
+          <li><a href="https://acessounico.mec.gov.br/prouni" target="_blank" rel="noopener">ProUni</a> <span class="suave">acessounico.mec.gov.br/prouni</span></li>
+          <li><a href="https://acessounico.mec.gov.br/sisu" target="_blank" rel="noopener">Sisu</a> <span class="suave">acessounico.mec.gov.br/sisu</span></li>
+          <li><a href="https://emec.mec.gov.br" target="_blank" rel="noopener">e-MEC: todas as faculdades credenciadas</a> <span class="suave">emec.mec.gov.br</span></li>
+        </ul>
+      </div>
+  </section>
+  <section data-painel="cursos" hidden>
+    <p class="suave" style="margin-bottom:16px">Bacharelados, licenciaturas e cursos tecnólogos, que são mais curtos.</p>
+    <div class="filtros" id="filtros-cursos"></div>
+    <div class="grade-cursos" id="grade-cursos"></div>
+  </section>
+  <section data-painel="simulador" hidden>
+    <div class="painel simulador" id="simulador-faculdade"></div>
+  </section>
+</main>
+
+<footer id="rodape"></footer>
+
+<script>
+/* ===== js/comum.js ===== */
+/* =========================================================
+   COMUM: usado por todas as páginas (menos o login)
+   - atalhos de código, armazenamento, sessão do usuário
+   - cabeçalho, rodapé, Modo fácil e leitura em voz alta
+   - perfil: XP, níveis, medalhas, trilha e sequência de dias
+   ========================================================= */
+
+/* ---------- Atalhos ---------- */
+const $ = id => document.getElementById(id);
+const embaralhar = arr => arr.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
+const hojeISO = () => new Date().toISOString().slice(0, 10);
+
+const AREAS = {
+  mat: { nome: "Matemática", cor: "#2f6fdf" },
+  lin: { nome: "Linguagens", cor: "#c8452c" },
+  hum: { nome: "Humanas", cor: "#8a5cc7" },
+  nat: { nome: "Natureza", cor: "#2e7d5b" },
+  inf: { nome: "Informática", cor: "#0f8b8d" }
+};
+
+/* ---------- Armazenamento no navegador (com proteção se não existir) ---------- */
+function ler(chave, padrao) {
+  try { const v = localStorage.getItem(chave); return v === null ? padrao : JSON.parse(v); } catch (e) { return padrao; }
+}
+function gravar(chave, valor) {
+  try { localStorage.setItem(chave, JSON.stringify(valor)); } catch (e) { /* segue sem salvar */ }
+}
+
+/* ---------- Sessão ---------- */
+const CHAVE_USUARIO = "pontoDePartida:usuario";
+let usuario = ler(CHAVE_USUARIO, null);
+const PAGINA = document.body.dataset.pagina;
+
+function sair() {
+  try { localStorage.removeItem(CHAVE_USUARIO); speechSynthesis.cancel(); } catch (e) {}
+  location.href = "index.html";
+}
+/* Sem login, volta para a tela de entrada. Se o navegador não guarda dados, entra como visitante. */
+if (PAGINA !== "login" && !usuario) {
+  let temArmazenamento = true;
+  try { localStorage.setItem("teste", "1"); localStorage.removeItem("teste"); } catch (e) { temArmazenamento = false; }
+  if (temArmazenamento) location.replace("index.html");
+  else usuario = "Visitante";
+}
+
+/* ---------- Avisos, voz e comemoração ---------- */
+document.body.insertAdjacentHTML("beforeend",
+  `<div class="aviso" id="aviso" role="status" hidden></div><canvas class="confete" id="confete" aria-hidden="true" hidden></canvas>`);
+
+function avisar(texto) {
+  const el = $("aviso");
+  el.textContent = texto; el.hidden = false;
+  clearTimeout(avisar.t); avisar.t = setTimeout(() => el.hidden = true, 3500);
+}
+function falar(texto) {
+  try {
+    if (!("speechSynthesis" in window)) return avisar("Seu navegador não tem leitura em voz alta.");
+    speechSynthesis.cancel();
+    const fala = new SpeechSynthesisUtterance(texto);
+    fala.lang = "pt-BR"; fala.rate = 0.9;
+    const voz = speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith("pt"));
+    if (voz) fala.voice = voz;
+    speechSynthesis.speak(fala);
+  } catch (e) { avisar("Não foi possível tocar o áudio neste navegador."); }
+}
+/* Qualquer botão com data-falar="texto" lê o texto em voz alta */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-falar]");
+  if (b) falar(b.dataset.falar);
+});
+
+function celebrar(texto) {
+  avisar(texto);
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const tela = $("confete"), ctx = tela.getContext("2d");
+  tela.width = innerWidth; tela.height = innerHeight; tela.hidden = false;
+  const cores = ["#f2b705", "#14213d", "#c8452c", "#2e7d5b", "#2f6fdf", "#8a5cc7"];
+  const pedacos = Array.from({ length: 110 }, () => ({
+    x: innerWidth / 2 + (Math.random() - 0.5) * 120, y: innerHeight * 0.35,
+    vx: (Math.random() - 0.5) * 12, vy: -Math.random() * 11 - 4,
+    t: Math.random() * 6 + 4, r: Math.random() * Math.PI, cor: cores[Math.floor(Math.random() * cores.length)]
+  }));
+  const inicio = performance.now();
+  (function quadro(agora) {
+    ctx.clearRect(0, 0, tela.width, tela.height);
+    pedacos.forEach(p => {
+      p.vy += 0.35; p.x += p.vx; p.y += p.vy; p.r += 0.15;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.cor;
+      ctx.fillRect(-p.t / 2, -p.t / 4, p.t, p.t / 2); ctx.restore();
+    });
+    if (agora - inicio < 1800) requestAnimationFrame(quadro);
+    else { ctx.clearRect(0, 0, tela.width, tela.height); tela.hidden = true; }
+  })(inicio);
+}
+
+/* ---------- Perfil: progresso salvo do usuário ---------- */
+const NIVEIS = [
+  { min: 0, nome: "Recomeço" }, { min: 100, nome: "Aprendiz" }, { min: 300, nome: "Estudante" },
+  { min: 600, nome: "Dedicado" }, { min: 1000, nome: "Rumo à faculdade" }, { min: 1600, nome: "Pronto para o ENEM" }
+];
+const MEDALHAS = [
+  { id: "primeiro-passo", icone: "👣", nome: "Primeiro passo", desc: "Responda sua primeira questão" },
+  { id: "bloco", icone: "📘", nome: "Bloco concluído", desc: "Termine um bloco de questões" },
+  { id: "gabarito", icone: "🏆", nome: "Gabaritou", desc: "Acerte todas as questões de um bloco" },
+  { id: "combo", icone: "🔥", nome: "Em chamas", desc: "Acerte 5 questões seguidas" },
+  { id: "desafio", icone: "☀️", nome: "Desafio do dia", desc: "Complete o desafio do dia" },
+  { id: "simulado", icone: "🎯", nome: "Simulado completo", desc: "Termine o simulado geral" },
+  { id: "todas-areas", icone: "🌈", nome: "Todas as áreas", desc: "Responda questões das 5 áreas" },
+  { id: "explorador", icone: "🧭", nome: "Explorador", desc: "Descubra sua área na página Faculdade" },
+  { id: "leitor", icone: "🔤", nome: "Leitor", desc: "Monte uma palavra com as sílabas" },
+  { id: "constancia", icone: "📅", nome: "Constância", desc: "Entre 3 dias seguidos" },
+  { id: "redator", icone: "✍️", nome: "Redator", desc: "Envie sua primeira redação" },
+  { id: "nota-800", icone: "💯", nome: "Nota 800+", desc: "Tire 800 ou mais na redação" }
+];
+
+const chavePerfil = () => "pontoDePartida:perfil:" + (usuario || "visitante").toLowerCase();
+function perfilNovo() {
+  return {
+    momento: null, xp: 0, medalhas: [], feito: {}, letras: [], areas: [], dias: [], desafioFeito: null, mitosVistos: [],
+    redacoes: [], ultimaRedacao: null, salvas: [], melhores: {},
+    desempenho: Object.fromEntries(Object.keys(AREAS).map(k => [k, { a: 0, t: 0 }]))
+  };
+}
+let perfil = Object.assign(perfilNovo(), ler(chavePerfil(), {}));
+const salvarPerfil = () => gravar(chavePerfil(), perfil);
+
+function sequenciaDias() {
+  const dias = new Set(perfil.dias);
+  let n = 0; const d = new Date();
+  while (dias.has(d.toISOString().slice(0, 10))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function nivelAtual(xp) {
+  let i = 0;
+  NIVEIS.forEach((n, idx) => { if (xp >= n.min) i = idx; });
+  return { i, ...NIVEIS[i], prox: NIVEIS[i + 1] };
+}
+function ganharXP(qtd) {
+  const antes = nivelAtual(perfil.xp).i;
+  perfil.xp += qtd;
+  const depois = nivelAtual(perfil.xp);
+  if (depois.i > antes) celebrar(`Subiu de nível: ${depois.nome}!`);
+  salvarPerfil(); atualizarSelo(true);
+}
+function ganharMedalha(id) {
+  if (perfil.medalhas.includes(id)) return;
+  perfil.medalhas.push(id);
+  const m = MEDALHAS.find(x => x.id === id);
+  perfil.xp += 25;
+  salvarPerfil();
+  celebrar(`${m.icone} Nova medalha: ${m.nome}! +25 XP`);
+}
+
+/* Cada página avisa o que a pessoa fez; aqui viram pontos, medalhas e passos da trilha */
+function registrar(evento, dados = {}) {
+  const f = perfil.feito;
+  switch (evento) {
+    case "resposta":
+      ganharMedalha("primeiro-passo");
+      perfil.desempenho[dados.area].t++;
+      if (dados.acertou) { perfil.desempenho[dados.area].a++; ganharXP(10); }
+      if (dados.seguidas >= 5) ganharMedalha("combo");
+      if (!perfil.areas.includes(dados.area)) perfil.areas.push(dados.area);
+      if (perfil.areas.length >= Object.keys(AREAS).length) ganharMedalha("todas-areas");
+      break;
+    case "fim-quiz":
+      perfil.melhores[dados.bloco] = Math.max(perfil.melhores[dados.bloco] ?? 0, dados.acertos);
+      ganharXP(30);
+      if (dados.bloco === "desafio") {
+        if (perfil.desafioFeito !== hojeISO()) { perfil.desafioFeito = hojeISO(); ganharXP(40); }
+        f.desafio = true; ganharMedalha("desafio");
+      } else if (dados.bloco === "simulado") { f.simulado = true; ganharMedalha("simulado"); }
+      else { f.bloco = true; ganharMedalha("bloco"); }
+      if (dados.acertos === dados.total && dados.total >= 10) { ganharXP(50); ganharMedalha("gabarito"); }
+      break;
+    case "redacao":
+      perfil.redacoes.push({ tema: dados.tema, nota: dados.nota, data: new Date().toLocaleDateString("pt-BR") });
+      perfil.ultimaRedacao = dados.nota; f.redacao = true;
+      ganharXP(50); ganharMedalha("redator");
+      if (dados.nota >= 800) ganharMedalha("nota-800");
+      break;
+    case "teste": f.teste = true; ganharXP(20); ganharMedalha("explorador"); break;
+    case "uf": if (!f.uf) { f.uf = true; ganharXP(10); } break;
+    case "letra":
+      if (!perfil.letras.includes(dados.letra)) { perfil.letras.push(dados.letra); ganharXP(2); }
+      if (perfil.letras.length >= 5) f.letras = true;
+      break;
+    case "silaba": f.silaba = true; ganharXP(10); ganharMedalha("leitor"); break;
+    case "ouvir": f.ouvir = true; ganharXP(5); break;
+    case "dica": if (!f.dica) { f.dica = true; ganharXP(5); } break;
+    case "facil": f.facil = true; break;
+    case "visitou-ler": f["visitou-ler"] = true; break;
+    case "mito":
+      if (!perfil.mitosVistos.includes(dados.i)) { perfil.mitosVistos.push(dados.i); ganharXP(5); }
+      if (perfil.mitosVistos.length >= 3) f.mitos = true;
+      break;
+  }
+  salvarPerfil(); atualizarSelo();
+}
+
+/* Áreas do desafio do dia (as mesmas para todo mundo no mesmo dia) */
+function sementeDoDia() { return [...hojeISO()].reduce((s, c) => (s * 31 + c.charCodeAt(0)) % 2147483647, 7); }
+function areasDoDesafio() {
+  const areas = Object.keys(AREAS), s = sementeDoDia();
+  return [0, 1, 2].map(k => areas[(s + k * 2) % areas.length]);
+}
+
+/* ---------- Cabeçalho e rodapé ---------- */
+const MENU = [
+  { id: "inicio", href: "inicio.html", icone: "🏠", nome: "Início" },
+  { id: "estudar", href: "estudar.html", icone: "📚", nome: "Estudar" },
+  { id: "redacao", href: "redacao.html", icone: "✍️", nome: "Redação" },
+  { id: "faculdade", href: "faculdade.html", icone: "🎓", nome: "Faculdade" },
+  { id: "ler", href: "ler.html", icone: "🔤", nome: "Aprender a ler" },
+  { id: "solucoes", href: "solucoes.html", icone: "💡", nome: "Soluções e dicas" }
+];
+function montarCabecalho() {
+  const topo = $("topo");
+  if (!topo) return;
+  topo.innerHTML = `
+    <nav class="container nav" aria-label="Principal">
+      <a href="inicio.html" class="logo"><span class="logo-marca" aria-hidden="true"></span>Ponto de Partida</a>
+      <ul class="nav-links" id="menu">${MENU.map(m => `
+        <li><a href="${m.href}" ${m.id === PAGINA ? 'aria-current="page"' : ""}><span class="icone" aria-hidden="true">${m.icone}</span>${m.nome}</a></li>`).join("")}
+      </ul>
+      <div class="usuario">
+        <a href="perfil.html" class="selo" id="selo" title="Seu perfil: nível, pontos e sequência de dias" ${PAGINA === "perfil" ? 'aria-current="page"' : ""}>
+          <span class="avatar-mini" aria-hidden="true">${(usuario || "V").charAt(0)}</span>
+          <span id="selo-nivel">Nv. 1</span><span class="selo-xp" id="selo-xp">0 XP</span><span class="selo-fogo">🔥<span id="selo-dias" class="num">0</span></span>
+        </a>
+        <button class="ferramenta" id="btn-ouvir-pagina" title="Ler esta página em voz alta" aria-label="Ouvir esta página">🔊</button>
+        <button class="ferramenta" id="btn-modo-facil" aria-pressed="false" title="Modo fácil: letras maiores" aria-label="Modo fácil">Aa</button>
+        <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+      </div>
+    </nav>`;
+  $("menu-btn").addEventListener("click", () => $("menu-btn").setAttribute("aria-expanded", $("menu").classList.toggle("aberto")));
+  $("btn-modo-facil").addEventListener("click", () => definirModoFacil(!document.documentElement.classList.contains("facil")));
+  $("btn-ouvir-pagina").addEventListener("click", () => {
+    const textos = [...document.querySelectorAll("main [data-ler]")].filter(el => el.offsetParent !== null).map(el => el.textContent.trim());
+    falar(textos.join(". ") || document.title);
+  });
+  atualizarSelo();
+}
+function montarRodape() {
+  const rodape = $("rodape");
+  if (rodape) rodape.innerHTML = `<div class="container rodape-grade">
+    <span>Ponto de Partida · educação contra a desigualdade</span>
+    <span>Questões e textos criados para o site · dados do IBGE (PNAD Contínua Educação 2025) · instituições: confira no e-MEC</span></div>`;
+}
+function atualizarSelo(pulsar) {
+  if (!$("selo")) return;
+  const n = nivelAtual(perfil.xp);
+  $("selo-nivel").textContent = `Nv. ${n.i + 1}`;
+  $("selo-xp").textContent = `${perfil.xp} XP`;
+  $("selo-dias").textContent = sequenciaDias();
+  if (pulsar) { const s = $("selo"); s.classList.remove("pulsa"); void s.offsetWidth; s.classList.add("pulsa"); }
+}
+
+/* ---------- Modo fácil (letras maiores), lembrado entre as páginas ---------- */
+function definirModoFacil(ligado) {
+  document.documentElement.classList.toggle("facil", ligado);
+  if ($("btn-modo-facil")) $("btn-modo-facil").setAttribute("aria-pressed", ligado);
+  gravar("pontoDePartida:modoFacil", ligado);
+  if (ligado && PAGINA !== "login") registrar("facil");
+}
+
+/* ---------- Abas dentro de uma página (ex.: Faculdade) ---------- */
+function ativarAbas(aoTrocar) {
+  const botoes = [...document.querySelectorAll("[data-aba]")];
+  if (!botoes.length) return;
+  const mostrar = id => {
+    if (!botoes.some(b => b.dataset.aba === id)) id = botoes[0].dataset.aba;
+    botoes.forEach(b => b.setAttribute("aria-selected", b.dataset.aba === id));
+    document.querySelectorAll("[data-painel]").forEach(p => p.hidden = p.dataset.painel !== id);
+    if (aoTrocar) aoTrocar(id);
+  };
+  botoes.forEach(b => b.addEventListener("click", () => { history.replaceState(null, "", "#" + b.dataset.aba); mostrar(b.dataset.aba); }));
+  window.addEventListener("hashchange", () => mostrar(location.hash.slice(1)));
+  mostrar(location.hash.slice(1));
+}
+
+/* ---------- Desafiar um amigo ---------- */
+function caixaDesafiarAmigo(nome, acertos, total) {
+  const texto = `Fiz ${acertos}/${total} no ${nome} do Ponto de Partida, um site para estudar para o ENEM de graça. Duvido você me superar!`;
+  return `<div class="desafiar">
+    <div><h3>Desafie um amigo</h3><p class="suave">Estudar junto ajuda a não desistir. Mande seu resultado e chame alguém para estudar com você.</p></div>
+    <div class="linha-botoes">
+      <a class="btn btn-whats" href="https://wa.me/?text=${encodeURIComponent(texto)}" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+      <button class="btn btn-secundario" data-copiar="${texto.replace(/"/g, "&quot;")}">Copiar mensagem</button>
+    </div></div>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copiar]");
+  if (!b) return;
+  try {
+    navigator.clipboard.writeText(b.dataset.copiar).then(() => avisar("Mensagem copiada! Cole no app que quiser."), () => avisar("Não foi possível copiar. Selecione o texto e copie manualmente."));
+  } catch (err) { avisar("Não foi possível copiar neste navegador."); }
+});
+
+/* ---------- Ao abrir qualquer página ---------- */
+if (PAGINA !== "login" && usuario) {
+  if (!perfil.dias.includes(hojeISO())) perfil.dias.push(hojeISO());
+  salvarPerfil();
+  montarCabecalho();
+  montarRodape();
+  if (sequenciaDias() >= 3) ganharMedalha("constancia");
+}
+if (ler("pontoDePartida:modoFacil", false)) {
+  document.documentElement.classList.add("facil");
+  if ($("btn-modo-facil")) $("btn-modo-facil").setAttribute("aria-pressed", "true");
+}
+
+</script>
+<script>
+/* ===== js/dados/conteudo.js ===== */
+/* =========================================================
+   CONTEÚDO DO SITE: soluções, dicas, cursos, formas de ingresso,
+   teste de área e atividades de leitura.
+   ========================================================= */
+
+const formasIngresso = [
+  { nome: "ENEM", para: "Para quem terminou ou está terminando o ensino médio", texto: "Prova nacional feita uma vez por ano. A nota é usada no Sisu, no ProUni, no FIES e em muitas faculdades particulares. Estudantes de escola pública podem pedir isenção da taxa." },
+  { nome: "Sisu", para: "Universidades públicas e gratuitas", texto: "Sistema que usa a nota do ENEM para distribuir vagas em universidades federais e estaduais. Você escolhe até duas opções de curso." },
+  { nome: "ProUni", para: "Bolsas em faculdades particulares", texto: "Bolsas integrais ou parciais para quem tem renda familiar baixa e estudou o ensino médio em escola pública ou como bolsista integral." },
+  { nome: "FIES", para: "Financiamento estudantil", texto: "O governo paga a mensalidade da faculdade particular e o estudante devolve o valor depois de formado, com condições especiais." },
+  { nome: "Cotas", para: "Estudantes de escola pública", texto: "A Lei de Cotas reserva metade das vagas das universidades e institutos federais para quem estudou em escola pública, com parte delas para pretos, pardos, indígenas, quilombolas, pessoas com deficiência e baixa renda." },
+  { nome: "Institutos Federais", para: "Cursos técnicos e superiores gratuitos", texto: "Oferecem cursos técnicos, tecnólogos, licenciaturas e bacharelados de graça, em várias cidades do interior." }
+];
+
+const cursos = [
+  { nome: "Enfermagem", area: "Saúde", tipo: "Bacharelado", dur: "4 a 5 anos", texto: "Cuida de pacientes em hospitais, postos de saúde e na atenção básica.", porque: "Profissão com muita procura em todo o país, inclusive no interior." },
+  { nome: "Medicina", area: "Saúde", tipo: "Bacharelado", dur: "6 anos", texto: "Diagnostica e trata doenças. Depois da graduação, vem a residência na especialidade.", porque: "Cotas e o Sisu abriram vagas para alunos de escola pública nas federais." },
+  { nome: "Análise e Desenvolvimento de Sistemas", area: "Tecnologia", tipo: "Tecnólogo", dur: "2,5 a 3 anos", texto: "Cria programas, sites e aplicativos.", porque: "Curso curto, com muitas vagas de trabalho e possibilidade de trabalhar de casa." },
+  { nome: "Engenharia de Energias Renováveis", area: "Tecnologia", tipo: "Bacharelado", dur: "5 anos", texto: "Projeta usinas solares, eólicas e sistemas de energia limpa.", porque: "Área em crescimento, principalmente no Nordeste." },
+  { nome: "Pedagogia", area: "Educação", tipo: "Licenciatura", dur: "4 anos", texto: "Forma professores para a educação infantil e os primeiros anos do fundamental.", porque: "Quem cresceu na escola pública conhece de perto os desafios e pode transformá-la." },
+  { nome: "Licenciatura em Matemática", area: "Educação", tipo: "Licenciatura", dur: "4 anos", texto: "Forma professores de matemática para o fundamental e o médio.", porque: "Faltam professores de exatas em muitas regiões do Brasil." },
+  { nome: "Direito", area: "Humanas", tipo: "Bacharelado", dur: "5 anos", texto: "Atua com leis, defesa de pessoas, concursos públicos e advocacia.", porque: "Abre caminho para defensoria pública e para lutar por direitos da comunidade." },
+  { nome: "Serviço Social", area: "Humanas", tipo: "Bacharelado", dur: "4 anos", texto: "Ajuda famílias a acessar direitos como saúde, moradia e assistência.", porque: "Trabalho direto no combate à desigualdade social." },
+  { nome: "Agronomia", area: "Agrárias", tipo: "Bacharelado", dur: "5 anos", texto: "Cuida da produção de alimentos, do solo e do uso da água.", porque: "Importante para a agricultura familiar e para conviver com o semiárido." },
+  { nome: "Gestão Ambiental", area: "Agrárias", tipo: "Tecnólogo", dur: "2 a 3 anos", texto: "Planeja o uso responsável da natureza em empresas e prefeituras.", porque: "Curso curto, ligado a temas como clima e reciclagem." },
+  { nome: "Administração", area: "Negócios", tipo: "Bacharelado", dur: "4 anos", texto: "Organiza empresas, finanças, pessoas e projetos.", porque: "Serve para trabalhar em empresas ou abrir o próprio negócio." },
+  { nome: "Design Gráfico", area: "Artes", tipo: "Tecnólogo", dur: "2 a 3 anos", texto: "Cria marcas, cartazes, sites e conteúdo visual para redes sociais.", porque: "Junta criatividade e tecnologia, com espaço para trabalho autônomo." }
+];
+
+const testeArea = [
+  { p: "O que você mais gosta de fazer?", o: [["Cuidar de pessoas", "Saúde"], ["Mexer no computador e no celular", "Tecnologia"], ["Explicar coisas para os outros", "Educação"], ["Desenhar e criar", "Artes"]] },
+  { p: "Qual matéria você prefere?", o: [["Biologia", "Saúde"], ["Matemática", "Tecnologia"], ["História e Sociologia", "Humanas"], ["Geografia", "Agrárias"]] },
+  { p: "Onde você se imagina trabalhando?", o: [["Em um hospital ou posto de saúde", "Saúde"], ["Em uma escola", "Educação"], ["No campo ou na natureza", "Agrárias"], ["No meu próprio negócio", "Negócios"]] },
+  { p: "O que mais te motiva?", o: [["Ajudar a comunidade a ter seus direitos", "Humanas"], ["Resolver problemas com lógica", "Tecnologia"], ["Ver alguém aprender", "Educação"], ["Fazer algo bonito e criativo", "Artes"]] }
+];
+
+const alfabeto = [
+  ["A","Água","💧"],["B","Banana","🍌"],["C","Casa","🏠"],["D","Dinheiro","💵"],["E","Escola","🏫"],["F","Flor","🌻"],
+  ["G","Gato","🐱"],["H","Hospital","🏥"],["I","Igreja","⛪"],["J","Janela","🪟"],["K","Kiwi","🥝"],["L","Leite","🥛"],
+  ["M","Mercado","🛒"],["N","Noite","🌙"],["O","Ônibus","🚌"],["P","Pão","🍞"],["Q","Queijo","🧀"],["R","Remédio","💊"],
+  ["S","Sol","☀️"],["T","Telefone","📱"],["U","Uva","🍇"],["V","Vaca","🐄"],["W","Wi-fi","📶"],["X","Xícara","☕"],
+  ["Y","Yoga","🧘"],["Z","Zero","0️⃣"]
+];
+
+const palavrasSilabas = [
+  { s: ["BA","NA","NA"], emoji: "🍌" }, { s: ["CA","SA"], emoji: "🏠" }, { s: ["ES","CO","LA"], emoji: "🏫" },
+  { s: ["JA","NE","LA"], emoji: "🪟" }, { s: ["ME","SA"], emoji: "🪑" }, { s: ["SA","PA","TO"], emoji: "👞" },
+  { s: ["CA","FÉ"], emoji: "☕" }, { s: ["BO","LA"], emoji: "⚽" }
+];
+
+const palavrasOuvir = [
+  ["PÃO","🍞"],["LEITE","🥛"],["ÔNIBUS","🚌"],["REMÉDIO","💊"],["CASA","🏠"],["SOL","☀️"],["GATO","🐱"],["UVA","🍇"],["DINHEIRO","💵"],["TELEFONE","📱"]
+];
+
+const solucoes = [
+  { area: "Escola", titulo: "Busca ativa de alunos", problema: "O aluno começa a faltar e ninguém percebe até ele sair de vez.", resposta: "A escola acompanha a frequência toda semana e procura a família logo nas primeiras faltas.", acoes: ["Lista semanal de alunos com 3 ou mais faltas", "Contato com a família por telefone ou visita", "Parceria com o Conselho Tutelar e a assistência social"] },
+  { area: "Escola", titulo: "Reforço e recomposição", problema: "Quem tem dificuldade em leitura e matemática fica para trás e desanima.", resposta: "Grupos pequenos de reforço no contraturno, organizados pelo que cada aluno ainda não aprendeu.", acoes: ["Avaliação diagnóstica no início do ano", "Monitoria entre alunos", "Metas curtas e acompanhamento mensal"] },
+  { area: "Governo", titulo: "Apoio financeiro para estudar", problema: "43% dos jovens que saíram da escola foram trabalhar para ajudar em casa.", resposta: "Bolsas e auxílios ligados à frequência e à conclusão do ensino médio, como o Pé-de-Meia.", acoes: ["Divulgar os programas na escola", "Ajudar a família com o cadastro", "Acompanhar a frequência exigida"] },
+  { area: "Governo", titulo: "Vagas em creche e pré-escola", problema: "Quem começa a estudar tarde chega ao fundamental em desvantagem.", resposta: "Ampliar vagas na educação infantil, com prioridade para as famílias mais pobres.", acoes: ["Fila única e transparente de vagas", "Creches perto de onde as famílias moram", "Horário compatível com o trabalho dos pais"] },
+  { area: "Governo", titulo: "Ações afirmativas", problema: "Só 18,9% dos jovens pretos ou pardos de 18 a 24 anos estão na faculdade.", resposta: "Cotas raciais, sociais e para escola pública, somadas a auxílio para o aluno continuar no curso.", acoes: ["Cotas no Sisu e nos vestibulares", "Moradia, alimentação e transporte estudantil", "Mentoria no primeiro ano da faculdade"] },
+  { area: "Comunidade", titulo: "Cursinhos populares", problema: "Cursinho particular custa caro e fica longe da periferia.", resposta: "Cursinhos gratuitos ou de baixo custo, com professores voluntários, no próprio bairro.", acoes: ["Usar salas de escolas, igrejas e associações", "Voluntários universitários como professores", "Simulados do ENEM ao longo do ano"] },
+  { area: "Comunidade", titulo: "Alfabetização de adultos", problema: "58% dos analfabetos do Brasil têm 60 anos ou mais.", resposta: "Turmas de Educação de Jovens e Adultos (EJA) perto de casa e em horários flexíveis.", acoes: ["Turmas à noite e nos fins de semana", "Material com temas do dia a dia", "Busca de alunos de casa em casa"] },
+  { area: "Família", titulo: "Família presente na escola", problema: "Pais que trabalham o dia todo não conseguem acompanhar a vida escolar.", resposta: "Reuniões em horários alternativos e comunicação simples pelo celular.", acoes: ["Reuniões à noite ou no sábado", "Grupo de mensagens da turma", "Recados curtos e em linguagem simples"] }
+];
+
+const dicas = [
+  { publico: "Estudantes", titulo: "Monte um cronograma realista", texto: "Reserve 30 a 60 minutos por dia em vez de estudar muitas horas de uma vez. Constância vale mais que maratona." },
+  { publico: "Estudantes", titulo: "Peça isenção da taxa do ENEM", texto: "Quem é de escola pública ou de família de baixa renda pode pedir isenção. Fique de olho no prazo, que costuma ser no começo do ano." },
+  { publico: "Estudantes", titulo: "Use material gratuito", texto: "Videoaulas, provas antigas do ENEM e bibliotecas públicas cobrem quase todo o conteúdo sem custo." },
+  { publico: "Estudantes", titulo: "Conheça Sisu, ProUni e FIES", texto: "São as principais portas para a faculdade pública ou com bolsa. Entenda as regras de cada um antes de fazer o ENEM." },
+  { publico: "Estudantes", titulo: "Estude em grupo", texto: "Explicar a matéria para um colega é uma das formas mais eficientes de aprender." },
+  { publico: "Famílias", titulo: "Pergunte sobre o dia na escola", texto: "Cinco minutos de conversa por dia mostram ao filho que estudar importa, mesmo que você não saiba a matéria." },
+  { publico: "Famílias", titulo: "Crie um cantinho de estudo", texto: "Uma mesa, boa luz e um horário fixo já ajudam, mesmo em casas pequenas." },
+  { publico: "Famílias", titulo: "Procure a escola cedo", texto: "Se o filho está faltando ou desanimado, converse com a coordenação logo. Agir no começo evita o abandono." },
+  { publico: "Professores", titulo: "Faça um diagnóstico no início", texto: "Descubra o que cada aluno já sabe antes de seguir o conteúdo. Assim dá para ajudar quem está atrás." },
+  { publico: "Professores", titulo: "Traga exemplos da realidade dos alunos", texto: "Contas com o preço da passagem, textos sobre o bairro: aprender faz mais sentido quando tem a ver com a vida." },
+  { publico: "Professores", titulo: "Observe sinais de abandono", texto: "Faltas seguidas, queda de notas e isolamento são sinais. Avise a coordenação e procure o aluno." },
+  { publico: "Comunidade", titulo: "Seja voluntário em um cursinho", texto: "Se você sabe uma matéria, algumas horas por semana fazem diferença para quem quer entrar na faculdade." },
+  { publico: "Comunidade", titulo: "Doe material escolar", texto: "Cadernos, livros e uniformes parados em casa podem manter uma criança na escola. Procure a escola do bairro." },
+  { publico: "Comunidade", titulo: "Ensine alguém a ler", texto: "Muitos idosos não tiveram a chance de estudar. Indique uma turma de EJA ou ajude em casa com paciência." }
+];
+
+/* Trilhas: o site monta um caminho conforme o momento da pessoa */
+const MOMENTOS = {
+  parei: {
+    icone: "🎒", titulo: "Terminei o ensino médio e parei de estudar",
+    frase: "Ainda dá tempo, e você não precisa largar o trabalho. Siga estes passos:",
+    passos: [
+      { id: "mitos", texto: "Descubra 3 mitos e verdades sobre voltar a estudar", link: "inicio.html#mitos" },
+      { id: "teste", texto: "Faça o teste e descubra a área que combina com você", link: "faculdade.html#descubra" },
+      { id: "uf", texto: "Veja as universidades públicas do seu estado", link: "faculdade.html#universidades" },
+      { id: "bloco", texto: "Termine seu primeiro bloco de questões", link: "estudar.html" },
+      { id: "redacao", texto: "Treine uma redação e veja em que cursos sua nota entra", link: "redacao.html" }
+    ]
+  },
+  medio: {
+    icone: "📖", titulo: "Ainda estou no ensino médio",
+    frase: "Comece a se preparar para o ENEM desde já:",
+    passos: [
+      { id: "desafio", texto: "Faça o desafio do dia", link: "estudar.html#desafio" },
+      { id: "bloco", texto: "Termine seu primeiro bloco de questões", link: "estudar.html" },
+      { id: "teste", texto: "Descubra a área que combina com você", link: "faculdade.html#descubra" },
+      { id: "redacao", texto: "Escreva sua primeira redação", link: "redacao.html" },
+      { id: "simulado", texto: "Faça o simulado geral", link: "estudar.html" }
+    ]
+  },
+  naoterminei: {
+    icone: "🔁", titulo: "Não terminei a escola",
+    frase: "Dá para voltar e terminar. Comece por aqui:",
+    passos: [
+      { id: "mitos", texto: "Descubra 3 mitos e verdades sobre voltar a estudar", link: "inicio.html#mitos" },
+      { id: "visitou-ler", texto: "Conheça a EJA, a escola para jovens e adultos", link: "ler.html" },
+      { id: "dica", texto: "Salve uma dica que vai te ajudar", link: "solucoes.html#dicas" },
+      { id: "desafio", texto: "Faça o desafio do dia", link: "estudar.html#desafio" },
+      { id: "bloco", texto: "Termine seu primeiro bloco de questões", link: "estudar.html" }
+    ]
+  },
+  ler: {
+    icone: "🔤", titulo: "Quero aprender a ler",
+    frase: "Vamos juntos, no seu tempo. Tudo tem áudio:",
+    passos: [
+      { id: "facil", texto: "Ligue o Modo fácil para deixar as letras maiores", link: "ler.html" },
+      { id: "letras", texto: "Toque em 5 letras para ouvir o som delas", link: "ler.html" },
+      { id: "silaba", texto: "Monte uma palavra juntando as sílabas", link: "ler.html" },
+      { id: "ouvir", texto: "Ouça uma palavra e escolha a figura certa", link: "ler.html" },
+      { id: "mitos", texto: "Descubra 3 mitos e verdades sobre voltar a estudar", link: "inicio.html#mitos" }
+    ]
+  }
+};
+
+/* Cartões de Mito ou verdade */
+const MITOS = [
+  { frase: "Depois de alguns anos fora da escola, já passou da hora de fazer faculdade.", tipo: "Mito",
+    texto: "Não existe idade máxima para fazer o ENEM nem para entrar na faculdade. Muita gente começa depois dos 25, dos 30 ou dos 40 anos." },
+  { frase: "Universidade pública é só para quem estudou em escola particular.", tipo: "Mito",
+    texto: "A Lei de Cotas reserva metade das vagas das universidades e institutos federais para quem estudou em escola pública." },
+  { frase: "Dá para trabalhar e fazer faculdade ao mesmo tempo.", tipo: "Verdade",
+    texto: "Há cursos noturnos, cursos a distância e cursos tecnólogos, que são mais curtos." },
+  { frase: "O ENEM é caro e quem tem pouco dinheiro não consegue se inscrever.", tipo: "Mito",
+    texto: "Quem estudou em escola pública e tem baixa renda, ou está no CadÚnico, pode pedir isenção da taxa de inscrição." },
+  { frase: "Curso técnico não vale a pena, só faculdade dá futuro.", tipo: "Mito",
+    texto: "Os cursos técnicos dos institutos federais são gratuitos e preparam para o trabalho em menos tempo." },
+  { frase: "Quem não terminou a escola ainda pode conseguir o diploma.", tipo: "Verdade",
+    texto: "A EJA é gratuita e tem turmas à noite. Também existe o Encceja, uma prova que certifica o ensino fundamental e o médio." }
+];
+
+</script>
+<script>
+/* ===== js/dados/instituicoes.js ===== */
+/* =========================================================
+   UNIVERSIDADES E INSTITUTOS PÚBLICOS POR ESTADO
+   Formato: [sigla, nome completo, tipo, observação opcional]
+   Tipos: "Federal", "Estadual", "Instituto Federal"
+   Lista principal; confira todas as instituições, inclusive particulares, no e-MEC.
+   ========================================================= */
+const INSTITUICOES = [
+  { uf: "AC", estado: "Acre", lista: [
+    ["UFAC", "Universidade Federal do Acre", "Federal"],
+    ["IFAC", "Instituto Federal do Acre", "Instituto Federal"] ] },
+  { uf: "AL", estado: "Alagoas", lista: [
+    ["UFAL", "Universidade Federal de Alagoas", "Federal"],
+    ["UNEAL", "Universidade Estadual de Alagoas", "Estadual"],
+    ["UNCISAL", "Universidade Estadual de Ciências da Saúde de Alagoas", "Estadual"],
+    ["IFAL", "Instituto Federal de Alagoas", "Instituto Federal"] ] },
+  { uf: "AP", estado: "Amapá", lista: [
+    ["UNIFAP", "Universidade Federal do Amapá", "Federal"],
+    ["UFFN", "Universidade Federal da Fronteira Norte (Oiapoque)", "Federal", "Criada em 2026"],
+    ["UEAP", "Universidade do Estado do Amapá", "Estadual"],
+    ["IFAP", "Instituto Federal do Amapá", "Instituto Federal"] ] },
+  { uf: "AM", estado: "Amazonas", lista: [
+    ["UFAM", "Universidade Federal do Amazonas", "Federal"],
+    ["UEA", "Universidade do Estado do Amazonas", "Estadual"],
+    ["IFAM", "Instituto Federal do Amazonas", "Instituto Federal"] ] },
+  { uf: "BA", estado: "Bahia", lista: [
+    ["UFBA", "Universidade Federal da Bahia", "Federal"],
+    ["UFRB", "Universidade Federal do Recôncavo da Bahia", "Federal"],
+    ["UFSB", "Universidade Federal do Sul da Bahia", "Federal"],
+    ["UFOB", "Universidade Federal do Oeste da Bahia", "Federal"],
+    ["UNIVASF", "Universidade Federal do Vale do São Francisco (campi na Bahia)", "Federal"],
+    ["UNILAB", "Universidade da Integração Internacional da Lusofonia Afro-Brasileira (campus São Francisco do Conde)", "Federal"],
+    ["UNEB", "Universidade do Estado da Bahia", "Estadual"],
+    ["UEFS", "Universidade Estadual de Feira de Santana", "Estadual"],
+    ["UESC", "Universidade Estadual de Santa Cruz", "Estadual"],
+    ["UESB", "Universidade Estadual do Sudoeste da Bahia", "Estadual"],
+    ["IFBA", "Instituto Federal da Bahia", "Instituto Federal"],
+    ["IF Baiano", "Instituto Federal Baiano", "Instituto Federal"] ] },
+  { uf: "CE", estado: "Ceará", lista: [
+    ["UFC", "Universidade Federal do Ceará", "Federal"],
+    ["UFCA", "Universidade Federal do Cariri", "Federal"],
+    ["UNILAB", "Universidade da Integração Internacional da Lusofonia Afro-Brasileira (Redenção e Acarape)", "Federal"],
+    ["UECE", "Universidade Estadual do Ceará", "Estadual"],
+    ["URCA", "Universidade Regional do Cariri", "Estadual"],
+    ["UVA", "Universidade Estadual Vale do Acaraú", "Estadual"],
+    ["IFCE", "Instituto Federal do Ceará", "Instituto Federal"] ] },
+  { uf: "DF", estado: "Distrito Federal", lista: [
+    ["UnB", "Universidade de Brasília", "Federal"],
+    ["UNIND", "Universidade Federal Indígena", "Federal", "Criada em 2026, em implantação"],
+    ["UFEsporte", "Universidade Federal do Esporte", "Federal", "Criada em 2026, em implantação"],
+    ["UnDF", "Universidade do Distrito Federal", "Estadual"],
+    ["IFB", "Instituto Federal de Brasília", "Instituto Federal"] ] },
+  { uf: "ES", estado: "Espírito Santo", lista: [
+    ["UFES", "Universidade Federal do Espírito Santo", "Federal"],
+    ["IFES", "Instituto Federal do Espírito Santo", "Instituto Federal"] ] },
+  { uf: "GO", estado: "Goiás", lista: [
+    ["UFG", "Universidade Federal de Goiás", "Federal"],
+    ["UFJ", "Universidade Federal de Jataí", "Federal"],
+    ["UFCAT", "Universidade Federal de Catalão", "Federal"],
+    ["UEG", "Universidade Estadual de Goiás", "Estadual"],
+    ["IFG", "Instituto Federal de Goiás", "Instituto Federal"],
+    ["IF Goiano", "Instituto Federal Goiano", "Instituto Federal"] ] },
+  { uf: "MA", estado: "Maranhão", lista: [
+    ["UFMA", "Universidade Federal do Maranhão", "Federal"],
+    ["UEMA", "Universidade Estadual do Maranhão", "Estadual"],
+    ["UEMASUL", "Universidade Estadual da Região Tocantina do Maranhão", "Estadual"],
+    ["IFMA", "Instituto Federal do Maranhão", "Instituto Federal"] ] },
+  { uf: "MT", estado: "Mato Grosso", lista: [
+    ["UFMT", "Universidade Federal de Mato Grosso", "Federal"],
+    ["UFR", "Universidade Federal de Rondonópolis", "Federal"],
+    ["UNEMAT", "Universidade do Estado de Mato Grosso", "Estadual"],
+    ["IFMT", "Instituto Federal de Mato Grosso", "Instituto Federal"] ] },
+  { uf: "MS", estado: "Mato Grosso do Sul", lista: [
+    ["UFMS", "Universidade Federal de Mato Grosso do Sul", "Federal"],
+    ["UFGD", "Universidade Federal da Grande Dourados", "Federal"],
+    ["UEMS", "Universidade Estadual de Mato Grosso do Sul", "Estadual"],
+    ["IFMS", "Instituto Federal de Mato Grosso do Sul", "Instituto Federal"] ] },
+  { uf: "MG", estado: "Minas Gerais", lista: [
+    ["UFMG", "Universidade Federal de Minas Gerais", "Federal"],
+    ["UFJF", "Universidade Federal de Juiz de Fora", "Federal"],
+    ["UFOP", "Universidade Federal de Ouro Preto", "Federal"],
+    ["UFV", "Universidade Federal de Viçosa", "Federal"],
+    ["UFLA", "Universidade Federal de Lavras", "Federal"],
+    ["UFU", "Universidade Federal de Uberlândia", "Federal"],
+    ["UFTM", "Universidade Federal do Triângulo Mineiro", "Federal"],
+    ["UFSJ", "Universidade Federal de São João del-Rei", "Federal"],
+    ["UNIFAL-MG", "Universidade Federal de Alfenas", "Federal"],
+    ["UNIFEI", "Universidade Federal de Itajubá", "Federal"],
+    ["UFVJM", "Universidade Federal dos Vales do Jequitinhonha e Mucuri", "Federal"],
+    ["UFCI-MG", "Universidade Federal de Ciência e Inovação de Minas Gerais (antigo CEFET-MG)", "Federal", "Transformada em universidade em 2026"],
+    ["UEMG", "Universidade do Estado de Minas Gerais", "Estadual"],
+    ["Unimontes", "Universidade Estadual de Montes Claros", "Estadual"],
+    ["IFMG", "Instituto Federal de Minas Gerais", "Instituto Federal"],
+    ["IFNMG", "Instituto Federal do Norte de Minas Gerais", "Instituto Federal"],
+    ["IF Sudeste MG", "Instituto Federal do Sudeste de Minas Gerais", "Instituto Federal"],
+    ["IFSULDEMINAS", "Instituto Federal do Sul de Minas Gerais", "Instituto Federal"],
+    ["IFTM", "Instituto Federal do Triângulo Mineiro", "Instituto Federal"] ] },
+  { uf: "PA", estado: "Pará", lista: [
+    ["UFPA", "Universidade Federal do Pará", "Federal"],
+    ["UFRA", "Universidade Federal Rural da Amazônia", "Federal"],
+    ["UFOPA", "Universidade Federal do Oeste do Pará", "Federal"],
+    ["Unifesspa", "Universidade Federal do Sul e Sudeste do Pará", "Federal"],
+    ["UEPA", "Universidade do Estado do Pará", "Estadual"],
+    ["IFPA", "Instituto Federal do Pará", "Instituto Federal"] ] },
+  { uf: "PB", estado: "Paraíba", lista: [
+    ["UFPB", "Universidade Federal da Paraíba", "Federal"],
+    ["UFCG", "Universidade Federal de Campina Grande", "Federal"],
+    ["UEPB", "Universidade Estadual da Paraíba", "Estadual"],
+    ["IFPB", "Instituto Federal da Paraíba", "Instituto Federal"],
+    ["IF Sertão-PB", "Novo Instituto Federal do Sertão da Paraíba", "Instituto Federal", "Criado em 2026, em implantação"] ] },
+  { uf: "PR", estado: "Paraná", lista: [
+    ["UFPR", "Universidade Federal do Paraná", "Federal"],
+    ["UTFPR", "Universidade Tecnológica Federal do Paraná", "Federal"],
+    ["UNILA", "Universidade Federal da Integração Latino-Americana", "Federal"],
+    ["UFFS", "Universidade Federal da Fronteira Sul (campi no Paraná)", "Federal"],
+    ["UEL", "Universidade Estadual de Londrina", "Estadual"],
+    ["UEM", "Universidade Estadual de Maringá", "Estadual"],
+    ["UEPG", "Universidade Estadual de Ponta Grossa", "Estadual"],
+    ["Unioeste", "Universidade Estadual do Oeste do Paraná", "Estadual"],
+    ["Unicentro", "Universidade Estadual do Centro-Oeste", "Estadual"],
+    ["UENP", "Universidade Estadual do Norte do Paraná", "Estadual"],
+    ["Unespar", "Universidade Estadual do Paraná", "Estadual"],
+    ["IFPR", "Instituto Federal do Paraná", "Instituto Federal"] ] },
+  { uf: "PE", estado: "Pernambuco", lista: [
+    ["UFPE", "Universidade Federal de Pernambuco", "Federal"],
+    ["UFRPE", "Universidade Federal Rural de Pernambuco", "Federal"],
+    ["UFAPE", "Universidade Federal do Agreste de Pernambuco", "Federal"],
+    ["UNIVASF", "Universidade Federal do Vale do São Francisco", "Federal"],
+    ["UPE", "Universidade de Pernambuco", "Estadual"],
+    ["IFPE", "Instituto Federal de Pernambuco", "Instituto Federal"],
+    ["IF Sertão-PE", "Instituto Federal do Sertão Pernambucano", "Instituto Federal"] ] },
+  { uf: "PI", estado: "Piauí", lista: [
+    ["UFPI", "Universidade Federal do Piauí", "Federal"],
+    ["UFDPar", "Universidade Federal do Delta do Parnaíba", "Federal"],
+    ["UESPI", "Universidade Estadual do Piauí", "Estadual"],
+    ["IFPI", "Instituto Federal do Piauí", "Instituto Federal"] ] },
+  { uf: "RJ", estado: "Rio de Janeiro", lista: [
+    ["UFRJ", "Universidade Federal do Rio de Janeiro", "Federal"],
+    ["UFF", "Universidade Federal Fluminense", "Federal"],
+    ["UNIRIO", "Universidade Federal do Estado do Rio de Janeiro", "Federal"],
+    ["UFRRJ", "Universidade Federal Rural do Rio de Janeiro", "Federal"],
+    ["UFCI-RJ", "Universidade Federal de Ciência e Inovação do Rio de Janeiro (antigo CEFET/RJ)", "Federal", "Transformada em universidade em 2026"],
+    ["UERJ", "Universidade do Estado do Rio de Janeiro", "Estadual"],
+    ["UENF", "Universidade Estadual do Norte Fluminense Darcy Ribeiro", "Estadual"],
+    ["IFRJ", "Instituto Federal do Rio de Janeiro", "Instituto Federal"],
+    ["IFF", "Instituto Federal Fluminense", "Instituto Federal"] ] },
+  { uf: "RN", estado: "Rio Grande do Norte", lista: [
+    ["UFRN", "Universidade Federal do Rio Grande do Norte", "Federal"],
+    ["UFERSA", "Universidade Federal Rural do Semi-Árido", "Federal"],
+    ["UERN", "Universidade do Estado do Rio Grande do Norte", "Estadual"],
+    ["IFRN", "Instituto Federal do Rio Grande do Norte", "Instituto Federal"] ] },
+  { uf: "RS", estado: "Rio Grande do Sul", lista: [
+    ["UFRGS", "Universidade Federal do Rio Grande do Sul", "Federal"],
+    ["UFSM", "Universidade Federal de Santa Maria", "Federal"],
+    ["UFPel", "Universidade Federal de Pelotas", "Federal"],
+    ["FURG", "Universidade Federal do Rio Grande", "Federal"],
+    ["Unipampa", "Universidade Federal do Pampa", "Federal"],
+    ["UFCSPA", "Universidade Federal de Ciências da Saúde de Porto Alegre", "Federal"],
+    ["UFFS", "Universidade Federal da Fronteira Sul (campi no RS)", "Federal"],
+    ["UERGS", "Universidade Estadual do Rio Grande do Sul", "Estadual"],
+    ["IFRS", "Instituto Federal do Rio Grande do Sul", "Instituto Federal"],
+    ["IFFar", "Instituto Federal Farroupilha", "Instituto Federal"],
+    ["IFSul", "Instituto Federal Sul-rio-grandense", "Instituto Federal"] ] },
+  { uf: "RO", estado: "Rondônia", lista: [
+    ["UNIR", "Universidade Federal de Rondônia", "Federal"],
+    ["IFRO", "Instituto Federal de Rondônia", "Instituto Federal"] ] },
+  { uf: "RR", estado: "Roraima", lista: [
+    ["UFRR", "Universidade Federal de Roraima", "Federal"],
+    ["UERR", "Universidade Estadual de Roraima", "Estadual"],
+    ["IFRR", "Instituto Federal de Roraima", "Instituto Federal"] ] },
+  { uf: "SC", estado: "Santa Catarina", lista: [
+    ["UFSC", "Universidade Federal de Santa Catarina", "Federal"],
+    ["UFFS", "Universidade Federal da Fronteira Sul (sede em Chapecó)", "Federal"],
+    ["UDESC", "Universidade do Estado de Santa Catarina", "Estadual"],
+    ["IFSC", "Instituto Federal de Santa Catarina", "Instituto Federal"],
+    ["IFC", "Instituto Federal Catarinense", "Instituto Federal"] ] },
+  { uf: "SP", estado: "São Paulo", lista: [
+    ["UNIFESP", "Universidade Federal de São Paulo", "Federal"],
+    ["UFSCar", "Universidade Federal de São Carlos", "Federal"],
+    ["UFABC", "Universidade Federal do ABC", "Federal"],
+    ["USP", "Universidade de São Paulo", "Estadual"],
+    ["Unicamp", "Universidade Estadual de Campinas", "Estadual"],
+    ["Unesp", "Universidade Estadual Paulista", "Estadual"],
+    ["Univesp", "Universidade Virtual do Estado de São Paulo (a distância)", "Estadual"],
+    ["Fatec", "Faculdades de Tecnologia do Estado de São Paulo (cursos tecnólogos)", "Estadual"],
+    ["IFSP", "Instituto Federal de São Paulo", "Instituto Federal"] ] },
+  { uf: "SE", estado: "Sergipe", lista: [
+    ["UFS", "Universidade Federal de Sergipe", "Federal"],
+    ["IFS", "Instituto Federal de Sergipe", "Instituto Federal"] ] },
+  { uf: "TO", estado: "Tocantins", lista: [
+    ["UFT", "Universidade Federal do Tocantins", "Federal"],
+    ["UFNT", "Universidade Federal do Norte do Tocantins", "Federal"],
+    ["Unitins", "Universidade Estadual do Tocantins", "Estadual"],
+    ["IFTO", "Instituto Federal do Tocantins", "Instituto Federal"] ] }
+];
+
+</script>
+<script>
+/* ===== js/dados/notas-corte.js ===== */
+/* Notas de corte de referência: Sisu 2026, ampla concorrência, instituições
+   públicas do Ceará (2ª parcial divulgada em 21/01/2026, levantamento do jornal O Povo).
+   Servem só como referência: variam por universidade, estado, ano e cota. */
+const NOTAS_CORTE = [
+  { curso: "Medicina", min: 794.93, max: 861.19 },
+  { curso: "Direito", min: 769.84, max: 776.12 },
+  { curso: "Engenharia de Computação", min: 747.18, max: 768.58 },
+  { curso: "Psicologia", min: 726.13, max: 751.18 },
+  { curso: "Enfermagem", min: 735.26, max: 736.12 },
+  { curso: "Ciência da Computação", min: 671.59, max: 774.36 },
+  { curso: "Engenharia Elétrica", min: 668.59, max: 719.20 },
+  { curso: "Engenharia Civil", min: 629.43, max: 713.08 },
+  { curso: "Design", min: 678.98, max: 710.58 },
+  { curso: "Administração", min: 666.99, max: 693.74 },
+  { curso: "Pedagogia", min: 642.54, max: 769.29 },
+  { curso: "Serviço Social", min: 620.11, max: 732.19 },
+  { curso: "Análise e Desenvolvimento de Sistemas", min: 605.60, max: 683.39 },
+  { curso: "Agronomia", min: 597.59, max: 645.88 },
+  { curso: "História", min: 573.28, max: 688.84 },
+  { curso: "Matemática", min: 576.55, max: 716.78 },
+  { curso: "Gestão Ambiental", min: 536.04, max: 586.20 },
+  { curso: "Letras", min: 443.35, max: 714.14 }
+];
+
+</script>
+<script>
+/* ===== js/simulador.js ===== */
+/* =========================================================
+   SIMULADOR DO SISU: média das 5 provas comparada com notas de
+   corte de referência (dados/notas-corte.js). Usado nas páginas
+   Redação e Faculdade.
+   ========================================================= */
+function montarSimulador(idCaixa, notaRedacao) {
+  if (notaRedacao == null) notaRedacao = perfil.ultimaRedacao;
+  const caixa = $(idCaixa);
+  const areas = [["red", "Redação", notaRedacao ?? 600], ["lin", "Linguagens", 600], ["hum", "Ciências Humanas", 600], ["nat", "Ciências da Natureza", 600], ["mat", "Matemática", 600]];
+  caixa.innerHTML = `
+    <h2>Com essa nota, em que curso dá para entrar?</h2>
+    <p class="suave">No Sisu, a nota é a média das 5 provas do ENEM. Coloque suas notas, ou uma estimativa, nas outras áreas. Se não souber, deixe 600.</p>
+    <div class="campos-notas">${areas.map(([k, rot, v]) => `
+      <label class="campo-nota" for="nota-${idCaixa}-${k}"><span>${rot}</span>
+        <input type="number" min="0" max="1000" step="10" id="nota-${idCaixa}-${k}" value="${v}" inputmode="numeric"></label>`).join("")}</div>
+    <div class="media-sisu"><span>Sua média</span><strong class="num" id="media-${idCaixa}">0</strong></div>
+    <div class="lista-cortes" id="cortes-${idCaixa}"></div>
+    <p class="fonte">Referência: notas de corte do Sisu 2026 na ampla concorrência, em universidades e institutos públicos do Ceará (2ª parcial, 21/01/2026, levantamento do jornal O Povo). Nas vagas de cotas a nota costuma ser menor. Cada universidade pode dar pesos diferentes às provas, e as notas mudam todo ano: confira sempre no site do Sisu.</p>`;
+  const calcular = () => {
+    const notas = areas.map(([k]) => Math.min(1000, Math.max(0, +$(`nota-${idCaixa}-${k}`).value || 0)));
+    const media = notas.reduce((s, n) => s + n, 0) / notas.length;
+    $(`media-${idCaixa}`).textContent = media.toFixed(1).replace(".", ",");
+    $(`cortes-${idCaixa}`).innerHTML = NOTAS_CORTE.slice().sort((a, b) => a.min - b.min).map(c => {
+      const st = media >= c.max ? ["dentro", "Dá para entrar em todas as opções"] : media >= c.min ? ["parcial", "Dá para entrar em algumas opções"]
+        : c.min - media <= 40 ? ["perto", `Perto: faltam ${(c.min - media).toFixed(0)} pontos`] : ["longe", `Faltam ${(c.min - media).toFixed(0)} pontos`];
+      const esc = v => Math.max(0, Math.min(100, ((v - 400) / 500) * 100));
+      return `<div class="corte ${st[0]}">
+        <span class="corte-nome">${c.curso}</span>
+        <div class="corte-escala" aria-hidden="true"><div class="corte-faixa" style="left:${esc(c.min)}%;width:${esc(c.max) - esc(c.min)}%"></div><div class="corte-voce" style="left:${esc(media)}%"></div></div>
+        <span class="corte-num num">${c.min.toFixed(0)}–${c.max.toFixed(0)}</span>
+        <span class="corte-status">${st[1]}</span></div>`;
+    }).join("");
+  };
+  caixa.querySelectorAll("input").forEach(i => i.addEventListener("input", calcular));
+  calcular();
+}
+
+</script>
+<script>
+/* ===== js/faculdade.js ===== */
+/* =========================================================
+   FACULDADE: abas Como entrar, Descubra sua área, Universidades,
+   Cursos e Simulador de notas
+   ========================================================= */
+
+/* ---------- Como entrar ---------- */
+$("grade-ingresso").innerHTML = formasIngresso.map(f => `
+  <article class="ingresso"><h3>${f.nome}</h3><span class="para-quem">${f.para}</span><p>${f.texto}</p>
+  <button class="ouvir" data-falar="${f.nome}. ${f.texto}" style="justify-self:start">🔊 Ouvir</button></article>`).join("");
+
+/* ---------- Cursos ---------- */
+let filtroCurso = "Todos", recomendadas = [];
+function mostrarCursos() {
+  const areas = ["Todos", ...new Set(cursos.map(c => c.area))];
+  $("filtros-cursos").innerHTML = areas.map(a => `<button class="chip" aria-pressed="${a === filtroCurso}" data-area="${a}">${a}</button>`).join("");
+  $("filtros-cursos").querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => { filtroCurso = b.dataset.area; mostrarCursos(); }));
+  const lista = cursos.filter(c => filtroCurso === "Todos" || c.area === filtroCurso)
+    .sort((x, y) => recomendadas.includes(y.area) - recomendadas.includes(x.area));
+  $("grade-cursos").innerHTML = lista.map(c => `
+    <article class="curso ${recomendadas.includes(c.area) ? "recomendado" : ""}">
+      <div class="curso-meta"><span class="tag">${c.area}</span><span class="tag">${c.tipo}</span><span class="tag">${c.dur}</span></div>
+      <h3>${c.nome}</h3><p>${c.texto}</p><p class="porque"><b>Por que vale olhar:</b> ${c.porque}</p>
+    </article>`).join("");
+}
+mostrarCursos();
+
+/* ---------- Teste: descubra sua área ---------- */
+let teste = { i: 0, pontos: {} };
+function mostrarTeste() {
+  const caixa = $("teste-area");
+  if (teste.i < testeArea.length) {
+    const q = testeArea[teste.i];
+    caixa.innerHTML = `<span class="suave">Pergunta ${teste.i + 1} de ${testeArea.length}</span>
+      <h3>${q.p}</h3>
+      <div class="teste-opcoes">${q.o.map(([t, a]) => `<button class="teste-op" data-area="${a}">${t}</button>`).join("")}</div>`;
+    caixa.querySelectorAll(".teste-op").forEach(b => b.addEventListener("click", () => {
+      teste.pontos[b.dataset.area] = (teste.pontos[b.dataset.area] || 0) + 1; teste.i++; mostrarTeste();
+    }));
+  } else {
+    const ordem = Object.entries(teste.pontos).sort((a, b) => b[1] - a[1]);
+    recomendadas = ordem.slice(0, 2).map(([a]) => a);
+    registrar("teste");
+    const sugeridos = cursos.filter(c => recomendadas.includes(c.area)).map(c => c.nome);
+    caixa.innerHTML = `<span class="sobretitulo" style="margin:0">Seu resultado</span>
+      <h3>Você combina com: ${recomendadas.join(" e ")}</h3>
+      <p class="suave">Cursos sugeridos: ${sugeridos.join(", ")}. Eles aparecem com borda amarela na aba Cursos.</p>
+      <div class="linha-botoes"><a href="#cursos" class="btn btn-primario">Ver os cursos sugeridos</a><button class="btn btn-secundario" id="refazer-teste">Refazer o teste</button></div>`;
+    filtroCurso = "Todos"; mostrarCursos();
+    $("refazer-teste").addEventListener("click", () => { teste = { i: 0, pontos: {} }; recomendadas = []; mostrarCursos(); mostrarTeste(); });
+  }
+}
+mostrarTeste();
+
+/* ---------- Universidades e institutos públicos (dados/instituicoes.js) ---------- */
+const DICA_INGRESSO = {
+  "Federal": "Entrada pelo Sisu, com a nota do ENEM, na maioria dos cursos.",
+  "Estadual": "Vestibular próprio e/ou Sisu. Confira o edital.",
+  "Instituto Federal": "Técnicos por seleção própria; cursos superiores em geral pelo Sisu."
+};
+let ufInst = "Todos", tipoInst = "Todos";
+$("select-uf").innerHTML = `<option value="Todos">Todos os estados</option>` +
+  INSTITUICOES.map(e => `<option value="${e.uf}">${e.estado} (${e.uf})</option>`).join("");
+$("select-uf").addEventListener("change", e => { ufInst = e.target.value; mostrarInstituicoes(); if (ufInst !== "Todos") registrar("uf"); });
+$("busca-inst").addEventListener("input", mostrarInstituicoes);
+function mostrarInstituicoes() {
+  $("filtros-inst").innerHTML = ["Todos", "Federal", "Estadual", "Instituto Federal"].map(t =>
+    `<button class="chip" aria-pressed="${t === tipoInst}" data-tipo="${t}">${t === "Todos" ? "Todos os tipos" : t}</button>`).join("");
+  $("filtros-inst").querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => { tipoInst = b.dataset.tipo; mostrarInstituicoes(); }));
+  const termo = $("busca-inst").value.trim().toLowerCase();
+  let total = 0;
+  const grupos = INSTITUICOES.filter(e => ufInst === "Todos" || e.uf === ufInst).map(e => {
+    const lista = e.lista.filter(([sigla, nome, tipo]) =>
+      (tipoInst === "Todos" || tipo === tipoInst) && (!termo || (sigla + " " + nome).toLowerCase().includes(termo)));
+    total += lista.length;
+    if (!lista.length) return "";
+    return `<section class="grupo-estado"><h3>${e.estado} <span class="suave">· ${e.uf}</span></h3>
+      <ul class="lista-inst">${lista.map(([sigla, nome, tipo, obs]) => `
+        <li><div class="inst-topo"><b>${sigla}</b><span class="tag tag-${tipo === "Federal" ? "fed" : tipo === "Estadual" ? "est" : "if"}">${tipo}</span></div>
+        <span>${nome}</span>
+        <span class="inst-dica">${obs ? `<b>${obs}.</b> ` : ""}${DICA_INGRESSO[tipo]}</span></li>`).join("")}</ul></section>`;
+  }).join("");
+  $("contador-inst").textContent = `${total} ${total === 1 ? "instituição encontrada" : "instituições encontradas"}`;
+  $("lista-instituicoes").innerHTML = grupos || `<p class="vazio">Nenhuma instituição encontrada. Tente outro nome ou estado.</p>`;
+}
+mostrarInstituicoes();
+
+
+/* ---------- Simulador e abas ---------- */
+montarSimulador("simulador-faculdade");
+ativarAbas(id => window.scrollTo(0, 0));
+
+</script>
+</body>
+</html>

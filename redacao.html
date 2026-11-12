@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redação · Ponto de Partida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== ESTILO (CSS) ===== */
+:root {
+  /* Layout: login em tela dividida; dentro do app, coluna de 1100px com cabeçalho fixo e páginas trocadas pelo # */
+  --papel: #f4f5f0;
+  --superficie: #ffffff;
+  --tinta: #14213d;
+  --texto-suave: #4a5468;
+  --lapis: #f2b705;
+  --alerta: #c8452c;
+  --verde: #2e7d5b;
+  --linha: #d9dccf;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --font-corpo: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --raio: 10px;
+  --max: 1100px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papel: #10141f; --superficie: #181e2c; --tinta: #eef0e8; --texto-suave: #a9b0c0;
+    --lapis: #f5c430; --alerta: #ef7a5f; --verde: #5cc196; --linha: #2a3244;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papel: #10141f; --superficie: #181e2c; --tinta: #eef0e8; --texto-suave: #a9b0c0;
+  --lapis: #f5c430; --alerta: #ef7a5f; --verde: #5cc196; --linha: #2a3244;
+  color-scheme: dark;
+}
+/* Modo fácil: tudo maior */
+html.facil { font-size: 122%; }
+html.facil .texto-ajuda { display: block; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--papel); color: var(--tinta); font-family: var(--font-corpo); font-size: 1.0625rem; line-height: 1.6; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; text-wrap: balance; }
+h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 800; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { max-width: 65ch; }
+a { color: inherit; }
+button { font: inherit; }
+:focus-visible { outline: 3px solid var(--lapis); outline-offset: 3px; border-radius: 4px; }
+.num { font-variant-numeric: tabular-nums; }
+.container { width: min(var(--max), 100% - 32px); margin-inline: auto; }
+.sobretitulo { font-size: .8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--texto-suave); display: block; margin-bottom: 10px; }
+.suave { color: var(--texto-suave); }
+[hidden] { display: none !important; }
+.texto-ajuda { display: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 2px solid var(--tinta); cursor: pointer; }
+.btn-primario { background: var(--tinta); color: var(--papel); }
+.btn-secundario { background: transparent; color: var(--tinta); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.link-btn { background: none; border: none; color: var(--tinta); font-weight: 600; text-decoration: underline; cursor: pointer; padding: 0; }
+.ouvir { display: inline-flex; align-items: center; gap: 6px; background: var(--superficie); border: 1px solid var(--linha); border-radius: 999px; padding: 6px 14px; font-size: .88rem; font-weight: 600; color: var(--tinta); cursor: pointer; }
+.ouvir:hover { border-color: var(--tinta); }
+.linha-botoes { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* ======================= LOGIN ======================= */
+.login { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+.login-marca { background: #14213d; color: #f4f5f0; padding: 48px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; }
+.login-marca .logo { color: #f4f5f0; }
+.login-marca h1 { color: #f4f5f0; max-width: 14ch; }
+.login-marca h1 mark { background: linear-gradient(transparent 60%, #f2b705 60%); color: inherit; padding-inline: 4px; }
+.login-marca p { color: #c9cfdb; margin-top: 18px; }
+.recursos-login { display: grid; gap: 10px; color: #c9cfdb; font-size: .95rem; list-style: none; }
+.recursos-login li { display: flex; gap: 10px; }
+.recursos-login b { color: #f2b705; }
+.login-form-area { display: grid; place-items: center; padding: 48px 24px; }
+.login-caixa { width: min(420px, 100%); display: grid; gap: 20px; }
+.login-caixa h2 { font-size: 2rem; }
+.campo { display: grid; gap: 6px; }
+.campo label { font-weight: 600; font-size: .92rem; }
+.campo input { font: inherit; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.campo input:focus { outline: 2px solid var(--lapis); border-color: var(--tinta); }
+.erro { color: var(--alerta); font-size: .9rem; min-height: 1.4em; }
+.form-grade { display: grid; gap: 16px; }
+.separador { display: flex; align-items: center; gap: 12px; color: var(--texto-suave); font-size: .85rem; }
+.separador::before, .separador::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+.aviso-prototipo { font-size: .8rem; color: var(--texto-suave); background: var(--superficie); border: 1px dashed var(--linha); border-radius: 8px; padding: 10px 12px; }
+.btn-grande { padding: 16px 22px; font-size: 1.05rem; }
+
+/* ======================= APP ======================= */
+.logo { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.logo-marca { width: 22px; height: 22px; background: var(--lapis); border-radius: 50%; border: 3px solid currentColor; flex: none; }
+
+header.topo { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--papel) 94%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--linha); }
+.topo .container { width: min(1440px, 100% - 32px); }
+.nav { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 12px; }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a { display: flex; align-items: center; gap: 6px; text-decoration: none; font-weight: 500; font-size: .92rem; padding: 7px 12px; border-radius: 999px; color: var(--texto-suave); white-space: nowrap; }
+.nav-links a:hover { color: var(--tinta); }
+.nav-links a[aria-current="page"] { background: var(--tinta); color: var(--papel); }
+.icone { font-size: 1.05em; line-height: 1; }
+.usuario { display: flex; align-items: center; gap: 10px; font-size: .9rem; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-weight: 700; flex: none; }
+.ferramentas { display: flex; gap: 8px; }
+.ferramenta { background: var(--superficie); border: 1px solid var(--linha); border-radius: 999px; padding: 6px 12px; font-size: .85rem; font-weight: 600; cursor: pointer; color: var(--tinta); white-space: nowrap; }
+.ferramenta[aria-pressed="true"] { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.menu-btn { display: none; background: none; border: 1px solid var(--linha); border-radius: 8px; padding: 6px 12px; color: var(--tinta); cursor: pointer; }
+
+.pagina { padding-block: 44px 72px; }
+.cabeca-pagina { display: grid; gap: 12px; margin-bottom: 32px; }
+.bloco-secao { margin-top: 56px; }
+.bloco-secao > h2 { margin-bottom: 8px; }
+.bloco-secao > p.suave { margin-bottom: 24px; }
+.painel { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 24px; }
+
+/* ---- Tela inicial ---- */
+.boas-vindas { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: stretch; }
+.boas-vindas p { margin-top: 16px; font-size: 1.1rem; }
+.dica-dia { background: var(--lapis); color: #14213d; border-radius: var(--raio); padding: 24px; display: grid; gap: 10px; align-content: start; }
+.dica-dia .sobretitulo { color: #14213d; opacity: .75; margin: 0; }
+.dica-dia h3 { font-size: 1.3rem; }
+.dica-dia .link-btn { color: #14213d; }
+.atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 36px; }
+.atalho { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 22px; text-decoration: none; display: grid; gap: 6px; align-content: start; }
+.atalho:hover { border-color: var(--tinta); }
+.atalho .icone-grande { font-size: 1.8rem; line-height: 1; }
+.atalho .suave { font-size: .93rem; }
+.progresso-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 28px; align-items: center; }
+.progresso-total strong { font-family: var(--font-display); font-size: 3rem; line-height: 1; display: block; }
+.barras { display: grid; gap: 12px; }
+.barra-linha { display: grid; grid-template-columns: 110px 1fr 64px; align-items: center; gap: 12px; font-size: .92rem; }
+.barra-trilho { height: 16px; background: var(--papel); border-radius: 999px; overflow: hidden; }
+.barra-valor { height: 100%; background: var(--tinta); border-radius: 999px; transition: width .5s ease; }
+.barra-num { text-align: right; font-weight: 600; }
+.faixa-numeros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 26px; background: #14213d; color: #f4f5f0; border-radius: var(--raio); }
+.faixa-numeros div { border-top: 3px solid #f2b705; padding-top: 12px; }
+.faixa-numeros strong { font-family: var(--font-display); font-size: 2rem; line-height: 1; display: block; }
+.faixa-numeros span { display: block; margin-top: 8px; font-size: .88rem; color: #c9cfdb; }
+.fonte { font-size: .8rem; color: var(--texto-suave); margin-top: 10px; }
+
+/* ---- Estrutura das páginas ---- */
+main.pagina { min-height: 60vh; }
+.cabeca-pagina h1 { font-size: clamp(1.9rem, 4.2vw, 2.8rem); }
+.titulo-secao { font-size: clamp(1.25rem, 2.6vw, 1.6rem); margin-bottom: 14px; }
+.abas-pagina { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 2px solid var(--linha); margin-bottom: 28px; }
+.aba-pagina { font: inherit; font-weight: 600; font-size: .95rem; padding: 10px 16px; border: none; background: none; color: var(--texto-suave); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+.aba-pagina:hover { color: var(--tinta); }
+.aba-pagina[aria-selected="true"] { color: var(--tinta); border-bottom-color: var(--lapis); }
+.atalhos-icones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 22px; }
+.atalhos-icones a { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: var(--raio); border: 1px solid var(--linha); background: var(--superficie); text-decoration: none; font-weight: 600; font-size: .95rem; }
+.atalhos-icones a:hover { border-color: var(--tinta); }
+.atalhos-icones span { font-size: 1.4rem; line-height: 1; }
+.avatar-mini { width: 22px; height: 22px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-size: .75rem; }
+.selo[aria-current="page"] { outline: 2px solid var(--lapis); outline-offset: 2px; }
+.ferramenta { min-width: 38px; }
+.destaques-estudo { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 36px; }
+.cartao-bloco.destaque-claro { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.cartao-bloco.destaque-claro .meta, .cartao-bloco.destaque-claro .sobretitulo { color: #14213d; opacity: .8; }
+.cartao-bloco.feito { background: color-mix(in srgb, var(--verde) 7%, var(--superficie)); }
+.nivel-resumo { display: grid; gap: 4px; align-content: start; }
+.medalhas-mini { display: flex; gap: 8px; font-size: 1.7rem; margin: 8px 0; flex-wrap: wrap; }
+.nivel-resumo .link-btn { justify-self: start; margin-top: 6px; }
+.perfil-topo { display: flex; align-items: center; gap: 18px; margin-bottom: 24px; }
+.perfil-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--lapis); color: #14213d; display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: 2rem; flex: none; }
+.perfil-resumo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.resumo-item { display: grid; gap: 2px; border-top: 3px solid var(--lapis); padding-top: 10px; }
+.resumo-item strong { font-family: var(--font-display); font-size: 2rem; line-height: 1.1; }
+.resumo-item span { font-size: .88rem; color: var(--texto-suave); }
+.perfil-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.medalhas-grandes { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+.medalhas-grandes .medalha { padding: 16px 8px; }
+.medalhas-grandes .medalha-icone { font-size: 2.2rem; }
+.medalhas-grandes .medalha-nome { font-size: .85rem; }
+.medalhas-grandes .medalha-desc { font-size: .75rem; }
+.lista-salvas { list-style: none; display: grid; gap: 10px; }
+.lista-salvas li { display: grid; gap: 2px; padding-left: 12px; border-left: 3px solid var(--lapis); font-size: .93rem; }
+.grade-momentos.compacta { grid-template-columns: 1fr 1fr; margin-top: 8px; }
+.grade-momentos.compacta .momento { padding: 12px; font-size: .9rem; }
+.grade-momentos.compacta .momento-icone { font-size: 1.4rem; }
+.momento.atual { border-color: var(--lapis); background: color-mix(in srgb, var(--lapis) 18%, var(--superficie)); }
+.conta .confirmar-apagar { margin-top: 16px; padding: 16px; border-radius: 8px; border-left: 4px solid var(--alerta); background: var(--papel); display: grid; gap: 12px; }
+.btn-perigo { background: var(--alerta); border-color: var(--alerta); color: #fff; }
+.continuar { width: min(420px, 100%); display: grid; gap: 12px; margin-bottom: 18px; border-left: 4px solid var(--lapis); }
+.login-form-area { align-content: center; }
+footer#rodape { border-top: 1px solid var(--linha); padding-block: 28px; font-size: .85rem; color: var(--texto-suave); margin-top: 24px; }
+.rodape-grade { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+.grade-graficos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; margin-top: 16px; align-items: start; }
+.grade-graficos h3 { margin-bottom: 2px; }
+.grafico-sub { font-size: .85rem; margin-bottom: 12px; }
+.grade-graficos .barra-linha { grid-template-columns: 130px 1fr 54px; }
+
+/* ---- Engajamento ---- */
+.selo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: var(--tinta); color: var(--papel); border-radius: 999px; padding: 6px 12px; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+.selo-xp { color: var(--lapis); }
+.selo-fogo { display: inline-flex; gap: 2px; }
+.selo.pulsa { animation: pulsa .5s ease; }
+@keyframes pulsa { 50% { transform: scale(1.12); } }
+.trilha { display: block; }
+.grade-momentos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+.momento { display: grid; gap: 10px; justify-items: start; text-align: left; padding: 18px; border-radius: var(--raio); border: 2px solid var(--linha); background: var(--papel); color: var(--tinta); font-weight: 600; cursor: pointer; }
+.momento:hover { border-color: var(--tinta); }
+.momento-icone { font-size: 2rem; line-height: 1; }
+.trilha-topo { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+.trilha-topo h2 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 6px 0; }
+.trilha-progresso { text-align: right; display: grid; }
+.trilha-progresso strong { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; }
+.passos { list-style: none; display: grid; gap: 8px; counter-reset: passo; }
+.passos li { display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 8px; background: var(--papel); }
+.passos .marca { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--linha); display: grid; place-items: center; font-weight: 700; }
+.passos li.feito .marca { background: var(--verde); border-color: var(--verde); color: #fff; }
+.passos li.feito .passo-texto { color: var(--texto-suave); text-decoration: line-through; }
+.passo-ir { padding: 6px 16px; font-size: .9rem; }
+.passo-ok { font-size: .85rem; font-weight: 600; color: var(--verde); }
+.trilha-fim { margin-top: 14px; font-weight: 600; }
+.linha-engaja { display: grid; grid-template-columns: 1fr 1.6fr; gap: 18px; align-items: stretch; }
+.desafio-dia { display: grid; gap: 10px; align-content: start; background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.desafio-dia .sobretitulo, .desafio-dia .suave { color: color-mix(in srgb, var(--papel) 75%, transparent); }
+.desafio-dia h3 { font-size: 1.5rem; }
+.desafio-dia .btn { justify-self: start; }
+.desafio-dia .btn-primario { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+.desafio-dia .btn-secundario { color: var(--papel); border-color: var(--papel); }
+.sequencia { display: flex; align-items: center; gap: 10px; font-size: 1rem; }
+.fogo { font-size: 2rem; line-height: 1; }
+.nivel-topo { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+.xp-grande { font-family: var(--font-display); font-size: 1.8rem; color: var(--tinta); }
+.medalhas { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.medalha { display: grid; justify-items: center; text-align: center; gap: 2px; padding: 10px 4px; border-radius: 8px; background: var(--papel); opacity: .55; }
+.medalha.ganha { opacity: 1; background: color-mix(in srgb, var(--lapis) 22%, var(--superficie)); }
+.medalha-icone { font-size: 1.6rem; line-height: 1.1; }
+.medalha-nome { font-size: .75rem; font-weight: 700; line-height: 1.2; }
+.medalha-desc { font-size: .68rem; color: var(--texto-suave); line-height: 1.25; }
+.grade-mitos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.mito { position: relative; min-height: 190px; border: none; padding: 0; background: none; cursor: pointer; perspective: 900px; text-align: left; color: var(--tinta); }
+.mito-frente, .mito-verso { position: absolute; inset: 0; display: grid; align-content: center; gap: 10px; padding: 22px; border-radius: var(--raio); backface-visibility: hidden; transition: transform .5s ease; font-size: 1rem; }
+.mito-frente { background: var(--superficie); border: 1px solid var(--linha); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; line-height: 1.3; }
+.mito-aspas { font-size: 3rem; line-height: .5; color: var(--lapis); }
+.mito-toque { font-family: var(--font-corpo); font-size: .8rem; font-weight: 600; color: var(--texto-suave); }
+.mito-verso { background: var(--tinta); color: var(--papel); transform: rotateY(180deg); font-size: .95rem; }
+.mito.virado .mito-frente { transform: rotateY(180deg); }
+.mito.virado .mito-verso { transform: rotateY(360deg); }
+.selo-mito { justify-self: start; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; padding: 2px 14px; border-radius: 999px; }
+.mito-falso { background: var(--alerta); color: #fff; }
+.mito-verdade { background: var(--verde); color: #fff; }
+.combo { margin-top: 12px; font-weight: 700; font-size: 1.1rem; color: var(--alerta); }
+.desafiar { margin-top: 28px; padding: 20px; border-radius: var(--raio); background: var(--papel); display: grid; gap: 14px; }
+.btn-whats { background: #1f8f4e; border-color: #1f8f4e; color: #fff; }
+.confete { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+
+/* ---- Redação ---- */
+.grade-temas { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.tema { display: grid; gap: 10px; align-content: start; text-align: left; padding: 18px; border-radius: var(--raio); border: 1px solid var(--linha); border-left: 5px solid var(--lapis); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.tema:hover { border-color: var(--tinta); border-left-color: var(--lapis); }
+.tema .tag { justify-self: start; }
+.tema-titulo { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; line-height: 1.25; }
+.tema-meta { font-size: .82rem; color: var(--texto-suave); }
+.historico { list-style: none; display: grid; gap: 6px; }
+.historico li { display: grid; grid-template-columns: 1fr auto 60px; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--linha); font-size: .92rem; }
+.historico li b { text-align: right; font-family: var(--font-display); font-size: 1.1rem; }
+#historico-redacoes:empty { display: none; }
+.editor-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 18px; margin-top: 14px; align-items: start; }
+.apoio-caixa { display: grid; gap: 12px; position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; }
+.apoio-caixa .tag { justify-self: start; }
+.editor-tema { font-size: clamp(1.3rem, 2.6vw, 1.7rem); }
+.apoio { display: grid; gap: 10px; }
+.apoio-texto { background: var(--papel); border-radius: 8px; padding: 12px 14px; font-size: .93rem; }
+.apoio-num { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-suave); }
+.estrutura { background: var(--papel); border-radius: 8px; padding: 12px 14px; font-size: .92rem; }
+.estrutura summary { font-weight: 600; cursor: pointer; }
+.estrutura ol { padding-left: 18px; display: grid; gap: 6px; margin-top: 8px; }
+.folha-caixa { display: grid; gap: 10px; }
+.folha-topo { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+.contadores { display: flex; gap: 6px; flex-wrap: wrap; }
+.contador-pill { font-size: .8rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--papel); border: 1px solid var(--linha); }
+.contador-pill.bom { border-color: var(--verde); color: var(--verde); }
+.contador-pill.ruim { border-color: var(--alerta); color: var(--alerta); }
+.cronometro-caixa { display: flex; align-items: center; gap: 8px; }
+.cronometro { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+.cronometro.passou { color: var(--alerta); }
+.btn-pequeno { padding: 6px 14px; font-size: .85rem; }
+.titulo-input { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.folha { font: inherit; font-size: 1.02rem; line-height: 32px; min-height: 560px; resize: vertical; padding: 0 14px; border-radius: 8px; border: 1px solid var(--linha); color: var(--tinta);
+  background-color: var(--superficie); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--linha) 31px, var(--linha) 32px); background-attachment: local; }
+.folha:focus { outline: 2px solid var(--lapis); }
+#btn-corrigir { justify-self: start; }
+.res-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+.nota-redacao { font-family: var(--font-display); font-weight: 800; font-size: clamp(3.4rem, 9vw, 5rem); line-height: 1; margin-top: 8px; }
+.nota-redacao span { font-size: .35em; color: var(--texto-suave); font-weight: 600; }
+.faixa-nota { font-weight: 700; font-size: 1.15rem; }
+.aviso-correcao { font-size: .9rem; background: var(--papel); border-left: 4px solid var(--lapis); padding: 14px 16px; border-radius: 0 8px 8px 0; }
+.zerada, .alerta-red { margin-top: 14px; border-left: 5px solid var(--alerta); }
+.competencias { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 12px; margin-top: 14px; }
+.comp { display: grid; gap: 10px; align-content: start; }
+.comp-topo { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; }
+.comp-topo h3 { font-size: 1rem; }
+.comp-n { width: 34px; height: 34px; border-radius: 50%; background: var(--tinta); color: var(--papel); display: grid; place-items: center; font-weight: 700; font-size: .85rem; }
+.comp-nota { font-family: var(--font-display); font-size: 1.5rem; }
+.comp .quiz-barra { margin: 0; }
+.comp p { font-size: .92rem; color: var(--texto-suave); }
+.duas-colunas-red { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.checklist, .lista-desvios { list-style: none; display: grid; gap: 8px; margin-top: 10px; font-size: .94rem; }
+.checklist li { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.checklist .marca { font-weight: 700; color: var(--alerta); width: 16px; }
+.checklist li.ok .marca { color: var(--verde); }
+.lista-desvios li { padding-left: 12px; border-left: 3px solid var(--alerta); }
+.simulador { display: grid; gap: 14px; }
+.campos-notas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.campo-nota { display: grid; gap: 4px; font-size: .85rem; font-weight: 600; }
+.campo-nota input { font: inherit; font-size: 1.1rem; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); width: 100%; }
+.media-sisu { display: flex; align-items: baseline; gap: 12px; padding: 14px 18px; border-radius: var(--raio); background: var(--tinta); color: var(--papel); }
+.media-sisu strong { font-family: var(--font-display); font-size: 2.2rem; color: var(--lapis); }
+.lista-cortes { display: grid; gap: 6px; }
+.corte { display: grid; grid-template-columns: 200px 1fr 80px 210px; gap: 12px; align-items: center; padding: 8px 12px; border-radius: 8px; background: var(--papel); font-size: .9rem; }
+.corte-nome { font-weight: 600; }
+.corte-escala { position: relative; height: 10px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linha); }
+.corte-faixa { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: color-mix(in srgb, var(--tinta) 35%, transparent); }
+.corte-voce { position: absolute; top: -4px; width: 4px; height: 16px; margin-left: -2px; border-radius: 2px; background: var(--alerta); }
+.corte-num { color: var(--texto-suave); text-align: right; }
+.corte-status { font-weight: 600; font-size: .85rem; }
+.corte.dentro .corte-status { color: var(--verde); }
+.corte.parcial .corte-status { color: var(--verde); }
+.corte.perto .corte-status { color: #b07c00; }
+.corte.longe .corte-status { color: var(--texto-suave); }
+.corte.dentro, .corte.parcial { box-shadow: inset 4px 0 0 var(--verde); }
+.corte.perto { box-shadow: inset 4px 0 0 var(--lapis); }
+
+/* ---- Estudar ---- */
+.grade-blocos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.cartao-bloco { background: var(--superficie); border: 1px solid var(--linha); border-top: 5px solid var(--cor, var(--tinta)); border-radius: var(--raio); padding: 22px; display: grid; gap: 10px; align-content: start; }
+.cartao-bloco .meta { font-size: .88rem; color: var(--texto-suave); }
+.cartao-bloco .btn { justify-self: start; margin-top: 6px; padding: 9px 18px; }
+.cartao-bloco.destaque { background: var(--tinta); color: var(--papel); border-color: var(--tinta); border-top-color: var(--lapis); }
+.cartao-bloco.destaque .meta { color: color-mix(in srgb, var(--papel) 75%, transparent); }
+.cartao-bloco.destaque .btn { background: var(--lapis); border-color: var(--lapis); color: #14213d; }
+
+.quiz { max-width: 780px; }
+.quiz-topo { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; font-size: .9rem; color: var(--texto-suave); }
+.quiz-barra { height: 8px; background: var(--papel); border-radius: 999px; overflow: hidden; margin-bottom: 22px; }
+.quiz-barra div { height: 100%; background: var(--lapis); transition: width .4s ease; }
+.tag { display: inline-block; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; background: var(--papel); border: 1px solid var(--linha); }
+.enunciado { font-size: 1.12rem; margin: 14px 0 20px; }
+.alternativas { display: grid; gap: 10px; }
+.alt { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: center; text-align: left; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.alt .letra { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--linha); display: grid; place-items: center; font-weight: 700; }
+.alt:hover:not(:disabled) { border-color: var(--tinta); }
+.alt[aria-pressed="true"] { border-color: var(--tinta); box-shadow: inset 0 0 0 1px var(--tinta); }
+.alt[aria-pressed="true"] .letra { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.alt.certa { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 14%, var(--papel)); }
+.alt.certa .letra { background: var(--verde); border-color: var(--verde); color: #fff; }
+.alt.errada { border-color: var(--alerta); background: color-mix(in srgb, var(--alerta) 12%, var(--papel)); }
+.alt.errada .letra { background: var(--alerta); border-color: var(--alerta); color: #fff; }
+.alt:disabled { cursor: default; }
+.explicacao { margin-top: 18px; padding: 14px 16px; border-left: 4px solid var(--lapis); background: var(--papel); border-radius: 0 6px 6px 0; }
+.quiz-acoes { margin-top: 20px; }
+.resultado-numero { font-family: var(--font-display); font-size: 3.4rem; font-weight: 800; line-height: 1; }
+.revisao { list-style: none; display: grid; gap: 8px; margin: 20px 0; }
+.revisao li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: .95rem; }
+.revisao .ok { color: var(--verde); font-weight: 700; }
+.revisao .x { color: var(--alerta); font-weight: 700; }
+
+.simulado-largo { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px 24px; }
+.simulado-largo .btn { grid-row: 1 / span 3; grid-column: 2; align-self: center; margin: 0; }
+.suave-chip { opacity: .65; font-size: .8em; margin-left: 2px; }
+
+/* ---- Faculdade ---- */
+.grade-ingresso { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.ingresso { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; display: grid; gap: 8px; align-content: start; }
+.ingresso .para-quem { font-size: .85rem; color: var(--verde); font-weight: 600; }
+.ingresso p { font-size: .94rem; color: var(--texto-suave); }
+.teste { display: grid; gap: 18px; max-width: 780px; }
+.teste-opcoes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.teste-op { text-align: left; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.teste-op:hover { border-color: var(--tinta); }
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 22px; }
+.chip { font-size: .9rem; font-weight: 500; padding: 7px 15px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.busca { flex: 1 1 220px; max-width: 320px; margin-left: auto; font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.grade-cursos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.curso { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.curso-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.curso p { font-size: .94rem; color: var(--texto-suave); }
+.curso .porque { color: var(--tinta); font-size: .92rem; border-top: 1px dashed var(--linha); padding-top: 10px; }
+.curso.recomendado { border: 2px solid var(--lapis); }
+
+.filtros-inst-topo { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+.rotulo-campo { font-weight: 600; font-size: .92rem; }
+.seletor { font: inherit; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); }
+.lista-instituicoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 16px; margin-top: 14px; align-items: start; }
+.grupo-estado { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; }
+.grupo-estado h3 { margin-bottom: 12px; }
+.lista-inst { list-style: none; display: grid; gap: 0; }
+.lista-inst li { display: grid; gap: 2px; padding: 12px 0; border-top: 1px solid var(--linha); font-size: .95rem; }
+.lista-inst li:first-child { border-top: none; padding-top: 0; }
+.inst-topo { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.inst-dica { font-size: .84rem; color: var(--texto-suave); }
+.tag-fed { border-color: var(--tinta); }
+.tag-est { border-color: var(--verde); color: var(--verde); }
+.tag-if { border-color: var(--lapis); background: color-mix(in srgb, var(--lapis) 22%, var(--superficie)); }
+.particulares { margin-top: 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: center; }
+.links-oficiais { list-style: none; display: grid; gap: 10px; }
+.links-oficiais li { display: grid; }
+.links-oficiais a { font-weight: 600; }
+.links-oficiais .suave { font-size: .82rem; }
+
+/* ---- Aprender a ler ---- */
+.ler-intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: center; }
+.ler-intro .painel { display: grid; gap: 12px; }
+.alfabeto { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
+.letra-btn { display: grid; justify-items: center; gap: 2px; padding: 12px 6px; border-radius: var(--raio); border: 1px solid var(--linha); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.letra-btn:hover, .letra-btn.ativa { border-color: var(--tinta); background: var(--lapis); color: #14213d; }
+.letra-btn .grande { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; line-height: 1; }
+.letra-btn .emoji { font-size: 1.5rem; line-height: 1.2; }
+.letra-btn .palavra { font-size: .8rem; font-weight: 600; letter-spacing: .04em; }
+.atividade { display: grid; gap: 18px; justify-items: center; text-align: center; padding: 32px 24px; }
+.figura { font-size: 4rem; line-height: 1; }
+.montagem { display: flex; gap: 8px; min-height: 64px; flex-wrap: wrap; justify-content: center; }
+.slot { min-width: 72px; height: 60px; border: 2px dashed var(--linha); border-radius: 10px; display: grid; place-items: center; font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; padding-inline: 8px; }
+.slot.cheio { border-style: solid; border-color: var(--tinta); }
+.silabas { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.silaba { min-width: 80px; padding: 14px 16px; border-radius: 10px; border: 2px solid var(--tinta); background: var(--superficie); color: var(--tinta); font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; cursor: pointer; }
+.silaba:disabled { opacity: .25; cursor: default; }
+.mensagem { min-height: 1.6em; font-weight: 600; font-size: 1.1rem; }
+.mensagem.boa { color: var(--verde); }
+.mensagem.ruim { color: var(--alerta); }
+.escolhas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 560px; }
+.escolha { display: grid; justify-items: center; gap: 6px; padding: 18px 10px; border-radius: var(--raio); border: 2px solid var(--linha); background: var(--papel); color: var(--tinta); cursor: pointer; }
+.escolha .emoji { font-size: 2.6rem; line-height: 1; }
+.escolha .palavra { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; }
+.escolha.certa { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 14%, var(--papel)); }
+.escolha.errada { border-color: var(--alerta); }
+.btn-ouvir-grande { font-size: 1.15rem; padding: 16px 28px; }
+.duas-atividades { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+/* ---- Soluções e dicas ---- */
+.grade-solucoes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.solucao { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 22px; display: grid; gap: 12px; align-content: start; }
+.solucao .tag { justify-self: start; }
+.problema, .resposta { display: grid; grid-template-columns: 90px 1fr; gap: 12px; font-size: .95rem; }
+.problema b { color: var(--alerta); }
+.resposta b { color: var(--verde); }
+.problema span, .resposta span { color: var(--texto-suave); }
+.solucao ul { padding-left: 20px; font-size: .94rem; color: var(--texto-suave); display: grid; gap: 4px; }
+.grade-dicas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+.dica { background: var(--superficie); border: 1px solid var(--linha); border-left: 5px solid var(--lapis); border-radius: var(--raio); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.dica-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.dica .publico { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--texto-suave); }
+.dica p { font-size: .95rem; color: var(--texto-suave); }
+.salvar { background: none; border: 1px solid var(--linha); border-radius: 999px; padding: 4px 12px; font-size: .82rem; cursor: pointer; color: var(--tinta); }
+.salvar[aria-pressed="true"] { background: var(--lapis); border-color: var(--lapis); color: #14213d; font-weight: 600; }
+.vazio { padding: 32px; text-align: center; color: var(--texto-suave); border: 1px dashed var(--linha); border-radius: var(--raio); grid-column: 1 / -1; }
+.contador { font-size: .9rem; color: var(--texto-suave); }
+
+.aviso { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--tinta); color: var(--papel); padding: 12px 20px; border-radius: 999px; font-size: .92rem; z-index: 50; max-width: calc(100% - 32px); }
+footer { border-top: 1px solid var(--linha); padding-block: 32px; font-size: .85rem; color: var(--texto-suave); }
+
+/* ---- Responsivo ---- */
+@media (max-width: 1440px) {
+  .selo-xp { display: none; }
+}
+@media (max-width: 1300px) {
+  .menu-btn { display: block; }
+  .nav { flex-wrap: wrap; }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; background: var(--papel); border-bottom: 1px solid var(--linha); padding: 8px 16px 16px; }
+  .nav-links.aberto { display: flex; }
+  .nav-links a { padding: 12px 14px; font-size: 1rem; }
+}
+@media (max-width: 900px) {
+  .login { grid-template-columns: 1fr; }
+  .login-marca { padding: 32px 24px; }
+  .boas-vindas, .grade-solucoes, .progresso-grade, .ler-intro, .duas-atividades { grid-template-columns: 1fr; }
+  .grade-dicas, .atalhos, .grade-ingresso, .grade-cursos { grid-template-columns: repeat(2, 1fr); }
+  .particulares, .linha-engaja, .editor-grade, .res-topo, .duas-colunas-red, .perfil-grade, .destaques-estudo { grid-template-columns: 1fr; }
+  .perfil-resumo { grid-template-columns: repeat(2, 1fr); }
+  .apoio-caixa { position: static; max-height: none; }
+  .campos-notas { grid-template-columns: repeat(3, 1fr); }
+  .corte { grid-template-columns: 1fr 70px; }
+  .corte-escala { grid-column: 1 / -1; grid-row: 2; }
+  .corte-status { grid-column: 1 / -1; }
+  .grade-momentos, .grade-mitos { grid-template-columns: repeat(2, 1fr); }
+  .faixa-numeros { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .usuario .nome, .ferramenta .rotulo { display: none; }
+  .grade-dicas, .atalhos, .grade-ingresso, .grade-cursos, .teste-opcoes { grid-template-columns: 1fr; }
+  .busca { max-width: none; margin-left: 0; }
+  .simulado-largo { grid-template-columns: 1fr; }
+  .grade-momentos, .grade-mitos, .grade-momentos.compacta { grid-template-columns: 1fr; }
+  .atalhos-icones { grid-template-columns: 1fr 1fr; }
+  .abas-pagina { flex-wrap: nowrap; overflow-x: auto; }
+  .aba-pagina { white-space: nowrap; }
+  .campos-notas { grid-template-columns: repeat(2, 1fr); }
+  .selo-xp { display: none; }
+  .simulado-largo .btn { grid-row: auto; grid-column: auto; justify-self: start; }
+  .escolhas { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 420px) {
+  .faixa-numeros { grid-template-columns: 1fr; }
+  .problema, .resposta { grid-template-columns: 1fr; gap: 2px; }
+  .barra-linha { grid-template-columns: 90px 1fr 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mito-frente, .mito-verso { transition: none; }
+  .selo.pulsa { animation: none; }
+  .btn:hover:not(:disabled) { transform: none; }
+  .barra-valor, .quiz-barra div { transition: none; }
+}
+
+</style>
+</head>
+<body data-pagina="redacao">
+<header class="topo" id="topo"></header>
+
+<main class="pagina container">
+
+    <div id="redacao-temas">
+      <div class="cabeca-pagina">
+        <span class="sobretitulo">Redação</span>
+        <h1 data-ler>Treine a redação do ENEM</h1>
+        <p class="suave" data-ler>Escolha um dos 20 temas, leia os textos de apoio e escreva um texto dissertativo-argumentativo de 7 a 30 linhas. No final, veja sua nota estimada nas 5 competências do ENEM e os cursos que essa nota pode abrir.</p>
+      </div>
+      <div class="filtros" id="filtros-temas" role="group" aria-label="Filtrar temas"></div>
+      <div class="linha-botoes" style="margin-bottom:18px"><button class="btn btn-secundario" id="btn-tema-aleatorio">🎲 Sortear um tema</button></div>
+      <div class="grade-temas" id="grade-temas"></div>
+      <div class="painel" id="historico-redacoes" style="margin-top:24px"></div>
+    </div>
+
+    <div id="redacao-editor" hidden>
+      <button class="link-btn" id="voltar-temas">← Voltar aos temas</button>
+      <div class="editor-grade">
+        <aside class="painel apoio-caixa">
+          <span class="tag" id="editor-area"></span>
+          <h2 class="editor-tema" id="editor-tema"></h2>
+          <p class="suave" style="font-size:.92rem">Com base nos textos de apoio e no que você sabe, escreva um texto dissertativo-argumentativo sobre o tema, em norma-padrão, com uma proposta de intervenção que respeite os direitos humanos.</p>
+          <button class="ouvir" id="ouvir-apoio" style="justify-self:start">🔊 Ouvir tema e textos</button>
+          <div id="apoio" class="apoio"></div>
+          <details class="estrutura">
+            <summary>Como organizar sua redação</summary>
+            <ol>
+              <li><b>Introdução:</b> apresente o tema, traga um repertório (lei, dado, autor, fato histórico) e diga sua tese.</li>
+              <li><b>Desenvolvimento 1:</b> primeiro argumento, explicando a causa (“isso ocorre porque…”) com exemplo ou dado.</li>
+              <li><b>Desenvolvimento 2:</b> segundo argumento, mostrando consequências (“o que gera…”).</li>
+              <li><b>Conclusão:</b> proposta com agente, ação, meio, finalidade e detalhamento.</li>
+            </ol>
+          </details>
+        </aside>
+        <div class="painel folha-caixa">
+          <div class="folha-topo">
+            <div class="contadores">
+              <span class="contador-pill" id="cont-linhas">0/30 linhas</span>
+              <span class="contador-pill" id="cont-paragrafos">0 parágrafos</span>
+              <span class="contador-pill" id="cont-palavras">0 palavras</span>
+            </div>
+            <div class="cronometro-caixa"><span class="num cronometro" id="cronometro">00:00</span><button class="btn btn-secundario btn-pequeno" id="btn-cronometro">Iniciar cronômetro</button></div>
+          </div>
+          <label for="titulo-redacao" class="rotulo-campo">Título (opcional)</label>
+          <input type="text" id="titulo-redacao" class="titulo-input" placeholder="Dê um título à sua redação">
+          <label for="texto-redacao" class="rotulo-campo">Sua redação</label>
+          <textarea id="texto-redacao" class="folha" placeholder="Comece pela introdução. Aperte Enter para começar um novo parágrafo." spellcheck="true"></textarea>
+          <p class="suave" style="font-size:.82rem">O rascunho fica salvo neste navegador enquanto você escreve. Cada linha estimada tem cerca de 70 caracteres, como na folha do ENEM.</p>
+          <button class="btn btn-primario" id="btn-corrigir" disabled>Enviar para correção</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="redacao-resultado" hidden>
+      <div id="resultado-redacao"></div>
+      <div class="painel bloco-secao simulador" id="simulador-redacao"></div>
+    </div>
+</main>
+
+<footer id="rodape"></footer>
+
+<script>
+/* ===== js/comum.js ===== */
+/* =========================================================
+   COMUM: usado por todas as páginas (menos o login)
+   - atalhos de código, armazenamento, sessão do usuário
+   - cabeçalho, rodapé, Modo fácil e leitura em voz alta
+   - perfil: XP, níveis, medalhas, trilha e sequência de dias
+   ========================================================= */
+
+/* ---------- Atalhos ---------- */
+const $ = id => document.getElementById(id);
+const embaralhar = arr => arr.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
+const hojeISO = () => new Date().toISOString().slice(0, 10);
+
+const AREAS = {
+  mat: { nome: "Matemática", cor: "#2f6fdf" },
+  lin: { nome: "Linguagens", cor: "#c8452c" },
+  hum: { nome: "Humanas", cor: "#8a5cc7" },
+  nat: { nome: "Natureza", cor: "#2e7d5b" },
+  inf: { nome: "Informática", cor: "#0f8b8d" }
+};
+
+/* ---------- Armazenamento no navegador (com proteção se não existir) ---------- */
+function ler(chave, padrao) {
+  try { const v = localStorage.getItem(chave); return v === null ? padrao : JSON.parse(v); } catch (e) { return padrao; }
+}
+function gravar(chave, valor) {
+  try { localStorage.setItem(chave, JSON.stringify(valor)); } catch (e) { /* segue sem salvar */ }
+}
+
+/* ---------- Sessão ---------- */
+const CHAVE_USUARIO = "pontoDePartida:usuario";
+let usuario = ler(CHAVE_USUARIO, null);
+const PAGINA = document.body.dataset.pagina;
+
+function sair() {
+  try { localStorage.removeItem(CHAVE_USUARIO); speechSynthesis.cancel(); } catch (e) {}
+  location.href = "index.html";
+}
+/* Sem login, volta para a tela de entrada. Se o navegador não guarda dados, entra como visitante. */
+if (PAGINA !== "login" && !usuario) {
+  let temArmazenamento = true;
+  try { localStorage.setItem("teste", "1"); localStorage.removeItem("teste"); } catch (e) { temArmazenamento = false; }
+  if (temArmazenamento) location.replace("index.html");
+  else usuario = "Visitante";
+}
+
+/* ---------- Avisos, voz e comemoração ---------- */
+document.body.insertAdjacentHTML("beforeend",
+  `<div class="aviso" id="aviso" role="status" hidden></div><canvas class="confete" id="confete" aria-hidden="true" hidden></canvas>`);
+
+function avisar(texto) {
+  const el = $("aviso");
+  el.textContent = texto; el.hidden = false;
+  clearTimeout(avisar.t); avisar.t = setTimeout(() => el.hidden = true, 3500);
+}
+function falar(texto) {
+  try {
+    if (!("speechSynthesis" in window)) return avisar("Seu navegador não tem leitura em voz alta.");
+    speechSynthesis.cancel();
+    const fala = new SpeechSynthesisUtterance(texto);
+    fala.lang = "pt-BR"; fala.rate = 0.9;
+    const voz = speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith("pt"));
+    if (voz) fala.voice = voz;
+    speechSynthesis.speak(fala);
+  } catch (e) { avisar("Não foi possível tocar o áudio neste navegador."); }
+}
+/* Qualquer botão com data-falar="texto" lê o texto em voz alta */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-falar]");
+  if (b) falar(b.dataset.falar);
+});
+
+function celebrar(texto) {
+  avisar(texto);
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const tela = $("confete"), ctx = tela.getContext("2d");
+  tela.width = innerWidth; tela.height = innerHeight; tela.hidden = false;
+  const cores = ["#f2b705", "#14213d", "#c8452c", "#2e7d5b", "#2f6fdf", "#8a5cc7"];
+  const pedacos = Array.from({ length: 110 }, () => ({
+    x: innerWidth / 2 + (Math.random() - 0.5) * 120, y: innerHeight * 0.35,
+    vx: (Math.random() - 0.5) * 12, vy: -Math.random() * 11 - 4,
+    t: Math.random() * 6 + 4, r: Math.random() * Math.PI, cor: cores[Math.floor(Math.random() * cores.length)]
+  }));
+  const inicio = performance.now();
+  (function quadro(agora) {
+    ctx.clearRect(0, 0, tela.width, tela.height);
+    pedacos.forEach(p => {
+      p.vy += 0.35; p.x += p.vx; p.y += p.vy; p.r += 0.15;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.cor;
+      ctx.fillRect(-p.t / 2, -p.t / 4, p.t, p.t / 2); ctx.restore();
+    });
+    if (agora - inicio < 1800) requestAnimationFrame(quadro);
+    else { ctx.clearRect(0, 0, tela.width, tela.height); tela.hidden = true; }
+  })(inicio);
+}
+
+/* ---------- Perfil: progresso salvo do usuário ---------- */
+const NIVEIS = [
+  { min: 0, nome: "Recomeço" }, { min: 100, nome: "Aprendiz" }, { min: 300, nome: "Estudante" },
+  { min: 600, nome: "Dedicado" }, { min: 1000, nome: "Rumo à faculdade" }, { min: 1600, nome: "Pronto para o ENEM" }
+];
+const MEDALHAS = [
+  { id: "primeiro-passo", icone: "👣", nome: "Primeiro passo", desc: "Responda sua primeira questão" },
+  { id: "bloco", icone: "📘", nome: "Bloco concluído", desc: "Termine um bloco de questões" },
+  { id: "gabarito", icone: "🏆", nome: "Gabaritou", desc: "Acerte todas as questões de um bloco" },
+  { id: "combo", icone: "🔥", nome: "Em chamas", desc: "Acerte 5 questões seguidas" },
+  { id: "desafio", icone: "☀️", nome: "Desafio do dia", desc: "Complete o desafio do dia" },
+  { id: "simulado", icone: "🎯", nome: "Simulado completo", desc: "Termine o simulado geral" },
+  { id: "todas-areas", icone: "🌈", nome: "Todas as áreas", desc: "Responda questões das 5 áreas" },
+  { id: "explorador", icone: "🧭", nome: "Explorador", desc: "Descubra sua área na página Faculdade" },
+  { id: "leitor", icone: "🔤", nome: "Leitor", desc: "Monte uma palavra com as sílabas" },
+  { id: "constancia", icone: "📅", nome: "Constância", desc: "Entre 3 dias seguidos" },
+  { id: "redator", icone: "✍️", nome: "Redator", desc: "Envie sua primeira redação" },
+  { id: "nota-800", icone: "💯", nome: "Nota 800+", desc: "Tire 800 ou mais na redação" }
+];
+
+const chavePerfil = () => "pontoDePartida:perfil:" + (usuario || "visitante").toLowerCase();
+function perfilNovo() {
+  return {
+    momento: null, xp: 0, medalhas: [], feito: {}, letras: [], areas: [], dias: [], desafioFeito: null, mitosVistos: [],
+    redacoes: [], ultimaRedacao: null, salvas: [], melhores: {},
+    desempenho: Object.fromEntries(Object.keys(AREAS).map(k => [k, { a: 0, t: 0 }]))
+  };
+}
+let perfil = Object.assign(perfilNovo(), ler(chavePerfil(), {}));
+const salvarPerfil = () => gravar(chavePerfil(), perfil);
+
+function sequenciaDias() {
+  const dias = new Set(perfil.dias);
+  let n = 0; const d = new Date();
+  while (dias.has(d.toISOString().slice(0, 10))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function nivelAtual(xp) {
+  let i = 0;
+  NIVEIS.forEach((n, idx) => { if (xp >= n.min) i = idx; });
+  return { i, ...NIVEIS[i], prox: NIVEIS[i + 1] };
+}
+function ganharXP(qtd) {
+  const antes = nivelAtual(perfil.xp).i;
+  perfil.xp += qtd;
+  const depois = nivelAtual(perfil.xp);
+  if (depois.i > antes) celebrar(`Subiu de nível: ${depois.nome}!`);
+  salvarPerfil(); atualizarSelo(true);
+}
+function ganharMedalha(id) {
+  if (perfil.medalhas.includes(id)) return;
+  perfil.medalhas.push(id);
+  const m = MEDALHAS.find(x => x.id === id);
+  perfil.xp += 25;
+  salvarPerfil();
+  celebrar(`${m.icone} Nova medalha: ${m.nome}! +25 XP`);
+}
+
+/* Cada página avisa o que a pessoa fez; aqui viram pontos, medalhas e passos da trilha */
+function registrar(evento, dados = {}) {
+  const f = perfil.feito;
+  switch (evento) {
+    case "resposta":
+      ganharMedalha("primeiro-passo");
+      perfil.desempenho[dados.area].t++;
+      if (dados.acertou) { perfil.desempenho[dados.area].a++; ganharXP(10); }
+      if (dados.seguidas >= 5) ganharMedalha("combo");
+      if (!perfil.areas.includes(dados.area)) perfil.areas.push(dados.area);
+      if (perfil.areas.length >= Object.keys(AREAS).length) ganharMedalha("todas-areas");
+      break;
+    case "fim-quiz":
+      perfil.melhores[dados.bloco] = Math.max(perfil.melhores[dados.bloco] ?? 0, dados.acertos);
+      ganharXP(30);
+      if (dados.bloco === "desafio") {
+        if (perfil.desafioFeito !== hojeISO()) { perfil.desafioFeito = hojeISO(); ganharXP(40); }
+        f.desafio = true; ganharMedalha("desafio");
+      } else if (dados.bloco === "simulado") { f.simulado = true; ganharMedalha("simulado"); }
+      else { f.bloco = true; ganharMedalha("bloco"); }
+      if (dados.acertos === dados.total && dados.total >= 10) { ganharXP(50); ganharMedalha("gabarito"); }
+      break;
+    case "redacao":
+      perfil.redacoes.push({ tema: dados.tema, nota: dados.nota, data: new Date().toLocaleDateString("pt-BR") });
+      perfil.ultimaRedacao = dados.nota; f.redacao = true;
+      ganharXP(50); ganharMedalha("redator");
+      if (dados.nota >= 800) ganharMedalha("nota-800");
+      break;
+    case "teste": f.teste = true; ganharXP(20); ganharMedalha("explorador"); break;
+    case "uf": if (!f.uf) { f.uf = true; ganharXP(10); } break;
+    case "letra":
+      if (!perfil.letras.includes(dados.letra)) { perfil.letras.push(dados.letra); ganharXP(2); }
+      if (perfil.letras.length >= 5) f.letras = true;
+      break;
+    case "silaba": f.silaba = true; ganharXP(10); ganharMedalha("leitor"); break;
+    case "ouvir": f.ouvir = true; ganharXP(5); break;
+    case "dica": if (!f.dica) { f.dica = true; ganharXP(5); } break;
+    case "facil": f.facil = true; break;
+    case "visitou-ler": f["visitou-ler"] = true; break;
+    case "mito":
+      if (!perfil.mitosVistos.includes(dados.i)) { perfil.mitosVistos.push(dados.i); ganharXP(5); }
+      if (perfil.mitosVistos.length >= 3) f.mitos = true;
+      break;
+  }
+  salvarPerfil(); atualizarSelo();
+}
+
+/* Áreas do desafio do dia (as mesmas para todo mundo no mesmo dia) */
+function sementeDoDia() { return [...hojeISO()].reduce((s, c) => (s * 31 + c.charCodeAt(0)) % 2147483647, 7); }
+function areasDoDesafio() {
+  const areas = Object.keys(AREAS), s = sementeDoDia();
+  return [0, 1, 2].map(k => areas[(s + k * 2) % areas.length]);
+}
+
+/* ---------- Cabeçalho e rodapé ---------- */
+const MENU = [
+  { id: "inicio", href: "inicio.html", icone: "🏠", nome: "Início" },
+  { id: "estudar", href: "estudar.html", icone: "📚", nome: "Estudar" },
+  { id: "redacao", href: "redacao.html", icone: "✍️", nome: "Redação" },
+  { id: "faculdade", href: "faculdade.html", icone: "🎓", nome: "Faculdade" },
+  { id: "ler", href: "ler.html", icone: "🔤", nome: "Aprender a ler" },
+  { id: "solucoes", href: "solucoes.html", icone: "💡", nome: "Soluções e dicas" }
+];
+function montarCabecalho() {
+  const topo = $("topo");
+  if (!topo) return;
+  topo.innerHTML = `
+    <nav class="container nav" aria-label="Principal">
+      <a href="inicio.html" class="logo"><span class="logo-marca" aria-hidden="true"></span>Ponto de Partida</a>
+      <ul class="nav-links" id="menu">${MENU.map(m => `
+        <li><a href="${m.href}" ${m.id === PAGINA ? 'aria-current="page"' : ""}><span class="icone" aria-hidden="true">${m.icone}</span>${m.nome}</a></li>`).join("")}
+      </ul>
+      <div class="usuario">
+        <a href="perfil.html" class="selo" id="selo" title="Seu perfil: nível, pontos e sequência de dias" ${PAGINA === "perfil" ? 'aria-current="page"' : ""}>
+          <span class="avatar-mini" aria-hidden="true">${(usuario || "V").charAt(0)}</span>
+          <span id="selo-nivel">Nv. 1</span><span class="selo-xp" id="selo-xp">0 XP</span><span class="selo-fogo">🔥<span id="selo-dias" class="num">0</span></span>
+        </a>
+        <button class="ferramenta" id="btn-ouvir-pagina" title="Ler esta página em voz alta" aria-label="Ouvir esta página">🔊</button>
+        <button class="ferramenta" id="btn-modo-facil" aria-pressed="false" title="Modo fácil: letras maiores" aria-label="Modo fácil">Aa</button>
+        <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+      </div>
+    </nav>`;
+  $("menu-btn").addEventListener("click", () => $("menu-btn").setAttribute("aria-expanded", $("menu").classList.toggle("aberto")));
+  $("btn-modo-facil").addEventListener("click", () => definirModoFacil(!document.documentElement.classList.contains("facil")));
+  $("btn-ouvir-pagina").addEventListener("click", () => {
+    const textos = [...document.querySelectorAll("main [data-ler]")].filter(el => el.offsetParent !== null).map(el => el.textContent.trim());
+    falar(textos.join(". ") || document.title);
+  });
+  atualizarSelo();
+}
+function montarRodape() {
+  const rodape = $("rodape");
+  if (rodape) rodape.innerHTML = `<div class="container rodape-grade">
+    <span>Ponto de Partida · educação contra a desigualdade</span>
+    <span>Questões e textos criados para o site · dados do IBGE (PNAD Contínua Educação 2025) · instituições: confira no e-MEC</span></div>`;
+}
+function atualizarSelo(pulsar) {
+  if (!$("selo")) return;
+  const n = nivelAtual(perfil.xp);
+  $("selo-nivel").textContent = `Nv. ${n.i + 1}`;
+  $("selo-xp").textContent = `${perfil.xp} XP`;
+  $("selo-dias").textContent = sequenciaDias();
+  if (pulsar) { const s = $("selo"); s.classList.remove("pulsa"); void s.offsetWidth; s.classList.add("pulsa"); }
+}
+
+/* ---------- Modo fácil (letras maiores), lembrado entre as páginas ---------- */
+function definirModoFacil(ligado) {
+  document.documentElement.classList.toggle("facil", ligado);
+  if ($("btn-modo-facil")) $("btn-modo-facil").setAttribute("aria-pressed", ligado);
+  gravar("pontoDePartida:modoFacil", ligado);
+  if (ligado && PAGINA !== "login") registrar("facil");
+}
+
+/* ---------- Abas dentro de uma página (ex.: Faculdade) ---------- */
+function ativarAbas(aoTrocar) {
+  const botoes = [...document.querySelectorAll("[data-aba]")];
+  if (!botoes.length) return;
+  const mostrar = id => {
+    if (!botoes.some(b => b.dataset.aba === id)) id = botoes[0].dataset.aba;
+    botoes.forEach(b => b.setAttribute("aria-selected", b.dataset.aba === id));
+    document.querySelectorAll("[data-painel]").forEach(p => p.hidden = p.dataset.painel !== id);
+    if (aoTrocar) aoTrocar(id);
+  };
+  botoes.forEach(b => b.addEventListener("click", () => { history.replaceState(null, "", "#" + b.dataset.aba); mostrar(b.dataset.aba); }));
+  window.addEventListener("hashchange", () => mostrar(location.hash.slice(1)));
+  mostrar(location.hash.slice(1));
+}
+
+/* ---------- Desafiar um amigo ---------- */
+function caixaDesafiarAmigo(nome, acertos, total) {
+  const texto = `Fiz ${acertos}/${total} no ${nome} do Ponto de Partida, um site para estudar para o ENEM de graça. Duvido você me superar!`;
+  return `<div class="desafiar">
+    <div><h3>Desafie um amigo</h3><p class="suave">Estudar junto ajuda a não desistir. Mande seu resultado e chame alguém para estudar com você.</p></div>
+    <div class="linha-botoes">
+      <a class="btn btn-whats" href="https://wa.me/?text=${encodeURIComponent(texto)}" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+      <button class="btn btn-secundario" data-copiar="${texto.replace(/"/g, "&quot;")}">Copiar mensagem</button>
+    </div></div>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copiar]");
+  if (!b) return;
+  try {
+    navigator.clipboard.writeText(b.dataset.copiar).then(() => avisar("Mensagem copiada! Cole no app que quiser."), () => avisar("Não foi possível copiar. Selecione o texto e copie manualmente."));
+  } catch (err) { avisar("Não foi possível copiar neste navegador."); }
+});
+
+/* ---------- Ao abrir qualquer página ---------- */
+if (PAGINA !== "login" && usuario) {
+  if (!perfil.dias.includes(hojeISO())) perfil.dias.push(hojeISO());
+  salvarPerfil();
+  montarCabecalho();
+  montarRodape();
+  if (sequenciaDias() >= 3) ganharMedalha("constancia");
+}
+if (ler("pontoDePartida:modoFacil", false)) {
+  document.documentElement.classList.add("facil");
+  if ($("btn-modo-facil")) $("btn-modo-facil").setAttribute("aria-pressed", "true");
+}
+
+</script>
+<script>
+/* ===== js/dados/temas.js ===== */
+/* =========================================================
+   TEMAS DE REDAÇÃO (modelo ENEM: texto dissertativo-argumentativo)
+   Os textos de apoio foram escritos para o site, com base em leis
+   e dados públicos. Cada tema tem palavras-chave usadas na
+   correção automática para verificar se o texto trata do tema.
+   ========================================================= */
+const TEMAS = [
+  { id: "permanencia-em", area: "Educação",
+    titulo: "Desafios para a permanência dos jovens no ensino médio no Brasil",
+    chaves: ["ensino medio", "escola", "jovem", "jovens", "evasao", "abandono", "permanencia", "estud", "trabalh", "educa"],
+    apoio: [
+      { tipo: "Dado", texto: "Segundo o IBGE (PNAD Contínua 2025), 7,7 milhões de jovens de 14 a 29 anos não completaram o ensino médio. Entre os motivos para deixar a escola, o mais citado foi a necessidade de trabalhar (43%)." },
+      { tipo: "Lei", texto: "A Constituição Federal de 1988, em seu artigo 205, afirma que a educação é direito de todos e dever do Estado e da família." },
+      { tipo: "Contexto", texto: "Programas de incentivo financeiro, como o Pé-de-Meia, pagam valores a estudantes de baixa renda do ensino médio público que mantêm a frequência e concluem as etapas." }
+    ] },
+  { id: "analfabetismo-idosos", area: "Educação",
+    titulo: "O analfabetismo entre pessoas idosas no Brasil",
+    chaves: ["analfabet", "idos", "ler", "escrev", "alfabetiz", "eja", "educa", "leitura"],
+    apoio: [
+      { tipo: "Dado", texto: "Em 2025, a taxa de analfabetismo no Brasil foi de 4,9%. Entre as pessoas com 60 anos ou mais, chegou a 13,8%, e esse grupo reúne 58% de todos os analfabetos do país (IBGE)." },
+      { tipo: "Dado", texto: "Entre os idosos, a taxa de analfabetismo é de 20,6% entre pretos ou pardos e de 7,3% entre brancos (IBGE, 2025)." },
+      { tipo: "Lei", texto: "A Lei de Diretrizes e Bases da Educação (Lei 9.394/1996) prevê a Educação de Jovens e Adultos (EJA), gratuita, para quem não estudou na idade própria." }
+    ] },
+  { id: "acesso-superior", area: "Educação",
+    titulo: "Caminhos para ampliar o acesso de jovens de baixa renda ao ensino superior",
+    chaves: ["ensino superior", "universidade", "faculdade", "baixa renda", "pobre", "cota", "acesso", "jovens", "prouni", "sisu", "educa"],
+    apoio: [
+      { tipo: "Dado", texto: "Em 2025, 33,4% dos jovens brancos de 18 a 24 anos cursavam o ensino superior. Entre os pretos ou pardos da mesma idade, eram 18,9% (IBGE)." },
+      { tipo: "Lei", texto: "A Lei de Cotas (Lei 12.711/2012) reserva metade das vagas das universidades e institutos federais para estudantes que cursaram o ensino médio em escola pública." },
+      { tipo: "Contexto", texto: "O ProUni oferece bolsas em faculdades particulares e o FIES financia mensalidades. Mesmo assim, muitos estudantes abandonam o curso por falta de dinheiro para transporte, alimentação e moradia." }
+    ] },
+  { id: "desinformacao", area: "Tecnologia",
+    titulo: "Os impactos da desinformação nas redes sociais",
+    chaves: ["desinforma", "fake news", "noticia", "falsa", "rede", "social", "internet", "informa", "checag"],
+    apoio: [
+      { tipo: "Pesquisa", texto: "Um estudo de pesquisadores do MIT, publicado na revista Science em 2018, mostrou que notícias falsas se espalhavam mais rápido e alcançavam mais pessoas do que as verdadeiras em uma rede social." },
+      { tipo: "Lei", texto: "O Marco Civil da Internet (Lei 12.965/2014) estabelece princípios, direitos e deveres para o uso da internet no Brasil." },
+      { tipo: "Contexto", texto: "Agências de checagem e projetos de educação midiática ensinam a verificar a fonte, a data e o autor de uma notícia antes de compartilhá-la." }
+    ] },
+  { id: "inclusao-digital", area: "Tecnologia",
+    titulo: "A inclusão digital como direito no Brasil",
+    chaves: ["inclusao digital", "internet", "digital", "tecnolog", "acesso", "conect", "celular", "computador", "exclus"],
+    apoio: [
+      { tipo: "Lei", texto: "O Marco Civil da Internet afirma que o acesso à internet é essencial ao exercício da cidadania e tem entre seus objetivos promover o acesso de todos à rede." },
+      { tipo: "Contexto", texto: "Durante a pandemia de covid-19, quando as aulas passaram a ser remotas, muitos estudantes sem internet ou sem computador ficaram sem conseguir acompanhar as atividades." },
+      { tipo: "Contexto", texto: "Em muitas famílias de baixa renda, um único celular com plano de dados limitado é dividido por várias pessoas para estudar, trabalhar e acessar serviços públicos." }
+    ] },
+  { id: "ia-educacao", area: "Tecnologia",
+    titulo: "O uso da inteligência artificial na educação",
+    chaves: ["inteligencia artificial", "ia", "tecnolog", "educa", "escola", "estud", "aprend", "professor", "aluno"],
+    apoio: [
+      { tipo: "Contexto", texto: "Ferramentas de inteligência artificial generativa produzem textos, resumos e respostas em segundos, mas podem cometer erros e apresentar informações falsas com aparência de verdade." },
+      { tipo: "Documento", texto: "Em 2023, a UNESCO publicou orientações sobre o uso da inteligência artificial generativa na educação e na pesquisa, defendendo regras de proteção e foco no ser humano." },
+      { tipo: "Contexto", texto: "Professores debatem se a IA será uma aliada para personalizar o ensino ou um atalho que impede o estudante de desenvolver o próprio pensamento." }
+    ] },
+  { id: "dados-pessoais", area: "Tecnologia",
+    titulo: "A proteção de dados pessoais na era digital",
+    chaves: ["dados", "pessoa", "privacidade", "lgpd", "golpe", "vazamento", "internet", "digital", "seguranca"],
+    apoio: [
+      { tipo: "Lei", texto: "A Lei Geral de Proteção de Dados Pessoais (LGPD, Lei 13.709/2018) regula como empresas e órgãos públicos podem coletar, usar e guardar dados das pessoas." },
+      { tipo: "Contexto", texto: "Golpes por mensagem e telefone costumam usar nome, CPF e endereço vazados para parecerem verdadeiros e enganar as vítimas." },
+      { tipo: "Contexto", texto: "A Autoridade Nacional de Proteção de Dados (ANPD) é o órgão responsável por fiscalizar o cumprimento da LGPD no Brasil." }
+    ] },
+  { id: "saude-mental", area: "Saúde",
+    titulo: "Os desafios para cuidar da saúde mental dos jovens brasileiros",
+    chaves: ["saude mental", "ansiedade", "depress", "jovem", "jovens", "psicolog", "emocional", "sofrimento", "cuidado"],
+    apoio: [
+      { tipo: "Dado", texto: "A Organização Mundial da Saúde (OMS) aponta a depressão como uma das principais causas de incapacidade no mundo." },
+      { tipo: "Serviço", texto: "O Centro de Valorização da Vida (CVV) oferece apoio emocional gratuito pelo telefone 188, a qualquer hora do dia." },
+      { tipo: "Contexto", texto: "Especialistas alertam que a comparação constante nas redes sociais, a pressão por resultados e a falta de atendimento psicológico na rede pública afetam o bem-estar dos jovens." }
+    ] },
+  { id: "vacinacao", area: "Saúde",
+    titulo: "Desafios para ampliar a vacinação no Brasil",
+    chaves: ["vacina", "imuniza", "saude", "sus", "doenc", "sarampo", "desinforma", "cobertura"],
+    apoio: [
+      { tipo: "História", texto: "Criado em 1973, o Programa Nacional de Imunizações (PNI) oferece vacinas gratuitas pelo SUS e é reconhecido internacionalmente." },
+      { tipo: "Fato", texto: "O Brasil recebeu em 2016 o certificado de eliminação do sarampo, mas o perdeu em 2019, depois da volta da circulação da doença." },
+      { tipo: "Contexto", texto: "Boatos sobre vacinas que circulam por aplicativos de mensagem fazem algumas famílias deixarem de vacinar crianças." }
+    ] },
+  { id: "inseguranca-alimentar", area: "Sociedade",
+    titulo: "O combate à insegurança alimentar no Brasil",
+    chaves: ["fome", "aliment", "inseguranca alimentar", "comida", "pobreza", "renda", "desperdic", "merenda"],
+    apoio: [
+      { tipo: "Lei", texto: "Desde 2010, a alimentação faz parte dos direitos sociais garantidos pelo artigo 6º da Constituição Federal." },
+      { tipo: "Contexto", texto: "O Programa Nacional de Alimentação Escolar (PNAE) garante merenda a estudantes da rede pública. Para muitas crianças, é a principal refeição do dia." },
+      { tipo: "Contexto", texto: "Ao mesmo tempo em que famílias passam fome, toneladas de alimentos são desperdiçadas em feiras, mercados e residências." }
+    ] },
+  { id: "racismo", area: "Sociedade",
+    titulo: "Desafios para o enfrentamento do racismo no Brasil",
+    chaves: ["racism", "racial", "negro", "negra", "preto", "pardo", "discrimina", "preconceito", "desigualdade"],
+    apoio: [
+      { tipo: "Lei", texto: "A Lei 7.716/1989 define os crimes de racismo. Em 2023, a Lei 14.532 passou a tratar a injúria racial como crime de racismo." },
+      { tipo: "Lei", texto: "A Lei 10.639/2003 tornou obrigatório o ensino de história e cultura afro-brasileira nas escolas." },
+      { tipo: "Dado", texto: "Em 2025, a média de anos de estudo foi de 11,1 anos entre brancos e de 9,5 anos entre pretos ou pardos (IBGE)." }
+    ] },
+  { id: "violencia-mulher", area: "Sociedade",
+    titulo: "O enfrentamento da violência contra a mulher no Brasil",
+    chaves: ["mulher", "violencia", "feminicid", "maria da penha", "machis", "denuncia", "genero", "agress"],
+    apoio: [
+      { tipo: "Lei", texto: "A Lei Maria da Penha (Lei 11.340/2006) cria mecanismos para prevenir e punir a violência doméstica e familiar contra a mulher." },
+      { tipo: "Lei", texto: "Desde 2015, o feminicídio, assassinato de mulheres por razões da condição de sexo feminino, é previsto na lei penal brasileira." },
+      { tipo: "Serviço", texto: "O Ligue 180, Central de Atendimento à Mulher, recebe denúncias e orienta vítimas de violência gratuitamente." }
+    ] },
+  { id: "pcd-trabalho", area: "Sociedade",
+    titulo: "A inclusão de pessoas com deficiência no mercado de trabalho",
+    chaves: ["deficiencia", "pcd", "inclus", "trabalho", "emprego", "acessibil", "empresa", "preconceito"],
+    apoio: [
+      { tipo: "Lei", texto: "Pela Lei 8.213/1991, empresas com 100 ou mais empregados devem reservar de 2% a 5% das vagas para pessoas com deficiência ou reabilitadas." },
+      { tipo: "Lei", texto: "A Lei Brasileira de Inclusão (Lei 13.146/2015) garante igualdade de oportunidades e acessibilidade às pessoas com deficiência." },
+      { tipo: "Contexto", texto: "Além das barreiras físicas, como a falta de rampas, existem as barreiras de atitude: preconceito e a ideia de que a pessoa com deficiência não é capaz." }
+    ] },
+  { id: "idosos", area: "Sociedade",
+    titulo: "A valorização da pessoa idosa na sociedade brasileira",
+    chaves: ["idos", "velh", "envelhec", "terceira idade", "estatuto", "respeito", "cuidado", "aposent"],
+    apoio: [
+      { tipo: "Lei", texto: "O Estatuto da Pessoa Idosa (Lei 10.741/2003) garante direitos às pessoas com 60 anos ou mais, como prioridade no atendimento e proteção contra a violência." },
+      { tipo: "Dado", texto: "O Censo Demográfico 2022 mostrou que a população brasileira está envelhecendo, com aumento da proporção de pessoas idosas." },
+      { tipo: "Contexto", texto: "Muitos idosos enfrentam dificuldades com bancos e serviços digitais e se tornam alvo frequente de golpes." }
+    ] },
+  { id: "semiarido-agua", area: "Meio ambiente",
+    titulo: "A convivência com o semiárido e o acesso à água no Nordeste",
+    chaves: ["semiarido", "seca", "agua", "nordeste", "cisterna", "sertao", "chuva", "convivencia", "estiagem"],
+    apoio: [
+      { tipo: "Contexto", texto: "O programa Um Milhão de Cisternas, da Articulação Semiárido Brasileiro (ASA), constrói cisternas que guardam a água da chuva para consumo das famílias rurais." },
+      { tipo: "Contexto", texto: "A transposição do rio São Francisco leva água a regiões do Ceará, da Paraíba, de Pernambuco e do Rio Grande do Norte." },
+      { tipo: "Ideia", texto: "Especialistas defendem trocar a ideia de “combater a seca” pela de “conviver com o semiárido”, com técnicas adaptadas ao clima da região." }
+    ] },
+  { id: "lixo-reciclagem", area: "Meio ambiente",
+    titulo: "O descarte correto do lixo e a reciclagem nas cidades brasileiras",
+    chaves: ["lixo", "residuo", "recicla", "descarte", "coleta seletiva", "catador", "ambient", "plastico", "lixao"],
+    apoio: [
+      { tipo: "Lei", texto: "A Política Nacional de Resíduos Sólidos (Lei 12.305/2010) prevê a coleta seletiva, a responsabilidade compartilhada pelo lixo e o fim dos lixões." },
+      { tipo: "Contexto", texto: "Catadores de materiais recicláveis são responsáveis por grande parte do material que volta para a indústria, mas muitos trabalham sem direitos nem proteção." },
+      { tipo: "Contexto", texto: "Na coleta seletiva, cada cor de lixeira indica um material: azul para papel, vermelho para plástico, verde para vidro e amarelo para metal." }
+    ] },
+  { id: "clima", area: "Meio ambiente",
+    titulo: "Os impactos das mudanças climáticas e dos eventos extremos no Brasil",
+    chaves: ["clima", "climatic", "aquecimento", "enchente", "seca", "extremo", "ambient", "desmatamento", "chuva"],
+    apoio: [
+      { tipo: "Fato", texto: "Em 2024, enchentes atingiram centenas de municípios do Rio Grande do Sul, desalojando milhares de famílias." },
+      { tipo: "Acordo", texto: "No Acordo de Paris (2015), os países se comprometeram a limitar o aquecimento global a bem menos de 2 °C, buscando 1,5 °C." },
+      { tipo: "Fato", texto: "Em 2025, Belém (PA) sediou a COP30, conferência da ONU sobre mudanças climáticas." }
+    ] },
+  { id: "cultura-nordestina", area: "Cultura",
+    titulo: "A valorização da cultura popular nordestina",
+    chaves: ["cultura", "nordest", "cordel", "forro", "tradic", "popular", "preconceito", "sotaque", "patrimonio"],
+    apoio: [
+      { tipo: "Fato", texto: "Em 2018, a literatura de cordel foi reconhecida como patrimônio cultural imaterial do Brasil pelo Iphan." },
+      { tipo: "Fato", texto: "Em 2021, as matrizes tradicionais do forró também foram registradas como patrimônio cultural do Brasil." },
+      { tipo: "Contexto", texto: "Sotaques e expressões nordestinas ainda são alvo de piadas e de preconceito linguístico na mídia e nas redes sociais." }
+    ] },
+  { id: "cultura-periferia", area: "Cultura",
+    titulo: "O acesso à cultura e ao lazer nas periferias brasileiras",
+    chaves: ["cultura", "lazer", "periferia", "acesso", "arte", "cinema", "biblioteca", "teatro", "comunidade"],
+    apoio: [
+      { tipo: "Lei", texto: "O artigo 215 da Constituição determina que o Estado garanta a todos o pleno exercício dos direitos culturais e o acesso às fontes da cultura nacional." },
+      { tipo: "Contexto", texto: "Cinemas, teatros, museus e bibliotecas costumam se concentrar nas regiões centrais das cidades, longe de quem mora nas periferias." },
+      { tipo: "Contexto", texto: "Saraus, batalhas de rima, slams e grupos de hip-hop mostram que as periferias produzem cultura, mesmo com pouco apoio." }
+    ] },
+  { id: "mobilidade", area: "Cidadania",
+    titulo: "Os desafios da mobilidade urbana nas grandes cidades brasileiras",
+    chaves: ["mobilidade", "transporte", "onibus", "transito", "cidade", "urban", "trajeto", "metro", "bicicleta"],
+    apoio: [
+      { tipo: "Lei", texto: "Desde 2015, o transporte é um direito social previsto no artigo 6º da Constituição Federal." },
+      { tipo: "Lei", texto: "A Política Nacional de Mobilidade Urbana (Lei 12.587/2012) dá prioridade ao transporte público coletivo e aos meios não motorizados, como bicicleta e caminhada." },
+      { tipo: "Contexto", texto: "Moradores das periferias costumam passar horas por dia no transporte público, o que reduz o tempo para estudar, descansar e conviver com a família." }
+    ] }
+];
+
+
+</script>
+<script>
+/* ===== js/dados/notas-corte.js ===== */
+/* Notas de corte de referência: Sisu 2026, ampla concorrência, instituições
+   públicas do Ceará (2ª parcial divulgada em 21/01/2026, levantamento do jornal O Povo).
+   Servem só como referência: variam por universidade, estado, ano e cota. */
+const NOTAS_CORTE = [
+  { curso: "Medicina", min: 794.93, max: 861.19 },
+  { curso: "Direito", min: 769.84, max: 776.12 },
+  { curso: "Engenharia de Computação", min: 747.18, max: 768.58 },
+  { curso: "Psicologia", min: 726.13, max: 751.18 },
+  { curso: "Enfermagem", min: 735.26, max: 736.12 },
+  { curso: "Ciência da Computação", min: 671.59, max: 774.36 },
+  { curso: "Engenharia Elétrica", min: 668.59, max: 719.20 },
+  { curso: "Engenharia Civil", min: 629.43, max: 713.08 },
+  { curso: "Design", min: 678.98, max: 710.58 },
+  { curso: "Administração", min: 666.99, max: 693.74 },
+  { curso: "Pedagogia", min: 642.54, max: 769.29 },
+  { curso: "Serviço Social", min: 620.11, max: 732.19 },
+  { curso: "Análise e Desenvolvimento de Sistemas", min: 605.60, max: 683.39 },
+  { curso: "Agronomia", min: 597.59, max: 645.88 },
+  { curso: "História", min: 573.28, max: 688.84 },
+  { curso: "Matemática", min: 576.55, max: 716.78 },
+  { curso: "Gestão Ambiental", min: 536.04, max: 586.20 },
+  { curso: "Letras", min: 443.35, max: 714.14 }
+];
+
+</script>
+<script>
+/* ===== js/simulador.js ===== */
+/* =========================================================
+   SIMULADOR DO SISU: média das 5 provas comparada com notas de
+   corte de referência (dados/notas-corte.js). Usado nas páginas
+   Redação e Faculdade.
+   ========================================================= */
+function montarSimulador(idCaixa, notaRedacao) {
+  if (notaRedacao == null) notaRedacao = perfil.ultimaRedacao;
+  const caixa = $(idCaixa);
+  const areas = [["red", "Redação", notaRedacao ?? 600], ["lin", "Linguagens", 600], ["hum", "Ciências Humanas", 600], ["nat", "Ciências da Natureza", 600], ["mat", "Matemática", 600]];
+  caixa.innerHTML = `
+    <h2>Com essa nota, em que curso dá para entrar?</h2>
+    <p class="suave">No Sisu, a nota é a média das 5 provas do ENEM. Coloque suas notas, ou uma estimativa, nas outras áreas. Se não souber, deixe 600.</p>
+    <div class="campos-notas">${areas.map(([k, rot, v]) => `
+      <label class="campo-nota" for="nota-${idCaixa}-${k}"><span>${rot}</span>
+        <input type="number" min="0" max="1000" step="10" id="nota-${idCaixa}-${k}" value="${v}" inputmode="numeric"></label>`).join("")}</div>
+    <div class="media-sisu"><span>Sua média</span><strong class="num" id="media-${idCaixa}">0</strong></div>
+    <div class="lista-cortes" id="cortes-${idCaixa}"></div>
+    <p class="fonte">Referência: notas de corte do Sisu 2026 na ampla concorrência, em universidades e institutos públicos do Ceará (2ª parcial, 21/01/2026, levantamento do jornal O Povo). Nas vagas de cotas a nota costuma ser menor. Cada universidade pode dar pesos diferentes às provas, e as notas mudam todo ano: confira sempre no site do Sisu.</p>`;
+  const calcular = () => {
+    const notas = areas.map(([k]) => Math.min(1000, Math.max(0, +$(`nota-${idCaixa}-${k}`).value || 0)));
+    const media = notas.reduce((s, n) => s + n, 0) / notas.length;
+    $(`media-${idCaixa}`).textContent = media.toFixed(1).replace(".", ",");
+    $(`cortes-${idCaixa}`).innerHTML = NOTAS_CORTE.slice().sort((a, b) => a.min - b.min).map(c => {
+      const st = media >= c.max ? ["dentro", "Dá para entrar em todas as opções"] : media >= c.min ? ["parcial", "Dá para entrar em algumas opções"]
+        : c.min - media <= 40 ? ["perto", `Perto: faltam ${(c.min - media).toFixed(0)} pontos`] : ["longe", `Faltam ${(c.min - media).toFixed(0)} pontos`];
+      const esc = v => Math.max(0, Math.min(100, ((v - 400) / 500) * 100));
+      return `<div class="corte ${st[0]}">
+        <span class="corte-nome">${c.curso}</span>
+        <div class="corte-escala" aria-hidden="true"><div class="corte-faixa" style="left:${esc(c.min)}%;width:${esc(c.max) - esc(c.min)}%"></div><div class="corte-voce" style="left:${esc(media)}%"></div></div>
+        <span class="corte-num num">${c.min.toFixed(0)}–${c.max.toFixed(0)}</span>
+        <span class="corte-status">${st[1]}</span></div>`;
+    }).join("");
+  };
+  caixa.querySelectorAll("input").forEach(i => i.addEventListener("input", calcular));
+  calcular();
+}
+
+</script>
+<script>
+/* ===== js/redacao.js ===== */
+/* =========================================================
+   REDAÇÃO: escolha de tema, editor e correção automática
+   pelas 5 competências do ENEM (temas em dados/temas.js).
+   A correção é uma ESTIMATA feita por regras simples; não
+   substitui a correção de um professor.
+   ========================================================= */
+
+const CHARS_POR_LINHA = 70;   /* média de caracteres por linha na folha do ENEM */
+let temaAtual = null, filtroTema = "Todos", cronometro = null, segundos = 0;
+
+/* ---------- utilidades de texto ---------- */
+const semAcento = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const paragrafosDe = t => t.split(/\n+/).map(p => p.trim()).filter(p => p.length > 0);
+const palavrasDe = t => (t.match(/[A-Za-zÀ-ÿ0-9]+/g) || []);
+const linhasDe = t => paragrafosDe(t).reduce((s, p) => s + Math.max(1, Math.ceil(p.length / CHARS_POR_LINHA)), 0);
+const contar = (texto, lista) => lista.filter(x => texto.includes(x));
+const escapar = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+/* ---------- listas usadas na correção ---------- */
+const DESVIOS = [
+  [/\bpra\b/gi, "“pra” é informal; use “para”"],
+  [/\bpro\b/gi, "“pro” é informal; use “para o”"],
+  [/\bt[áa]\b/gi, "“tá” é informal; use “está”"],
+  [/\bt[ôo]\b/gi, "“tô” é informal; use “estou”"],
+  [/\bvc\b|\bvcs\b/gi, "abreviação de internet; escreva “você”"],
+  [/\bn[ée]\b(?=[,.?!\s])/gi, "“né” é marca da fala; evite no texto formal"],
+  [/\ba gente\b/gi, "“a gente” é informal; prefira “nós”"],
+  [/\bconcerteza\b/gi, "escreve-se “com certeza”"],
+  [/\bderrepente\b/gi, "escreve-se “de repente”"],
+  [/\bporisso\b/gi, "escreve-se “por isso”"],
+  [/\bapartir\b/gi, "escreve-se “a partir”"],
+  [/\batravez\b/gi, "escreve-se “através”"],
+  [/\bseje\b/gi, "o correto é “seja”"],
+  [/\bmenas\b/gi, "o correto é “menos”"],
+  [/\bhouveram\b/gi, "no sentido de “existir”, use “houve” (verbo impessoal)"],
+  [/\bfazem \d+ anos\b/gi, "no sentido de tempo, use “faz” (verbo impessoal)"],
+  [/\bnada haver\b/gi, "o correto é “nada a ver”"],
+  [/\bexcess[ãa]o\b/gi, "escreve-se “exceção”"],
+  [/\bprevil[ée]gio/gi, "escreve-se “privilégio”"],
+  [/\bimpecilho\b/gi, "escreve-se “empecilho”"],
+  [/\bbeneficiente\b/gi, "escreve-se “beneficente”"],
+  [/\bcidad[õo]es\b/gi, "o plural é “cidadãos”"],
+  [/\bmim (fazer|ler|estudar|ir|ser|ter)\b/gi, "antes de verbo, use “eu” (ex.: “para eu fazer”)"],
+  [/\bh[áa] \d+ anos atr[áa]s\b/gi, "redundância: use “há X anos” ou “X anos atrás”"],
+  [/\be etc\b/gi, "“etc.” já significa “e outros”; não use “e etc.”"],
+  [/\ba n[íi]vel de\b/gi, "prefira “em nível de” ou “no que se refere a”"]
+];
+const CONECTIVOS = ["alem disso", "ademais", "em primeiro lugar", "em segundo lugar", "primeiramente", "por outro lado", "entretanto",
+  "no entanto", "contudo", "todavia", "porem", "portanto", "logo", "dessa forma", "desse modo", "dessa maneira", "assim",
+  "nesse sentido", "nesse contexto", "sob esse viez", "sob esse vies", "sob essa otica", "consequentemente", "por conseguinte",
+  "visto que", "uma vez que", "ja que", "haja vista", "tendo em vista", "por exemplo", "ou seja", "isto e", "diante disso",
+  "em suma", "por fim", "finalmente", "ainda", "tambem", "outrossim", "sendo assim", "em contrapartida", "apesar de", "embora", "de acordo com", "segundo"];
+const EXPLICATIVOS = ["porque", "pois", "visto que", "uma vez que", "ja que", "haja vista", "dado que", "em virtude de", "devido a", "isso ocorre", "isso acontece", "em razao de"];
+const CONSEQUENCIA = ["consequentemente", "por consequencia", "como resultado", "o que gera", "o que provoca", "o que causa", "o que leva", "acarreta", "resulta", "dessa forma", "desse modo", "por conseguinte"];
+const EXEMPLOS = ["por exemplo", "exemplo", "como ocorre", "como acontece", "dados", "pesquisa", "%", "segundo", "de acordo com"];
+const REPERTORIO = [/\bsegundo\b/, /de acordo com/, /conforme/, /constituic/, /\blei\b/, /\bleis\b/, /artigo/, /estatuto/, /filosof/, /sociolog/, /pensador/,
+  /\bibge\b/, /\bonu\b/, /\boms\b/, /\bunesco\b/, /\b(1[5-9]|20)\d{2}\b/, /\d+([.,]\d+)?\s?%/, /“|"/, /\bfilme\b|\bserie\b|\blivro\b|\bobra\b/];
+const AGENTES = ["governo", "estado", "ministerio", "escola", "escolas", "midia", "familia", "familias", "sociedade", "ong", "organizacoes",
+  "prefeitura", "prefeituras", "poder publico", "congresso", "secretaria", "secretarias", "empresas", "universidades", "instituicoes", "poder legislativo", "poder executivo"];
+const ACOES = ["criar", "criacao", "promover", "promocao", "investir", "investimento", "ampliar", "ampliacao", "realizar", "implementar",
+  "garantir", "desenvolver", "fiscalizar", "oferecer", "incentivar", "campanha", "campanhas", "capacitar", "destinar", "elaborar", "construir"];
+const MEIOS = ["por meio de", "por meio da", "por meio do", "atraves de", "atraves da", "atraves do", "mediante", "com o auxilio", "por intermedio", "com o apoio", "a partir de", "via "];
+const FINALIDADES = ["a fim de", "para que", "com o objetivo de", "com a finalidade de", "com o intuito de", "objetivando", "visando", "com o proposito de"];
+const DETALHES = ["ou seja", "isto e", "por exemplo", ", que ", ", as quais", ", os quais", ", a qual", ", o qual", "como palestras", "como oficinas"];
+
+/* ---------- a correção ---------- */
+function corrigirRedacao(texto, tema) {
+  const pars = paragrafosDe(texto);
+  const linhas = linhasDe(texto);
+  const norm = semAcento(texto);
+  const palavras = palavrasDe(texto);
+  const r = { linhas, paragrafos: pars.length, palavras: palavras.length, comp: [], zerada: null, avisos: [], desvios: [], proposta: {} };
+
+  if (linhas < 7) { r.zerada = "Texto com menos de 7 linhas. No ENEM, isso é considerado texto insuficiente e recebe nota zero."; return r; }
+
+  /* Cópia dos textos de apoio: trechos de 8 palavras iguais */
+  const trechosApoio = new Set();
+  tema.apoio.forEach(a => { const w = semAcento(a.texto).match(/[a-z0-9]+/g) || []; for (let i = 0; i + 8 <= w.length; i++) trechosApoio.add(w.slice(i, i + 8).join(" ")); });
+  const wt = norm.match(/[a-z0-9]+/g) || [];
+  let copiados = 0;
+  for (let i = 0; i + 8 <= wt.length; i++) if (trechosApoio.has(wt.slice(i, i + 8).join(" "))) copiados++;
+  if (copiados > 0) r.avisos.push("Encontramos trechos copiados dos textos de apoio. No ENEM, essas linhas são desconsideradas. Use os textos só como inspiração e escreva com suas palavras.");
+
+  /* Tema */
+  const chavesAchadas = tema.chaves.filter(c => norm.includes(c));
+  if (chavesAchadas.length === 0) { r.zerada = "O texto não parece tratar do tema proposto (fuga ao tema). No ENEM, isso leva à nota zero."; return r; }
+  const tangencia = chavesAchadas.length <= 1;
+  if (tangencia) r.avisos.push("O texto toca no tema só de forma superficial (tangenciamento). Retome as palavras do tema na introdução e ao longo dos argumentos.");
+
+  /* C1: norma-padrão */
+  DESVIOS.forEach(([re, dica]) => { const m = texto.match(re); if (m) m.forEach(x => r.desvios.push({ trecho: x, dica })); });
+  (texto.match(/[.!?]\s+[a-zà-ÿ]/g) || []).forEach(x => r.desvios.push({ trecho: x.trim(), dica: "depois de ponto final, comece a frase com letra maiúscula" }));
+  pars.forEach((p, i) => { if (!/[.!?…]["”]?$/.test(p)) r.desvios.push({ trecho: `parágrafo ${i + 1}`, dica: "termine o parágrafo com ponto final" }); });
+  texto.split(/[.!?]+/).forEach(f => { if (palavrasDe(f).length > 55) r.desvios.push({ trecho: f.trim().slice(0, 40) + "…", dica: "período muito longo; divida em frases menores" }); });
+  if (/  +/.test(texto)) r.desvios.push({ trecho: "espaços duplos", dica: "evite espaços repetidos entre as palavras" });
+  const nd = r.desvios.length;
+  const c1 = nd <= 1 ? 200 : nd <= 3 ? 160 : nd <= 6 ? 120 : nd <= 9 ? 80 : 40;
+
+  /* C2: tema, estrutura e repertório */
+  const repertorios = REPERTORIO.filter(re => re.test(norm)).length;
+  const desenvolvimento = pars.slice(1, -1).map(semAcento);
+  const repNoDesenv = desenvolvimento.some(p => REPERTORIO.some(re => re.test(p)));
+  let c2 = 40;
+  if (pars.length >= 4) c2 += 40;
+  if (chavesAchadas.length >= 3) c2 += 40;
+  if (repertorios >= 1) c2 += 40;
+  if (repertorios >= 2 && repNoDesenv) c2 += 40;
+  if (tangencia) c2 = Math.min(c2, 40);
+
+  /* C3: argumentação */
+  let c3 = 0;
+  if (desenvolvimento.length >= 2) c3 += 40;
+  if (contar(norm, EXPLICATIVOS).length >= 2) c3 += 40;
+  if (contar(norm, CONSEQUENCIA).length >= 1) c3 += 40;
+  if (contar(norm, EXEMPLOS).length >= 1) c3 += 40;
+  const intro = semAcento(pars[0] || "");
+  if (tema.chaves.some(c => intro.includes(c)) && /(e preciso|e necessario|desafio|problema|causa|impacto|consequencia|deve|devem|entrave|obstaculo|questao)/.test(intro)) c3 += 40;
+  c3 = Math.max(40, c3);
+  if (tangencia) c3 = Math.min(c3, 40);
+
+  /* C4: coesão */
+  const conectivosUsados = [...new Set(CONECTIVOS.filter(c => new RegExp(`(^|[^a-z])${c}([^a-z]|$)`).test(norm)))];
+  const nc = conectivosUsados.length;
+  let c4 = nc >= 8 ? 200 : nc >= 6 ? 160 : nc >= 4 ? 120 : nc >= 2 ? 80 : 40;
+  const iniciosComConectivo = pars.slice(1).filter(p => CONECTIVOS.some(c => semAcento(p).slice(0, 40).includes(c))).length;
+  if (pars.length > 1 && iniciosComConectivo < pars.length - 1) c4 = Math.max(40, c4 - 40);
+  const freq = {};
+  (norm.match(/[a-z]{5,}/g) || []).forEach(w => { if (!["sobre", "entre", "porque", "quando", "ainda", "nesse", "dessa", "desse", "forma", "tambem", "assim"].includes(w)) freq[w] = (freq[w] || 0) + 1; });
+  const repetida = Object.entries(freq).sort((a, b) => b[1] - a[1])[0];
+  if (repetida && repetida[1] > 7) { c4 = Math.max(40, c4 - 40); r.repetida = repetida[0]; }
+
+  /* C5: proposta de intervenção */
+  const conclusao = semAcento(pars[pars.length - 1] || "");
+  r.proposta = {
+    agente: AGENTES.find(a => new RegExp(`(^|[^a-z])${a}([^a-z]|$)`).test(conclusao)),
+    acao: ACOES.find(a => conclusao.includes(a)),
+    meio: MEIOS.find(a => conclusao.includes(a)),
+    finalidade: FINALIDADES.find(a => conclusao.includes(a)),
+    detalhamento: DETALHES.find(a => conclusao.includes(a))
+  };
+  let c5 = Object.values(r.proposta).filter(Boolean).length * 40;
+  if (pars.length < 3) c5 = Math.min(c5, 80);
+  if (tangencia) c5 = Math.min(c5, 40);
+
+  r.conectivos = conectivosUsados;
+  r.repertorios = repertorios;
+  r.comp = [
+    { n: 1, nome: "Norma-padrão da língua", nota: c1,
+      texto: nd === 0 ? "Não encontramos desvios comuns. Revise mesmo assim acentuação e concordância." : `Encontramos ${nd} ${nd === 1 ? "ponto" : "pontos"} para revisar (lista abaixo).` },
+    { n: 2, nome: "Tema, estrutura e repertório", nota: c2,
+      texto: `${pars.length} parágrafos (o ideal são 4: introdução, 2 de desenvolvimento e conclusão). ${repertorios >= 1 ? `Repertório identificado (${repertorios} ${repertorios === 1 ? "sinal" : "sinais"}: leis, dados, datas, autores ou obras).` : "Não encontramos repertório: cite uma lei, um dado, um autor ou um fato histórico."}` },
+    { n: 3, nome: "Argumentação", nota: c3,
+      texto: c3 >= 160 ? "Seus argumentos explicam causas e consequências e trazem exemplos." : "Desenvolva mais: explique o porquê (“isso ocorre porque…”), mostre consequências (“o que gera…”) e dê exemplos." },
+    { n: 4, nome: "Coesão (ligação entre as ideias)", nota: c4,
+      texto: `${nc} ${nc === 1 ? "conectivo diferente" : "conectivos diferentes"}${nc ? ": " + conectivosUsados.slice(0, 8).join(", ") : ""}. ${iniciosComConectivo < pars.length - 1 ? "Comece cada parágrafo (a partir do 2º) com um conectivo, como “Além disso” ou “Portanto”." : "Os parágrafos estão bem ligados."}${r.repetida ? ` A palavra “${r.repetida}” se repete muito: use sinônimos.` : ""}` },
+    { n: 5, nome: "Proposta de intervenção", nota: c5,
+      texto: c5 === 200 ? "Proposta completa, com os 5 elementos." : "Na conclusão, diga QUEM vai agir, O QUE fazer, COMO fazer, PARA QUÊ e detalhe um desses elementos." }
+  ];
+  return r;
+}
+
+/* ---------- telas ---------- */
+function mostrarTemas() {
+  pararCronometro();
+  $("redacao-temas").hidden = false; $("redacao-editor").hidden = true; $("redacao-resultado").hidden = true;
+  const areas = ["Todos", ...new Set(TEMAS.map(t => t.area))];
+  $("filtros-temas").innerHTML = areas.map(a => `<button class="chip" aria-pressed="${a === filtroTema}" data-a="${a}">${a}</button>`).join("");
+  $("filtros-temas").querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => { filtroTema = b.dataset.a; mostrarTemas(); }));
+  const feitas = perfil.redacoes;
+  $("grade-temas").innerHTML = TEMAS.filter(t => filtroTema === "Todos" || t.area === filtroTema).map(t => {
+    const minhas = feitas.filter(r => r.tema === t.id);
+    const melhor = minhas.length ? Math.max(...minhas.map(r => r.nota)) : null;
+    return `<button class="tema" data-tema="${t.id}">
+      <span class="tag">${t.area}</span>
+      <span class="tema-titulo">${t.titulo}</span>
+      <span class="tema-meta">${melhor != null ? `Sua melhor nota: <b class="num">${melhor}</b>` : "Ainda não escrito"}</span>
+    </button>`;
+  }).join("");
+  $("grade-temas").querySelectorAll(".tema").forEach(b => b.addEventListener("click", () => abrirTema(b.dataset.tema)));
+  $("historico-redacoes").innerHTML = feitas.length ? `
+    <h3 style="margin-bottom:10px">Suas redações</h3>
+    <ul class="historico">${feitas.slice().reverse().slice(0, 8).map(r => `<li><span>${TEMAS.find(t => t.id === r.tema).titulo}</span><span class="suave">${r.data}</span><b class="num">${r.nota}</b></li>`).join("")}</ul>` : "";
+}
+$("btn-tema-aleatorio").addEventListener("click", () => abrirTema(TEMAS[Math.floor(Math.random() * TEMAS.length)].id));
+
+function abrirTema(id) {
+  temaAtual = TEMAS.find(t => t.id === id);
+  $("redacao-temas").hidden = true; $("redacao-editor").hidden = false; $("redacao-resultado").hidden = true;
+  $("editor-area").textContent = temaAtual.area;
+  $("editor-tema").textContent = temaAtual.titulo;
+  $("apoio").innerHTML = temaAtual.apoio.map((a, i) => `<article class="apoio-texto"><span class="apoio-num">Texto ${["I", "II", "III"][i]} · ${a.tipo}</span><p>${a.texto}</p></article>`).join("");
+  let rascunho = "";
+  rascunho = ler("pontoDePartida:rascunho:" + id, "");
+  $("texto-redacao").value = rascunho;
+  $("titulo-redacao").value = "";
+  segundos = 0; atualizarCronometro(); pararCronometro();
+  atualizarContadores();
+  window.scrollTo(0, 0);
+}
+$("voltar-temas").addEventListener("click", mostrarTemas);
+$("ouvir-apoio").addEventListener("click", () => falar(`Tema: ${temaAtual.titulo}. ` + temaAtual.apoio.map((a, i) => `Texto ${i + 1}. ${a.texto}`).join(" ")));
+
+function atualizarContadores() {
+  const t = $("texto-redacao").value;
+  const l = linhasDe(t), p = paragrafosDe(t).length, w = palavrasDe(t).length;
+  $("cont-linhas").textContent = `${l}/30 linhas`;
+  $("cont-linhas").className = "contador-pill " + (l < 7 ? "ruim" : l > 30 ? "ruim" : l >= 20 ? "bom" : "");
+  $("cont-palavras").textContent = `${w} palavras`;
+  $("cont-paragrafos").textContent = `${p} ${p === 1 ? "parágrafo" : "parágrafos"}`;
+  $("cont-paragrafos").className = "contador-pill " + (p >= 4 ? "bom" : "");
+  $("btn-corrigir").disabled = w < 20;
+  gravar("pontoDePartida:rascunho:" + temaAtual.id, t);
+}
+$("texto-redacao").addEventListener("input", atualizarContadores);
+
+/* Cronômetro: no ENEM, a redação divide o tempo com 90 questões */
+function atualizarCronometro() {
+  const m = String(Math.floor(segundos / 60)).padStart(2, "0"), s = String(segundos % 60).padStart(2, "0");
+  $("cronometro").textContent = `${m}:${s}`;
+  $("cronometro").classList.toggle("passou", segundos > 3600);
+}
+function pararCronometro() { clearInterval(cronometro); cronometro = null; $("btn-cronometro").textContent = segundos ? "Continuar" : "Iniciar cronômetro"; }
+$("btn-cronometro").addEventListener("click", () => {
+  if (cronometro) return pararCronometro();
+  cronometro = setInterval(() => { segundos++; atualizarCronometro(); }, 1000);
+  $("btn-cronometro").textContent = "Pausar";
+});
+
+$("btn-corrigir").addEventListener("click", () => {
+  pararCronometro();
+  const texto = $("texto-redacao").value;
+  const r = corrigirRedacao(texto, temaAtual);
+  const nota = r.zerada ? 0 : r.comp.reduce((s, c) => s + c.nota, 0);
+  registrar("redacao", { tema: temaAtual.id, nota });
+  mostrarResultadoRedacao(r, nota);
+});
+
+function mostrarResultadoRedacao(r, nota) {
+  $("redacao-editor").hidden = true; $("redacao-resultado").hidden = false;
+  window.scrollTo(0, 0);
+  const faixa = nota >= 900 ? "Excelente" : nota >= 700 ? "Muito bom" : nota >= 500 ? "Bom caminho" : nota > 0 ? "Precisa de prática" : "Nota zero";
+  const p = r.proposta || {};
+  $("resultado-redacao").innerHTML = `
+    <div class="painel res-topo">
+      <div>
+        <span class="sobretitulo" style="margin:0">Resultado estimado · ${temaAtual.titulo}</span>
+        <p class="nota-redacao num">${nota}<span>/1000</span></p>
+        <p class="faixa-nota">${faixa}</p>
+        <p class="suave" style="font-size:.88rem">${r.linhas} linhas · ${r.palavras} palavras · ${r.paragrafos} parágrafos</p>
+      </div>
+      <div class="aviso-correcao">Esta é uma <b>correção automática</b>, feita por regras que procuram os elementos que o ENEM avalia. Ela ajuda a treinar, mas não lê o texto como um professor. Se puder, peça para alguém revisar também.</div>
+    </div>
+    ${r.zerada ? `<div class="painel zerada"><h3>Por que a nota foi zero</h3><p>${r.zerada}</p></div>` : ""}
+    ${r.avisos.map(a => `<div class="painel alerta-red">${a}</div>`).join("")}
+    ${r.zerada ? "" : `
+    <div class="competencias">${r.comp.map(c => `
+      <article class="painel comp">
+        <div class="comp-topo"><span class="comp-n">C${c.n}</span><h3>${c.nome}</h3><b class="num comp-nota">${c.nota}</b></div>
+        <div class="quiz-barra"><div style="width:${c.nota / 2}%;background:${c.nota >= 160 ? "var(--verde)" : c.nota >= 120 ? "var(--lapis)" : "var(--alerta)"}"></div></div>
+        <p>${c.texto}</p>
+      </article>`).join("")}</div>
+    <div class="duas-colunas-red">
+      <div class="painel">
+        <h3>Checklist da proposta de intervenção</h3>
+        <ul class="checklist">${[["agente", "Quem vai agir (agente)"], ["acao", "O que será feito (ação)"], ["meio", "Como será feito (meio/modo)"], ["finalidade", "Para quê (finalidade)"], ["detalhamento", "Detalhamento de um elemento"]].map(([k, rot]) =>
+          `<li class="${p[k] ? "ok" : ""}"><span class="marca">${p[k] ? "✓" : "✗"}</span>${rot}${p[k] ? ` <span class="suave">(“${p[k].trim()}”)</span>` : ""}</li>`).join("")}</ul>
+      </div>
+      <div class="painel">
+        <h3>Pontos para revisar</h3>
+        ${r.desvios.length ? `<ul class="lista-desvios">${r.desvios.slice(0, 12).map(d => `<li><b>${escapar(d.trecho)}</b>: ${d.dica}</li>`).join("")}</ul>${r.desvios.length > 12 ? `<p class="suave">e mais ${r.desvios.length - 12}.</p>` : ""}` : `<p class="suave">Nenhum desvio comum encontrado.</p>`}
+      </div>
+    </div>`}
+    <div class="linha-botoes" style="margin-top:20px">
+      <button class="btn btn-primario" id="reescrever">Reescrever esta redação</button>
+      <button class="btn btn-secundario" id="outro-tema">Escolher outro tema</button>
+    </div>
+    ${caixaDesafiarAmigo("treino de redação", nota, 1000)}`;
+  $("reescrever").addEventListener("click", () => { $("redacao-resultado").hidden = true; $("redacao-editor").hidden = false; window.scrollTo(0, 0); });
+  $("outro-tema").addEventListener("click", mostrarTemas);
+  montarSimulador("simulador-redacao", nota);
+}
+
+mostrarTemas();
+
+</script>
+</body>
+</html>
